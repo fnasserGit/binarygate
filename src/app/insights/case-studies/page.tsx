@@ -17,7 +17,6 @@ function FadeIn({ children, className = "", delay = 0 }: { children: React.React
 }
 
 const caseStudies = [
-  { title: "Fintech Group: Multi-Cloud Landing Zone", industry: "Financial Services", region: "Middle East", result: "60% faster compliance certification", description: "Designed and deployed AWS + Azure landing zones with full compliance automation for a fintech group operating across UAE, KSA, and Bahrain.", color: "#2dd4bf" },
   { title: "E-Commerce Platform: Peak Traffic Handling", industry: "E-Commerce", region: "Global", result: "10x traffic capacity, 45% cost reduction", description: "Re-architected auto-scaling infrastructure to handle Black Friday traffic spikes while reducing monthly cloud spend through spot instances and right-sizing.", color: "#3b82f6" },
   { title: "Telecom Operator: CI/CD Modernization", industry: "Telecommunications", region: "Africa", result: "Release cycles cut from weeks to hours", description: "Migrated legacy Jenkins pipelines to GitHub Actions + ArgoCD for a pan-African telecom operator serving 15M+ subscribers.", color: "#67e8f9" },
   { title: "Healthcare SaaS: HIPAA Compliance", industry: "Healthcare", region: "Americas", result: "SOC 2 + HIPAA certified in 4 months", description: "Built HIPAA-compliant cloud infrastructure on AWS with automated compliance evidence collection for a telehealth platform.", color: "#34d399" },

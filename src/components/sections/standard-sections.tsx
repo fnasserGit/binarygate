@@ -3,12 +3,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Search,
   Wrench,
   Rocket,
   HeadphonesIcon,
-  ArrowRight,
   CheckCircle2,
   Send,
   Loader2,
@@ -16,7 +16,6 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
-import { services } from "@/data/services";
 
 /* ─── Animated wrapper ─── */
 function FadeIn({
@@ -60,6 +59,7 @@ const steps = [
     title: "Assess",
     description:
       "Deep dive into your current architecture, pipelines, and security posture. We identify bottlenecks and risks.",
+    color: "#2dd4bf",
   },
   {
     icon: Wrench,
@@ -67,6 +67,7 @@ const steps = [
     title: "Architect",
     description:
       "Design a secure, scalable foundation with IaC, automated pipelines, and observability from day one.",
+    color: "#34d399",
   },
   {
     icon: Rocket,
@@ -74,6 +75,7 @@ const steps = [
     title: "Deliver",
     description:
       "Implement incrementally, migrating workloads with zero downtime. Your team ships throughout the process.",
+    color: "#3b82f6",
   },
   {
     icon: HeadphonesIcon,
@@ -81,6 +83,7 @@ const steps = [
     title: "Sustain",
     description:
       "Ongoing optimization, monitoring, and knowledge transfer so your team owns the platform long-term.",
+    color: "#60a5fa",
   },
 ];
 
@@ -172,7 +175,7 @@ function ContactForm() {
               value={formData.firstName}
               onChange={handleChange}
               placeholder="John"
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-neutral-600 outline-none transition focus:border-teal-400/40 focus:bg-white/[0.05] focus:ring-1 focus:ring-teal-400/20"
+              className="w-full rounded-xl border border-neutral-300 bg-neutral-50 px-4 py-3 text-sm text-black placeholder-neutral-500 outline-none transition focus:border-teal-400/40 focus:bg-white focus:ring-1 focus:ring-teal-400/20 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white dark:placeholder-neutral-600 dark:focus:bg-white/[0.05]"
             />
           </div>
           <div>
@@ -187,7 +190,7 @@ function ContactForm() {
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Doe"
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-neutral-600 outline-none transition focus:border-teal-400/40 focus:bg-white/[0.05] focus:ring-1 focus:ring-teal-400/20"
+              className="w-full rounded-xl border border-neutral-300 bg-neutral-50 px-4 py-3 text-sm text-black placeholder-neutral-500 outline-none transition focus:border-teal-400/40 focus:bg-white focus:ring-1 focus:ring-teal-400/20 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white dark:placeholder-neutral-600 dark:focus:bg-white/[0.05]"
             />
           </div>
         </div>
@@ -206,7 +209,7 @@ function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               placeholder="john@company.com"
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-neutral-600 outline-none transition focus:border-teal-400/40 focus:bg-white/[0.05] focus:ring-1 focus:ring-teal-400/20"
+              className="w-full rounded-xl border border-neutral-300 bg-neutral-50 px-4 py-3 text-sm text-black placeholder-neutral-500 outline-none transition focus:border-teal-400/40 focus:bg-white focus:ring-1 focus:ring-teal-400/20 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white dark:placeholder-neutral-600 dark:focus:bg-white/[0.05]"
             />
           </div>
           <div>
@@ -220,7 +223,7 @@ function ContactForm() {
               value={formData.phone}
               onChange={handleChange}
               placeholder="+1 (555) 000-0000"
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-neutral-600 outline-none transition focus:border-teal-400/40 focus:bg-white/[0.05] focus:ring-1 focus:ring-teal-400/20"
+              className="w-full rounded-xl border border-neutral-300 bg-neutral-50 px-4 py-3 text-sm text-black placeholder-neutral-500 outline-none transition focus:border-teal-400/40 focus:bg-white focus:ring-1 focus:ring-teal-400/20 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white dark:placeholder-neutral-600 dark:focus:bg-white/[0.05]"
             />
           </div>
         </div>
@@ -238,7 +241,7 @@ function ContactForm() {
             value={formData.message}
             onChange={handleChange}
             placeholder="Tell us about your project, infrastructure goals, or challenges..."
-            className="w-full resize-none rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-neutral-600 outline-none transition focus:border-teal-400/40 focus:bg-white/[0.05] focus:ring-1 focus:ring-teal-400/20"
+            className="w-full resize-none rounded-xl border border-neutral-300 bg-neutral-50 px-4 py-3 text-sm text-black placeholder-neutral-500 outline-none transition focus:border-teal-400/40 focus:bg-white focus:ring-1 focus:ring-teal-400/20 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white dark:placeholder-neutral-600 dark:focus:bg-white/[0.05]"
           />
         </div>
 
@@ -253,7 +256,7 @@ function ContactForm() {
         <button
           type="submit"
           disabled={formState === "sending"}
-          className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-3.5 text-sm font-medium text-black transition hover:bg-neutral-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="group inline-flex items-center gap-2.5 rounded-full bg-black px-8 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60 disabled:cursor-not-allowed dark:bg-white dark:text-black dark:hover:bg-neutral-200"
         >
           {formState === "sending" ? (
             <>
@@ -275,102 +278,71 @@ function ContactForm() {
 /* ─── Main component ─── */
 export function StandardSections() {
   return (
-    <div className="bg-black text-white">
-      {/* ── Services ── */}
-      <section id="services" className="relative px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <p className="text-xs font-medium uppercase tracking-[0.4em] text-teal-400/80">
-              Services
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
-              Cloud & DevOps services{" "}
-              <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-                built for scale.
-              </span>
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
-              From architecture to automation and security — we handle the full
-              infrastructure lifecycle so your engineering team can focus on shipping
-              product.
-            </p>
-          </FadeIn>
-
-          <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => (
-              <FadeIn key={service.title} delay={0.1 + i * 0.08}>
-                <Link href={`/services/${service.slug}`} className="block h-full">
-                  <div
-                    className={`group relative h-full rounded-2xl border ${service.borderColor} bg-gradient-to-b ${service.gradient} p-6 transition-all duration-300 hover:border-white/20 hover:-translate-y-1`}
-                  >
-                    <div
-                      className={`flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06] ${service.iconColor}`}
-                    >
-                      <service.icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-5 text-lg font-semibold">{service.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-neutral-400">
-                      {service.shortDesc}
-                    </p>
-                    <div className="mt-4 flex items-center gap-1.5 text-xs font-medium opacity-0 transition-all duration-300 group-hover:opacity-100" style={{ color: service.color }}>
-                      Learn more
-                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </div>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <SectionDivider />
-
+    <div className="bg-white text-black dark:bg-black dark:text-white transition-colors">
       {/* ── Approach ── */}
       <section id="approach" className="relative px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24">
         <div className="mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <p className="text-xs font-medium uppercase tracking-[0.4em] text-emerald-400/80">
-              Approach
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
-              Strategy to execution,{" "}
-              <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                with engineering rigor.
-              </span>
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
-              We follow a proven four-phase methodology that takes you from assessment
-              to a fully automated, secure platform — without disrupting your delivery.
-            </p>
-          </FadeIn>
+          <div className="text-center">
+            <FadeIn>
+              <p className="text-xs font-medium uppercase tracking-[0.4em] text-emerald-400/80">
+                Approach
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.1}>
+              <h2 className="mt-4 mx-auto max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
+                Strategy to execution,{" "}
+                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                  with engineering rigor.
+                </span>
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <p className="mt-5 mx-auto max-w-2xl text-base leading-relaxed text-neutral-600 dark:text-neutral-400 md:text-lg">
+                We follow a proven four-phase methodology that takes you from assessment
+                to a fully automated, secure platform — without disrupting your delivery.
+              </p>
+            </FadeIn>
+          </div>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
               <FadeIn key={step.phase} delay={0.15 + i * 0.1}>
-                <div className="relative">
-                  {/* Connector line (desktop) */}
-                  {i < steps.length - 1 && (
-                    <div className="absolute right-0 top-8 hidden h-px w-8 translate-x-full bg-gradient-to-r from-white/20 to-transparent lg:block" />
-                  )}
-                  <span className="text-sm font-mono font-bold text-emerald-400/60">
-                    {step.phase}
-                  </span>
-                  <div className="mt-3 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
-                    <step.icon className="h-5 w-5 text-emerald-400" />
+                <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/70 bg-white/80 p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1 dark:border-white/[0.08] dark:bg-black/50">
+                  <div
+                    className="pointer-events-none absolute inset-0 opacity-80"
+                    style={{
+                      backgroundImage: `radial-gradient(circle_at_20%_10%,${step.color}24,transparent_55%)`,
+                    }}
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      backgroundImage: `linear-gradient(120deg, transparent, ${step.color}18, transparent)`,
+                    }}
+                  />
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full border border-neutral-200/70 bg-white/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-600 dark:border-white/[0.08] dark:bg-white/[0.05] dark:text-neutral-300">
+                      Phase {step.phase}
+                    </span>
+                    <div
+                      className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/40 bg-white/80 shadow-[0_10px_28px_rgba(0,0,0,0.08)] dark:border-white/[0.1] dark:bg-white/[0.06]"
+                      style={{ boxShadow: `0 12px 26px ${step.color}22` }}
+                    >
+                      <step.icon className="h-5 w-5" style={{ color: step.color }} />
+                    </div>
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-neutral-400">
+                  <h3 className="mt-4 text-sm font-semibold text-neutral-900 dark:text-white">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
                     {step.description}
                   </p>
+                  <div className="mt-auto pt-4">
+                    <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-neutral-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:text-neutral-400">
+                      Learn more
+                      <span className="text-xs">→</span>
+                    </div>
+                  </div>
                 </div>
               </FadeIn>
             ))}
@@ -400,31 +372,33 @@ export function StandardSections() {
               </FadeIn>
               <FadeIn delay={0.2}>
                 <p className="mt-5 text-base leading-relaxed text-neutral-400 md:text-lg">
-                  BinaryGate operates alongside product teams to solve infrastructure,
-                  DevOps, and security constraints with measurable outcomes. We don&apos;t
-                  just consult — we engineer, implement, and stay until the platform is
-                  production-ready.
+                  BinaryGate embeds with product teams to unblock{" "}
+                  <span className="text-teal-400">infrastructure</span>,{" "}
+                  <span className="text-emerald-400">DevOps</span>, and{" "}
+                  <span className="text-blue-400">security</span> constraints across{" "}
+                  <span className="text-teal-300">cloud</span>,{" "}
+                  <span className="text-emerald-300">hybrid</span>, and{" "}
+                  <span className="text-blue-300">on-prem</span> environments. We are a{" "}
+                  <span className="text-teal-200">team of highly skilled professionals</span>{" "}
+                  who design, build, and operate platforms until they are stable, secure,
+                  and production-ready.
                 </p>
               </FadeIn>
             </div>
 
-            <div className="space-y-4">
-              {[
-                "Deep AWS, Azure & GCP expertise",
-                "Kubernetes-native platform builders",
-                "SOC 2, HIPAA, and PCI compliance experience",
-                "Open-source first, vendor-lock-in averse",
-                "Embedded with your team, not a black box",
-                "Proven track record across 45+ cloud programs",
-              ].map((item, i) => (
-                <FadeIn key={item} delay={0.1 + i * 0.06} direction="right">
-                  <div className="flex items-start gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-5 py-4">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-400" />
-                    <span className="text-sm text-neutral-300 md:text-base">{item}</span>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
+            <FadeIn delay={0.1} direction="right">
+              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(45,212,191,0.18),transparent_55%)]" />
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl">
+                  <Image
+                    src="/about-bg.png"
+                    alt="BinaryGate global infrastructure"
+                    fill
+                    className="rounded-3xl object-contain opacity-95"
+                  />
+                </div>
+              </div>
+            </FadeIn>
           </div>
         </div>
       </section>
@@ -465,7 +439,7 @@ export function StandardSections() {
                     </div>
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Email</p>
-                      <a href="mailto:hello@binary-gate.com" className="text-sm text-neutral-300 transition hover:text-white">
+                      <a href="mailto:hello@binary-gate.com" className="text-sm text-neutral-700 transition hover:text-black dark:text-neutral-300 dark:hover:text-white">
                         hello@binary-gate.com
                       </a>
                     </div>
@@ -476,7 +450,7 @@ export function StandardSections() {
                     </div>
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Phone</p>
-                      <p className="text-sm text-neutral-300">Available upon request</p>
+                      <p className="text-sm text-neutral-700 dark:text-neutral-300">Available upon request</p>
                     </div>
                   </div>
                 </div>
@@ -498,8 +472,8 @@ export function StandardSections() {
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
           <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="transition hover:text-white">Privacy</a>
-            <a href="#" className="transition hover:text-white">Terms</a>
+            <a href="#" className="transition hover:text-black dark:hover:text-white">Privacy</a>
+            <a href="#" className="transition hover:text-black dark:hover:text-white">Terms</a>
           </div>
         </div>
       </footer>

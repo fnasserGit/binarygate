@@ -8,6 +8,7 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { solutionBySlug, solutions } from "@/data/solutions";
 import { serviceBySlug } from "@/data/services";
+import { CONSULTATION_URL } from "@/lib/links";
 
 function FadeIn({
   children,
@@ -186,7 +187,12 @@ export default function SolutionPage() {
                 </h2>
                 <p className="mt-5 max-w-xl text-base leading-relaxed text-neutral-400 md:text-lg">Let&apos;s discuss your requirements. We&apos;ll respond within 24 hours.</p>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <Link href="/contact" className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition hover:bg-neutral-200">
+                  <Link
+                    href={CONSULTATION_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition hover:bg-neutral-200"
+                  >
                     Book a Consultation <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>

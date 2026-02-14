@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import DottedMap from "dotted-map";
 import Image from "next/image";
 import { X, Cloud, Shield, GitBranch, Server, BarChart3, Zap } from "lucide-react";
+import { useTheme } from "next-themes";
 
 /* ─── Types ─── */
 type InfraType = "cloud" | "hybrid" | "on-prem";
@@ -213,14 +214,21 @@ const AnimatedConnections = memo(function AnimatedConnections({ pathData }: { pa
 
 /* ─── Main Component ─── */
 export function WorldMap({ dots = [] }: MapProps) {
+  const { theme } = useTheme();
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedRegion, setSelectedRegion] = useState<RegionData | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<RegionId | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const mapSvg = useMemo(() => {
     const m = new DottedMap({ height: 100, grid: "diagonal" });
-    return m.getSVG({ radius: 0.22, color: "#FFFFFF25", shape: "circle", backgroundColor: "transparent" });
-  }, []);
+    const dotColor = mounted && theme === "light" ? "#00000020" : "#FFFFFF25";
+    return m.getSVG({ radius: 0.22, color: dotColor, shape: "circle", backgroundColor: "transparent" });
+  }, [theme, mounted]);
 
   const projectPoint = useCallback((lat: number, lng: number) => {
     return { x: (lng + 180) * (800 / 360), y: (90 - lat) * (400 / 180) };
@@ -313,7 +321,7 @@ export function WorldMap({ dots = [] }: MapProps) {
 
   return (
     <div className="w-full aspect-[2/1] relative font-sans">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,15,30,1),rgba(0,0,0,1))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(240,245,250,1),rgba(255,255,255,1))] dark:bg-[radial-gradient(ellipse_at_center,rgba(8,15,30,1),rgba(0,0,0,1))]" />
 
       <Image
         src={`data:image/svg+xml;utf8,${encodeURIComponent(mapSvg)}`}
@@ -395,15 +403,16 @@ export function WorldMap({ dots = [] }: MapProps) {
             {/* City name */}
             <text
               x={hub.x} y={hub.y - 6}
-              textAnchor="middle" fill="white" fontSize="5" fontFamily="system-ui, sans-serif"
+              textAnchor="middle" fill="currentColor" fontSize="5" fontFamily="var(--font-sans)"
               fontWeight="600" opacity="0.7" letterSpacing="0.3"
+              className="text-neutral-900 dark:text-white"
             >
               {hub.city}
             </text>
             {/* Service label */}
             <text
               x={hub.x} y={hub.y + 8}
-              textAnchor="middle" fill={hub.color} fontSize="3.5" fontFamily="ui-monospace, monospace"
+              textAnchor="middle" fill={hub.color} fontSize="3.5" fontFamily="var(--font-mono)"
               opacity="0.55" letterSpacing="0.5" textDecoration="none"
             >
               {hub.service.toUpperCase()}
@@ -437,8 +446,9 @@ export function WorldMap({ dots = [] }: MapProps) {
               {(isHovered || isSelected) && (
                 <text
                   x={region.x + region.w / 2} y={region.y - 6}
-                  textAnchor="middle" fill="white" fontSize="8" fontFamily="monospace"
+                  textAnchor="middle" fill="currentColor" fontSize="8" fontFamily="var(--font-mono)"
                   opacity={isSelected ? 0.9 : 0.6} style={{ pointerEvents: "none" }}
+                  className="text-neutral-900 dark:text-white"
                 >
                   {region.label}
                 </text>
@@ -457,16 +467,16 @@ export function WorldMap({ dots = [] }: MapProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute inset-x-2 top-2 z-30 sm:inset-x-auto sm:top-3 sm:right-3 sm:w-[340px] max-h-[calc(100%-16px)] sm:max-h-[calc(100%-24px)] overflow-y-auto rounded-xl border border-white/[0.1] bg-black/90 sm:bg-black/85 backdrop-blur-lg"
+            className="absolute inset-x-2 top-2 z-30 sm:inset-x-auto sm:top-3 sm:right-3 sm:w-[340px] max-h-[calc(100%-16px)] sm:max-h-[calc(100%-24px)] overflow-y-auto rounded-xl border border-neutral-300 bg-white/95 sm:bg-white/90 backdrop-blur-lg dark:border-white/[0.1] dark:bg-black/90 dark:sm:bg-black/85"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-black/90 px-5 py-4">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-neutral-200 bg-white/95 px-5 py-4 dark:border-white/[0.08] dark:bg-black/90">
               <div>
-                <h3 className="text-sm font-semibold text-white">{selectedRegion.label}</h3>
-                <p className="mt-0.5 text-[11px] text-neutral-500">{selectedRegion.subtitle}</p>
+                <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">{selectedRegion.label}</h3>
+                <p className="mt-0.5 text-[11px] text-neutral-600 dark:text-neutral-500">{selectedRegion.subtitle}</p>
               </div>
               <button
                 onClick={handleClose}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 text-neutral-400 transition hover:bg-white/10 hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-300 text-neutral-600 transition hover:bg-neutral-100 hover:text-neutral-900 dark:border-white/10 dark:text-neutral-400 dark:hover:bg-white/10 dark:hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -478,7 +488,7 @@ export function WorldMap({ dots = [] }: MapProps) {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2, delay: i * 0.05 }}
-                  className="rounded-lg border border-white/[0.06] bg-white/[0.03] p-4"
+                  className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-white/[0.06] dark:bg-white/[0.03]"
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -488,14 +498,14 @@ export function WorldMap({ dots = [] }: MapProps) {
                       <project.icon className="h-4 w-4" style={{ color: INFRA_COLORS[project.type] }} />
                     </div>
                     <div className="min-w-0">
-                      <h4 className="text-[13px] font-medium text-white leading-tight">{project.title}</h4>
+                      <h4 className="text-[13px] font-medium text-neutral-900 dark:text-white leading-tight">{project.title}</h4>
                       <span
                         className="mt-1 inline-block rounded-full px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider"
                         style={{ color: INFRA_COLORS[project.type], backgroundColor: `${INFRA_COLORS[project.type]}15` }}
                       >
                         {INFRA_LABELS[project.type]}
                       </span>
-                      <p className="mt-2 text-[11px] leading-relaxed text-neutral-400">{project.description}</p>
+                      <p className="mt-2 text-[11px] leading-relaxed text-neutral-600 dark:text-neutral-400">{project.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -506,11 +516,11 @@ export function WorldMap({ dots = [] }: MapProps) {
       </AnimatePresence>
 
       {/* Infrastructure legend */}
-      <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 z-10 flex items-center gap-2 md:gap-5 rounded-lg bg-black/80 backdrop-blur-sm border border-white/[0.08] px-2 py-1.5 md:px-4 md:py-2.5">
+      <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 z-10 flex items-center gap-2 md:gap-5 rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-300 px-2 py-1.5 md:px-4 md:py-2.5 dark:bg-black/80 dark:border-white/[0.08]">
         {(Object.keys(INFRA_COLORS) as InfraType[]).map((type) => (
           <div key={type} className="flex items-center gap-1 md:gap-2">
             <span className="h-1.5 w-1.5 md:h-2.5 md:w-2.5 rounded-full" style={{ backgroundColor: INFRA_COLORS[type], boxShadow: `0 0 8px ${INFRA_COLORS[type]}` }} />
-            <span className="text-[8px] md:text-[11px] font-mono uppercase tracking-wider text-neutral-300">{INFRA_LABELS[type]}</span>
+            <span className="text-[8px] md:text-[11px] font-mono uppercase tracking-wider text-neutral-700 dark:text-neutral-300">{INFRA_LABELS[type]}</span>
           </div>
         ))}
       </div>
@@ -519,13 +529,13 @@ export function WorldMap({ dots = [] }: MapProps) {
       <AnimatePresence>
         {!selectedRegion && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute top-2 md:top-4 right-2 md:right-4 z-10 hidden sm:block">
-            <div className="rounded-lg bg-black/80 backdrop-blur-sm border border-white/[0.08] px-3 py-2 md:px-4 md:py-3">
+            <div className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-300 px-3 py-2 md:px-4 md:py-3 dark:bg-black/80 dark:border-white/[0.08]">
               <div className="flex items-center gap-2 mb-1.5 md:mb-2">
                 <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400" />
                 </span>
-                <span className="text-[8px] md:text-[10px] font-mono uppercase tracking-wider text-neutral-400">BinaryGate Global Delivery</span>
+                <span className="text-[8px] md:text-[10px] font-mono uppercase tracking-wider text-neutral-600 dark:text-neutral-400">BinaryGate Global Delivery</span>
               </div>
               <AnimatePresence mode="wait">
                 <motion.div
@@ -540,7 +550,7 @@ export function WorldMap({ dots = [] }: MapProps) {
                     className="h-1.5 w-1.5 rounded-full"
                     style={{ backgroundColor: SERVICE_TICKER[tickerIndex].color, boxShadow: `0 0 6px ${SERVICE_TICKER[tickerIndex].color}` }}
                   />
-                  <span className="text-[10px] md:text-[11px] font-medium text-white">{SERVICE_TICKER[tickerIndex].label}</span>
+                  <span className="text-[10px] md:text-[11px] font-medium text-neutral-900 dark:text-white">{SERVICE_TICKER[tickerIndex].label}</span>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -557,8 +567,8 @@ export function WorldMap({ dots = [] }: MapProps) {
             exit={{ opacity: 0 }}
             className="absolute bottom-2 md:bottom-4 right-2 md:right-4 z-10 hidden md:block"
           >
-            <div className="rounded-lg bg-black/80 backdrop-blur-sm border border-white/[0.08] px-3 py-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">Click a region to explore projects</span>
+            <div className="rounded-lg bg-white/90 backdrop-blur-sm border border-neutral-300 px-3 py-2 dark:bg-black/80 dark:border-white/[0.08]">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-600 dark:text-neutral-500">Click a region to explore projects</span>
             </div>
           </motion.div>
         )}

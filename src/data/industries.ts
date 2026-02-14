@@ -1,5 +1,4 @@
 import {
-  Landmark,
   Heart,
   Radio,
   Building,
@@ -24,33 +23,6 @@ export interface IndustryDetail {
 }
 
 export const industries: IndustryDetail[] = [
-  {
-    slug: "financial-services",
-    title: "Financial Services",
-    headline: "Compliant, secure infrastructure for banking & fintech",
-    description:
-      "Financial institutions need infrastructure that meets strict regulatory requirements while enabling rapid innovation. We build PCI-DSS compliant architectures, secure payment processing pipelines, and real-time trading platforms that scale globally.",
-    icon: Landmark,
-    color: "#2dd4bf",
-    gradient: "from-teal-500/20 to-teal-500/5",
-    iconColor: "text-teal-400",
-    borderColor: "border-teal-500/20",
-    challenges: [
-      { title: "Regulatory Compliance", description: "PCI-DSS, SOX, and banking regulations require strict data handling, encryption, and audit trails." },
-      { title: "Low-Latency Trading", description: "Real-time systems demand sub-millisecond response times and multi-region active-active architectures." },
-      { title: "Data Sovereignty", description: "Financial data must reside in specific jurisdictions with controlled access and encryption at rest." },
-      { title: "Fraud Detection", description: "Real-time processing of millions of transactions with ML-powered anomaly detection." },
-    ],
-    capabilities: [
-      "PCI-DSS compliant cloud architecture design",
-      "Real-time payment processing pipelines",
-      "Multi-region active-active deployments for trading platforms",
-      "Automated compliance evidence collection and reporting",
-      "Secure API gateway and microservices architecture",
-      "Disaster recovery with RTO < 5 minutes",
-    ],
-    compliance: ["PCI-DSS", "SOX", "SOC 2 Type II", "GDPR", "ISO 27001"],
-  },
   {
     slug: "healthcare",
     title: "Healthcare & Life Sciences",
