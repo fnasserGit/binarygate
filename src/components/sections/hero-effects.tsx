@@ -278,9 +278,6 @@ export function HeroEffectsSection() {
     useMotionTemplate`0 0 ${glow5}px ${popupCards[5].color}88, 0 0 ${glow5}px ${popupCards[5].color}33`,
   ];
 
-  const typeClip = useTransform(smoothProgress, [0.1, 0.7], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
-  const typeOpacity = useTransform(smoothProgress, [0.1, 0.18, 0.95, 1], [0, 1, 1, 0]);
-
   const pillarMotion = [
     { opacity: p0Opacity, y: p0Y },
     { opacity: p1Opacity, y: p1Y },
@@ -298,15 +295,14 @@ export function HeroEffectsSection() {
         <div className="absolute inset-0 opacity-[0.15] [background-image:radial-gradient(circle_at_center,rgba(148,163,184,0.15)_1px,transparent_1px)] [background-size:32px_32px]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.3),rgba(255,255,255,0.92))] dark:bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.3),rgba(0,0,0,0.92))]" />
 
-        <div ref={ref} className="relative h-[240vh]">
-          <div className="sticky top-0 h-screen w-full overflow-hidden relative">
+        <div ref={ref} className="relative h-0 lg:h-[240vh]">
+          <div className="sticky top-0 h-screen w-full overflow-hidden relative hidden lg:block">
           {/* Gemini Effect — stays pinned while scrolling */}
           <motion.div className="absolute inset-0 z-[2]">
             <GoogleGeminiEffect
               sticky={false}
               className="pointer-events-none absolute inset-0"
-              linesOffsetClassName="top-0 md:top-0"
-              topContentClassName="mt-[20vh] md:mt-[20vh]"
+              linesOffsetClassName="top-[12vh] sm:top-[6vh] md:top-0"
               title=""
               description=""
               pathLengths={[
@@ -316,67 +312,82 @@ export function HeroEffectsSection() {
                 reduceMotion ? staticPath : pathLengthFourth,
                 reduceMotion ? staticPath : pathLengthFifth,
               ]}
-              topContent={
-                <div className="mx-auto grid w-[95%] max-w-none auto-rows-fr grid-cols-6 gap-3 px-1 md:gap-4">
-                  {popupCards.map((card, i) => (
-                    <motion.div
-                      key={card.slug}
-                      style={{ opacity: pillarMotion[i].opacity, y: pillarMotion[i].y }}
-                    >
-                      <motion.div
-                        style={{ boxShadow: glowShadows[i] }}
-                        className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-r from-white/25 via-white/5 to-white/20 p-[1px] shadow-[0_18px_50px_rgba(15,23,42,0.16)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(15,23,42,0.25)] dark:from-white/15 dark:via-white/5 dark:to-white/15"
-                      >
-                        <Link
-                          href={`/services/${card.slug}`}
-                          className="absolute inset-0"
-                          aria-label={card.label}
-                        />
-                        <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-2xl bg-white/90 px-4 py-3.5 backdrop-blur-xl dark:bg-black/55">
-                          <div
-                            className="pointer-events-none absolute inset-0 opacity-80"
-                            style={{
-                              backgroundImage: `radial-gradient(circle_at_20%_10%,${card.color}28,transparent_55%)`,
-                            }}
-                          />
-                          <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_center,rgba(45,212,191,0.25)_1px,transparent_1px)] [background-size:12px_12px]" />
-                          <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_center,rgba(59,130,246,0.2)_1px,transparent_1px)] [background-size:18px_18px]" />
-                          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent dark:via-white/20" />
-                          <div className="relative grid h-full grid-rows-[auto_1fr] gap-2">
-                            <div className="flex items-center gap-2">
-                              <div
-                                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/30 bg-white/60 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-white/[0.08] dark:bg-white/[0.06]"
-                                style={{ boxShadow: `0 10px 26px ${card.color}22` }}
-                              >
-                                <card.icon className="h-4.5 w-4.5" style={{ color: card.color }} />
-                              </div>
-                              <p className="text-[12px] font-semibold tracking-[0.02em] text-neutral-900 dark:text-white">
-                                {card.label}
-                              </p>
-                            </div>
-                            <p className="text-[11px] text-neutral-600/90 dark:text-neutral-400">{card.detail}</p>
-                          </div>
-                          <div
-                            className="pointer-events-none absolute bottom-2 right-3 h-10 w-10 rounded-full opacity-70 blur-2xl"
-                            style={{ backgroundColor: `${card.color}33` }}
-                          />
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  ))}
-                </div>
-              }
             />
           </motion.div>
 
-          <div className="pointer-events-none absolute left-1/2 top-[38%] z-[2] w-full -translate-x-1/2 text-center">
-            <motion.p
-              style={{ clipPath: typeClip, opacity: typeOpacity }}
-              className="typewriter-line mx-auto text-xs font-bold uppercase tracking-[0.25em] text-neutral-600 dark:text-neutral-300 md:text-sm"
-            >
-              BinaryGate delivers full-stack infrastructure services across cloud, hybrid, and on-prem.
-              <span className="typewriter-caret" />
-            </motion.p>
+
+          <div className="pointer-events-none absolute left-1/2 top-[22%] sm:top-[26%] md:top-[36%] z-[2] w-full -translate-x-1/2 text-center">
+            <div className="mx-auto block max-w-[92vw] overflow-hidden px-2 text-center sm:hidden">
+              <span className="text-[9px] font-bold uppercase tracking-[0.04em] leading-snug text-neutral-600 dark:text-neutral-300">
+                <span className="typewriter-line typewriter-width block">
+                  <span className="font-extrabold text-neutral-900 dark:text-white">BinaryGate&nbsp;</span>
+                  delivers full-stack infrastructure services
+                </span>
+                <span className="typewriter-line typewriter-width-late block">
+                  across cloud, hybrid, and on-prem.
+                  <span className="typewriter-caret" />
+                </span>
+              </span>
+            </div>
+            <div className="typewriter-animate mx-auto hidden sm:inline-flex">
+              <span className="typewriter-line text-[12px] font-bold uppercase tracking-[0.14em] text-neutral-600 dark:text-neutral-300 sm:text-[14px] sm:tracking-[0.2em] md:text-[16px] md:tracking-[0.25em]">
+                <span className="font-extrabold text-neutral-900 dark:text-white">BinaryGate&nbsp;</span>
+                delivers full-stack infrastructure services across cloud, hybrid, and on-prem.
+                <span className="typewriter-caret" />
+              </span>
+            </div>
+          </div>
+          <div className="absolute left-1/2 bottom-[6%] z-[3] w-[92%] -translate-x-1/2">
+            <div className="grid auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              {popupCards.map((card, i) => (
+                <motion.div
+                  key={card.slug}
+                  style={{ opacity: pillarMotion[i].opacity, y: pillarMotion[i].y }}
+                >
+                  <motion.div
+                    style={{ boxShadow: glowShadows[i] }}
+                    className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-r from-white/25 via-white/5 to-white/20 p-[1px] shadow-[0_18px_50px_rgba(15,23,42,0.16)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(15,23,42,0.25)] dark:from-white/15 dark:via-white/5 dark:to-white/15"
+                  >
+                    <Link
+                      href={`/services/${card.slug}`}
+                      className="absolute inset-0"
+                      aria-label={card.label}
+                    />
+                    <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-2xl bg-white/90 px-3 py-2 backdrop-blur-xl dark:bg-black/55 sm:px-4 sm:py-3.5">
+                      <div
+                        className="pointer-events-none absolute inset-0 opacity-80"
+                        style={{
+                          backgroundImage: `radial-gradient(circle_at_20%_10%,${card.color}28,transparent_55%)`,
+                        }}
+                      />
+                      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_center,rgba(45,212,191,0.25)_1px,transparent_1px)] [background-size:12px_12px]" />
+                      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_center,rgba(59,130,246,0.2)_1px,transparent_1px)] [background-size:18px_18px]" />
+                      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent dark:via-white/20" />
+                      <div className="relative grid h-full grid-rows-[auto_1fr] gap-1 sm:gap-2">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="flex h-6 w-6 items-center justify-center rounded-md border border-white/30 bg-white/60 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-white/[0.08] dark:bg-white/[0.06] sm:h-9 sm:w-9"
+                            style={{ boxShadow: `0 10px 26px ${card.color}22` }}
+                          >
+                            <card.icon className="h-3 w-3 sm:h-4.5 sm:w-4.5" style={{ color: card.color }} />
+                          </div>
+                          <p className="text-[10px] font-semibold tracking-[0.02em] text-neutral-900 dark:text-white sm:text-[12px]">
+                            {card.label}
+                          </p>
+                        </div>
+                        <p className="text-[9px] text-neutral-600/90 dark:text-neutral-400 sm:text-[11px]">
+                          {card.detail}
+                        </p>
+                      </div>
+                      <div
+                        className="pointer-events-none absolute bottom-2 right-3 h-10 w-10 rounded-full opacity-70 blur-2xl"
+                        style={{ backgroundColor: `${card.color}33` }}
+                      />
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
           </div>
           <motion.div
             style={{ opacity: useTransform(smoothProgress, [0, 0.08], [1, 0]) }}
@@ -394,10 +405,12 @@ export function HeroEffectsSection() {
         </div>
 
         <div className="relative z-[1] w-full bg-white dark:bg-black">
-          <div className="relative h-[140vh]">
-            <div className="sticky top-0 h-screen w-full px-4 md:px-6">
+          <div className="relative hidden h-[90vh] sm:block sm:h-[100vh]">
+            <div className="sm:sticky sm:top-0 h-full sm:h-screen w-full px-4 md:px-6">
               <div className="h-full w-full overflow-hidden rounded-3xl border border-teal-400/40 shadow-[0_0_40px_rgba(45,212,191,0.18)] dark:border-teal-400/30">
-                <WorldMap dots={connectionDots} lineColor="#2dd4bf" />
+                <div className="h-full w-full origin-center scale-[1.15] sm:scale-[1.1] md:scale-100">
+                  <WorldMap dots={connectionDots} lineColor="#2dd4bf" />
+                </div>
               </div>
             </div>
           </div>

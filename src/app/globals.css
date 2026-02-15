@@ -150,6 +150,27 @@
   border-right: 1px solid rgba(148, 163, 184, 0.7);
 }
 
+.typewriter-animate {
+  clip-path: inset(0 100% 0 0);
+  animation: type-reveal 6.5s steps(80, end) 0.8s forwards;
+}
+
+.typewriter-width {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: type-width 6.5s steps(80, end) 0.8s forwards;
+}
+
+.typewriter-width-late {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: type-width 6.5s steps(80, end) 3s forwards;
+}
+
 .typewriter-caret {
   display: inline-block;
   width: 1px;
@@ -172,5 +193,17 @@
   }
   50% {
     transform: translateY(-2px);
+  }
+}
+
+@keyframes type-reveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes type-width {
+  to {
+    max-width: 100%;
   }
 }
