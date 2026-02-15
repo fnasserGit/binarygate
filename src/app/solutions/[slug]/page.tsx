@@ -232,3 +232,4 @@ export default function SolutionPage() {
     </div>
   );
 }
+export const runtime = "edge";

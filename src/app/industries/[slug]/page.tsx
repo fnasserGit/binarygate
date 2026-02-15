@@ -215,3 +215,4 @@ export default function IndustryPage() {
     </div>
   );
 }
+export const runtime = "edge";
