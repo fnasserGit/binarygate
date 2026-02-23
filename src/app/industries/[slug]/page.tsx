@@ -46,8 +46,8 @@ export default function IndustryPage() {
   const next = currentIdx < industries.length - 1 ? industries[currentIdx + 1] : null;
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/[0.06] bg-black/80 backdrop-blur-lg">
+    <div className="min-h-screen bg-[#f5f5f2] text-neutral-900">
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#f5f5f2]/90 backdrop-blur-lg">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2.5 group">
             <span className="relative h-11 w-11 overflow-hidden rounded-lg">
@@ -55,7 +55,7 @@ export default function IndustryPage() {
             </span>
             <span className="text-base font-semibold tracking-wide">BinaryGate</span>
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-white">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-neutral-900">
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
         </div>
@@ -66,7 +66,7 @@ export default function IndustryPage() {
         <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse at 30% 20%, ${industry.color}18, transparent 60%)` }} />
         <div className="relative mx-auto w-full max-w-6xl">
           <FadeIn>
-            <Link href="/" className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] transition hover:text-white" style={{ color: industry.color }}>
+            <Link href="/" className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] transition hover:text-neutral-900" style={{ color: industry.color }}>
               <ArrowLeft className="h-3 w-3" /> Industries
             </Link>
           </FadeIn>
@@ -189,13 +189,13 @@ export default function IndustryPage() {
       <section className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-12">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           {prev ? (
-            <Link href={`/industries/${prev.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-white">
+            <Link href={`/industries/${prev.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-neutral-900">
               <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
               <div><p className="text-[10px] uppercase tracking-[0.3em] text-neutral-600">Previous</p><p className="mt-0.5 font-medium">{prev.title}</p></div>
             </Link>
           ) : <div />}
           {next ? (
-            <Link href={`/industries/${next.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-white text-right">
+            <Link href={`/industries/${next.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-neutral-900 text-right">
               <div><p className="text-[10px] uppercase tracking-[0.3em] text-neutral-600">Next</p><p className="mt-0.5 font-medium">{next.title}</p></div>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
@@ -207,8 +207,8 @@ export default function IndustryPage() {
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
           <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/" className="transition hover:text-white">Home</Link>
-            <Link href="/contact" className="transition hover:text-white">Contact</Link>
+            <Link href="/" className="transition hover:text-neutral-900">Home</Link>
+            <Link href="/contact" className="transition hover:text-neutral-900">Contact</Link>
           </div>
         </div>
       </footer>

@@ -50,7 +50,7 @@ export const GoogleGeminiEffect = ({
       ) : null}
       <div className={cn("w-full sm:w-[110%] md:w-full h-[700px] sm:h-[820px] md:h-[890px] left-0 sm:-left-[5%] md:left-0 flex items-center justify-center bg-red-transparent absolute", linesOffsetClassName)}>
         <div className="hidden sm:flex sm:mt-8 md:mt-24 z-30 flex-col items-center gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-100 backdrop-blur-sm px-4 py-2 md:px-5 md:py-2.5 dark:border-white/[0.08] dark:bg-white/[0.04]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-[#f5f5f2] backdrop-blur-sm px-4 py-2 md:px-5 md:py-2.5 dark:border-white/[0.08] dark:bg-white/[0.04]">
             <span className="h-1.5 w-1.5 rounded-full bg-teal-400 animate-pulse" />
             <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.25em] text-neutral-700 dark:text-neutral-300">Beyond Just Ones &amp; Zeros</span>
           </span>

@@ -53,8 +53,8 @@ export default function SolutionPage() {
   const next = currentIdx < solutions.length - 1 ? solutions[currentIdx + 1] : null;
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/[0.06] bg-black/80 backdrop-blur-lg">
+    <div className="min-h-screen bg-[#f5f5f2] text-neutral-900">
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#f5f5f2]/90 backdrop-blur-lg">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2.5 group">
             <span className="relative h-11 w-11 overflow-hidden rounded-lg">
@@ -62,7 +62,7 @@ export default function SolutionPage() {
             </span>
             <span className="text-base font-semibold tracking-wide">BinaryGate</span>
           </Link>
-          <Link href="/#services" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-white">
+          <Link href="/#services" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-neutral-900">
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
         </div>
@@ -73,7 +73,7 @@ export default function SolutionPage() {
         <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse at 30% 20%, ${solution.color}18, transparent 60%)` }} />
         <div className="relative mx-auto w-full max-w-6xl">
           <FadeIn>
-            <Link href="/" className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] transition hover:text-white" style={{ color: solution.color }}>
+            <Link href="/" className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] transition hover:text-neutral-900" style={{ color: solution.color }}>
               <ArrowLeft className="h-3 w-3" /> Solutions
             </Link>
           </FadeIn>
@@ -158,7 +158,7 @@ export default function SolutionPage() {
               return (
                 <FadeIn key={slug} delay={0.1 + i * 0.08}>
                   <Link href={`/services/${slug}`} className="block h-full">
-                    <div className={`group relative h-full rounded-2xl border ${svc.borderColor} bg-gradient-to-b ${svc.gradient} p-6 transition-all duration-300 hover:border-white/20 hover:-translate-y-1`}>
+                    <div className={`group relative h-full rounded-2xl border ${svc.borderColor} bg-gradient-to-b ${svc.gradient} p-6 transition-all duration-300 hover:border-black/10 hover:-translate-y-1`}>
                       <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06] ${svc.iconColor}`}>
                         <svc.icon className="h-5 w-5" />
                       </div>
@@ -206,13 +206,13 @@ export default function SolutionPage() {
       <section className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-12">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           {prev ? (
-            <Link href={`/solutions/${prev.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-white">
+            <Link href={`/solutions/${prev.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-neutral-900">
               <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
               <div><p className="text-[10px] uppercase tracking-[0.3em] text-neutral-600">Previous</p><p className="mt-0.5 font-medium">{prev.title}</p></div>
             </Link>
           ) : <div />}
           {next ? (
-            <Link href={`/solutions/${next.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-white text-right">
+            <Link href={`/solutions/${next.slug}`} className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-neutral-900 text-right">
               <div><p className="text-[10px] uppercase tracking-[0.3em] text-neutral-600">Next</p><p className="mt-0.5 font-medium">{next.title}</p></div>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
@@ -224,8 +224,8 @@ export default function SolutionPage() {
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
           <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/" className="transition hover:text-white">Home</Link>
-            <Link href="/contact" className="transition hover:text-white">Contact</Link>
+            <Link href="/" className="transition hover:text-neutral-900">Home</Link>
+            <Link href="/contact" className="transition hover:text-neutral-900">Contact</Link>
           </div>
         </div>
       </footer>

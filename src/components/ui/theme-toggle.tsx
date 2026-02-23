@@ -29,7 +29,7 @@ export function ThemeToggle() {
         const newTheme = isDark ? "light" : "dark";
         setTheme(newTheme);
       }}
-      className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-neutral-100 dark:border-white/10 dark:text-white dark:hover:border-white/20 dark:hover:bg-white/5"
+      className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-300 text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-[#f5f5f2] dark:border-white/10 dark:text-white dark:hover:border-white/20 dark:hover:bg-white/5"
       aria-label="Toggle theme"
     >
       {isDark ? (

@@ -5,10 +5,7 @@ import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { navigation, type NavItem } from "@/data/navigation";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { useTheme } from "next-themes";
-import { CONSULTATION_URL } from "@/lib/links";
+import { navMenus, type NavMenu } from "@/data/navigation";
 
 /* ─── Desktop dropdown panel ─── */
 function DesktopDropdown({
@@ -17,12 +14,13 @@ function DesktopDropdown({
   onOpen,
   onClose,
 }: {
-  item: NavItem;
+  item: NavMenu;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }) {
   const timeout = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleEnter = () => {
     if (timeout.current) clearTimeout(timeout.current);
@@ -33,22 +31,33 @@ function DesktopDropdown({
     timeout.current = setTimeout(onClose, 150);
   };
 
-  if (!item.children) {
-    return (
-      <Link
-        href={item.href || "#"}
-        className="relative text-sm text-neutral-600 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-teal-400 after:transition-all hover:after:w-full"
-      >
-        {item.label}
-      </Link>
-    );
-  }
+  const handleFocus = () => {
+    if (timeout.current) clearTimeout(timeout.current);
+    onOpen();
+  };
+
+  const handleBlur = () => {
+    timeout.current = setTimeout(() => {
+      if (!containerRef.current?.contains(document.activeElement)) {
+        onClose();
+      }
+    }, 120);
+  };
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div
+      ref={containerRef}
+      className="relative"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+    >
       <button
-        className="group flex items-center gap-1 text-sm text-neutral-600 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white"
+        className="group flex items-center gap-1 text-sm text-neutral-600 transition-colors hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:text-neutral-400 dark:hover:text-white"
         onClick={isOpen ? onClose : onOpen}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
       >
         {item.label}
         <ChevronDown
@@ -67,15 +76,17 @@ function DesktopDropdown({
           >
             <div
               className={`rounded-xl border border-neutral-200 bg-white/95 backdrop-blur-xl p-2 shadow-2xl dark:border-white/[0.08] dark:bg-black/95 ${
-                item.children.length > 4 ? "w-[520px] grid grid-cols-2 gap-0.5" : "w-[280px]"
+                item.items.length > 6 ? "w-[520px] grid grid-cols-2 gap-0.5" : "w-[280px]"
               }`}
+              role="menu"
             >
-              {item.children.map((child) => (
+              {item.items.map((child) => (
                 <Link
                   key={child.href}
                   href={child.href}
                   onClick={onClose}
-                  className="group/item flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-neutral-100 dark:hover:bg-white/[0.05]"
+                  className="group/item flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-[#f5f5f2] dark:hover:bg-white/[0.05]"
+                  role="menuitem"
                 >
                   <div
                     className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/[0.06] transition-colors group-hover/item:border-white/[0.12]"
@@ -106,34 +117,28 @@ function MobileAccordionItem({
   item,
   onClose,
 }: {
-  item: NavItem;
+  item: NavMenu;
   onClose: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
 
-  if (!item.children) {
-    return (
-      <Link
-        href={item.href || "#"}
-        onClick={onClose}
-        className="block rounded-lg px-4 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-100 hover:text-black dark:text-neutral-200 dark:hover:bg-white/5 dark:hover:text-white"
-      >
-        {item.label}
-      </Link>
-    );
-  }
-
   return (
     <div>
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-100 hover:text-black dark:text-neutral-200 dark:hover:bg-white/5 dark:hover:text-white"
-      >
-        {item.label}
-        <ChevronDown
-          className={`h-4 w-4 text-neutral-500 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-        />
-      </button>
+      <div className="flex items-center justify-between rounded-lg px-2 py-2 text-sm font-medium text-neutral-800 transition hover:bg-[#f5f5f2] hover:text-black dark:text-neutral-200 dark:hover:bg-white/5 dark:hover:text-white">
+        <span className="flex-1 rounded-lg px-2 py-1.5 text-left">
+          {item.label}
+        </span>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex h-8 w-8 items-center justify-center rounded-md"
+          aria-label={`${item.label} submenu`}
+          aria-expanded={expanded}
+        >
+          <ChevronDown
+            className={`h-4 w-4 text-neutral-500 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          />
+        </button>
+      </div>
       <AnimatePresence>
         {expanded && (
           <motion.div
@@ -144,7 +149,7 @@ function MobileAccordionItem({
             className="overflow-hidden"
           >
             <div className="space-y-0.5 pb-2 pl-4">
-              {item.children.map((child) => (
+              {item.items.map((child) => (
                 <Link
                   key={child.href}
                   href={child.href}
@@ -172,7 +177,6 @@ function MobileAccordionItem({
 
 /* ─── Main Header ─── */
 export function SiteHeader() {
-  const { theme } = useTheme();
   const { scrollY } = useScroll();
   const headerBg = useTransform(scrollY, [0, 100], [0, 0.85]);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -197,40 +201,50 @@ export function SiteHeader() {
     }
   }, [openDropdown, handleCloseAll]);
 
+  useEffect(() => {
+    if (!openDropdown) return undefined;
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleCloseAll();
+      }
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [openDropdown, handleCloseAll]);
+
   return (
     <>
       <motion.header
         style={{
-          backgroundColor: bgValue > 0 
-            ? theme === "dark" 
-              ? `rgba(0,0,0,${bgValue})` 
-              : `rgba(255,255,255,${bgValue})`
-            : undefined,
-          borderBottomColor: bgValue > 0.3 
-            ? theme === "dark"
-              ? `rgba(255,255,255,0.1)`
-              : `rgba(0,0,0,0.1)`
-            : undefined,
+          backgroundColor: bgValue > 0 ? `rgba(245,245,242,${bgValue})` : undefined,
+          borderBottomColor: bgValue > 0.3 ? `rgba(0,0,0,0.08)` : undefined,
         }}
         className="fixed left-0 right-0 top-0 z-50 border-b backdrop-blur-md transition-colors"
       >
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:px-6">
+        <div className="mx-auto relative flex h-16 w-full max-w-7xl items-center px-4 md:px-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 text-black dark:text-white group">
-            <span className="relative h-11 w-11 overflow-hidden rounded-lg">
+          <div className="flex flex-1 items-center justify-start">
+            <Link href="/" className="flex items-center gap-1 text-black dark:text-white group">
+              <span className="relative h-20 w-20 overflow-visible rounded-lg">
               <Image
                 src="/logo.png"
                 alt="BinaryGate"
                 fill
-                className="object-contain"
+                className="object-contain scale-[1.4]"
               />
-            </span>
-            <span className="text-base font-semibold tracking-wide hidden sm:inline">BinaryGate</span>
-          </Link>
+              </span>
+              <span className="text-sm font-semibold tracking-[0.28em] uppercase hidden sm:inline">
+                BINARYGATE
+              </span>
+            </Link>
+          </div>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-6 lg:flex" onClick={(e) => e.stopPropagation()}>
-            {navigation.map((item) => (
+          <nav
+            className="hidden items-center gap-6 lg:flex absolute left-1/2 -translate-x-1/2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {navMenus.map((item) => (
               <DesktopDropdown
                 key={item.label}
                 item={item}
@@ -239,19 +253,16 @@ export function SiteHeader() {
                 onClose={handleCloseAll}
               />
             ))}
+            <Link
+              href="/contact"
+              className="relative text-sm text-neutral-600 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white"
+            >
+              Contact
+            </Link>
           </nav>
 
-          {/* CTA + theme toggle + hamburger */}
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <Link
-              href={CONSULTATION_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden lg:inline-flex rounded-full bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-neutral-200 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
-            >
-              Book a Consultation
-            </Link>
+          {/* CTA + hamburger */}
+          <div className="flex flex-1 items-center justify-end gap-3">
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-white lg:hidden dark:border-white/10 dark:text-white"
@@ -261,6 +272,14 @@ export function SiteHeader() {
           </div>
         </div>
       </motion.header>
+      <div
+        aria-hidden="true"
+        className="hidden lg:block"
+        style={{
+          height: openDropdown ? "260px" : "0px",
+          transition: "height 180ms ease",
+        }}
+      />
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -273,7 +292,7 @@ export function SiteHeader() {
             className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-white/10 bg-white/95 backdrop-blur-lg dark:bg-black/95 lg:hidden"
           >
             <nav className="flex flex-col gap-0.5 p-3">
-              {navigation.map((item) => (
+              {navMenus.map((item) => (
                 <MobileAccordionItem
                   key={item.label}
                   item={item}
@@ -281,13 +300,11 @@ export function SiteHeader() {
                 />
               ))}
               <Link
-                href={CONSULTATION_URL}
-                target="_blank"
-                rel="noreferrer"
+                href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="mt-3 rounded-full bg-white px-5 py-2.5 text-center text-sm font-medium text-black transition hover:bg-neutral-200"
+                className="mt-2 block rounded-lg px-4 py-3 text-sm font-medium text-neutral-800 transition hover:bg-[#f5f5f2] hover:text-black dark:text-neutral-200 dark:hover:bg-white/5 dark:hover:text-white"
               >
-                Book a Consultation
+                Contact
               </Link>
             </nav>
           </motion.div>

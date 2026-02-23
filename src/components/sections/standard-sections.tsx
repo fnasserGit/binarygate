@@ -56,6 +56,7 @@ const steps = [
   {
     icon: Search,
     phase: "01",
+    slug: "assess",
     title: "Assess",
     description:
       "Deep dive into your current architecture, pipelines, and security posture. We identify bottlenecks and risks.",
@@ -64,6 +65,7 @@ const steps = [
   {
     icon: Wrench,
     phase: "02",
+    slug: "architect",
     title: "Architect",
     description:
       "Design a secure, scalable foundation with IaC, automated pipelines, and observability from day one.",
@@ -72,6 +74,7 @@ const steps = [
   {
     icon: Rocket,
     phase: "03",
+    slug: "deliver",
     title: "Deliver",
     description:
       "Implement incrementally, migrating workloads with zero downtime. Your team ships throughout the process.",
@@ -80,6 +83,7 @@ const steps = [
   {
     icon: HeadphonesIcon,
     phase: "04",
+    slug: "sustain",
     title: "Sustain",
     description:
       "Ongoing optimization, monitoring, and knowledge transfer so your team owns the platform long-term.",
@@ -154,6 +158,7 @@ function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      suppressHydrationWarning
       className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 sm:p-8 md:p-10"
     >
       {/* Decorative glow */}
@@ -172,6 +177,7 @@ function ContactForm() {
               name="firstName"
               type="text"
               required
+              suppressHydrationWarning
               value={formData.firstName}
               onChange={handleChange}
               placeholder="John"
@@ -187,6 +193,7 @@ function ContactForm() {
               name="lastName"
               type="text"
               required
+              suppressHydrationWarning
               value={formData.lastName}
               onChange={handleChange}
               placeholder="Doe"
@@ -206,6 +213,7 @@ function ContactForm() {
               name="email"
               type="email"
               required
+              suppressHydrationWarning
               value={formData.email}
               onChange={handleChange}
               placeholder="john@company.com"
@@ -220,6 +228,7 @@ function ContactForm() {
               id="phone"
               name="phone"
               type="tel"
+              suppressHydrationWarning
               value={formData.phone}
               onChange={handleChange}
               placeholder="+1 (555) 000-0000"
@@ -238,6 +247,7 @@ function ContactForm() {
             name="message"
             required
             rows={5}
+            suppressHydrationWarning
             value={formData.message}
             onChange={handleChange}
             placeholder="Tell us about your project, infrastructure goals, or challenges..."
@@ -278,72 +288,62 @@ function ContactForm() {
 /* ─── Main component ─── */
 export function StandardSections() {
   return (
-    <div className="bg-white text-black dark:bg-black dark:text-white transition-colors">
+    <div className="bg-[#f5f5f2] text-neutral-900">
       {/* ── Approach ── */}
-      <section id="approach" className="relative px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="text-center">
+      <section id="approach" className="relative overflow-hidden bg-[#f7f7f6] text-[#101316]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.9),rgba(246,247,249,1))]" />
+        <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_18%_20%,rgba(210,224,244,0.6),rgba(255,255,255,0))]" />
+        <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(15,23,42,0.18)_1px,transparent_1px)] [background-size:20px_20px]" />
+        <div className="relative mx-auto max-w-[1240px] px-6 py-20 sm:px-8 sm:py-24 lg:px-10 lg:py-28">
+          <div className="max-w-2xl">
             <FadeIn>
-              <p className="text-xs font-medium uppercase tracking-[0.4em] text-emerald-400/80">
+              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.34em] text-[#101316]/55">
                 Approach
               </p>
             </FadeIn>
             <FadeIn delay={0.1}>
-              <h2 className="mt-4 mx-auto max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
-                Strategy to execution,{" "}
-                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  with engineering rigor.
-                </span>
+              <h2 className="mt-4 text-3xl font-light tracking-[-0.02em] text-[#101316] sm:text-4xl">
+                Strategy to execution, with engineering rigor.
               </h2>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <p className="mt-5 mx-auto max-w-2xl text-base leading-relaxed text-neutral-600 dark:text-neutral-400 md:text-lg">
+              <p className="mt-4 text-sm leading-relaxed text-[#101316]/70 sm:text-base">
                 We follow a proven four-phase methodology that takes you from assessment
                 to a fully automated, secure platform — without disrupting your delivery.
               </p>
             </FadeIn>
           </div>
 
-          <div className="mt-16 grid items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
               <FadeIn key={step.phase} delay={0.15 + i * 0.1}>
-                <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/70 bg-white/80 p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1 dark:border-white/[0.08] dark:bg-black/50">
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-80"
-                    style={{
-                      backgroundImage: `radial-gradient(circle_at_20%_10%,${step.color}24,transparent_55%)`,
-                    }}
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    style={{
-                      backgroundImage: `linear-gradient(120deg, transparent, ${step.color}18, transparent)`,
-                    }}
-                  />
+                <Link
+                  href={`/approach/${step.slug}`}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30"
+                >
                   <div className="flex items-center justify-between">
-                    <span className="rounded-full border border-neutral-200/70 bg-white/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-600 dark:border-white/[0.08] dark:bg-white/[0.05] dark:text-neutral-300">
+                    <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
                       Phase {step.phase}
                     </span>
                     <div
-                      className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/40 bg-white/80 shadow-[0_10px_28px_rgba(0,0,0,0.08)] dark:border-white/[0.1] dark:bg-white/[0.06]"
-                      style={{ boxShadow: `0 12px 26px ${step.color}22` }}
+                      className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 shadow-[0_8px_20px_rgba(15,18,22,0.08)]"
                     >
-                      <step.icon className="h-5 w-5" style={{ color: step.color }} />
+                      <step.icon className="h-5 w-5 text-slate-700" />
                     </div>
                   </div>
-                  <h3 className="mt-4 text-sm font-semibold text-neutral-900 dark:text-white">
+                  <h3 className="mt-4 text-sm font-semibold text-slate-900">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                  <p className="mt-2 text-sm text-slate-600">
                     {step.description}
                   </p>
                   <div className="mt-auto pt-4">
-                    <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-neutral-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:text-neutral-400">
-                      Learn more
+                    <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      Explore Phase
                       <span className="text-xs">→</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               </FadeIn>
             ))}
           </div>
@@ -353,42 +353,35 @@ export function StandardSections() {
       <SectionDivider />
 
       {/* ── About ── */}
-      <section id="about" className="relative px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24">
-        <div className="mx-auto w-full max-w-6xl">
+      <section id="about" className="relative overflow-hidden bg-[#f7f7f6] text-[#101316]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.9),rgba(246,247,249,1))]" />
+        <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_18%_20%,rgba(210,224,244,0.6),rgba(255,255,255,0))]" />
+        <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(15,23,42,0.18)_1px,transparent_1px)] [background-size:20px_20px]" />
+        <div className="relative mx-auto max-w-[1240px] px-6 py-20 sm:px-8 sm:py-24 lg:px-10 lg:py-28">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
             <div>
               <FadeIn>
-                <p className="text-xs font-medium uppercase tracking-[0.4em] text-teal-400/80">
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.34em] text-[#101316]/55">
                   About
                 </p>
               </FadeIn>
               <FadeIn delay={0.1}>
-                <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">
-                  An engineering-first{" "}
-                  <span className="bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
-                    partner.
-                  </span>
+                <h2 className="mt-4 text-3xl font-light tracking-[-0.02em] text-[#101316] sm:text-4xl">
+                  An engineering-first partner.
                 </h2>
               </FadeIn>
               <FadeIn delay={0.2}>
-                <p className="mt-5 text-base leading-relaxed text-neutral-400 md:text-lg">
-                  BinaryGate embeds with product teams to unblock{" "}
-                  <span className="text-teal-400">infrastructure</span>,{" "}
-                  <span className="text-emerald-400">DevOps</span>, and{" "}
-                  <span className="text-blue-400">security</span> constraints across{" "}
-                  <span className="text-teal-300">cloud</span>,{" "}
-                  <span className="text-emerald-300">hybrid</span>, and{" "}
-                  <span className="text-blue-300">on-prem</span> environments. We are a{" "}
-                  <span className="text-teal-200">team of highly skilled professionals</span>{" "}
-                  who design, build, and operate platforms until they are stable, secure,
-                  and production-ready.
+                <p className="mt-4 text-sm leading-relaxed text-[#101316]/70 sm:text-base">
+                  BinaryGate embeds with product teams to unblock infrastructure, DevOps, and
+                  security constraints across cloud, hybrid, and on-prem environments. We are a
+                  team of highly skilled professionals who design, build, and operate platforms
+                  until they are stable, secure, and production-ready.
                 </p>
               </FadeIn>
             </div>
 
             <FadeIn delay={0.1} direction="right">
-              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(45,212,191,0.18),transparent_55%)]" />
+              <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl">
                   <Image
                     src="/about-bg.png"
@@ -406,26 +399,26 @@ export function StandardSections() {
       <SectionDivider />
 
       {/* ── Contact ── */}
-      <section id="contact" className="relative px-4 pb-20 pt-16 md:px-6 md:pb-32 md:pt-24">
-        <div className="mx-auto w-full max-w-6xl">
+      <section id="contact" className="relative overflow-hidden bg-[#f7f7f6] text-[#101316]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.9),rgba(246,247,249,1))]" />
+        <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_18%_20%,rgba(210,224,244,0.6),rgba(255,255,255,0))]" />
+        <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(15,23,42,0.18)_1px,transparent_1px)] [background-size:20px_20px]" />
+        <div className="relative mx-auto max-w-[1240px] px-6 py-20 sm:px-8 sm:py-24 lg:px-10 lg:py-28">
           <div className="grid gap-12 lg:grid-cols-5 lg:items-start">
             {/* Left — info */}
             <div className="lg:col-span-2">
               <FadeIn>
-                <p className="text-xs font-medium uppercase tracking-[0.4em] text-teal-400/80">
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.34em] text-[#101316]/55">
                   Contact
                 </p>
               </FadeIn>
               <FadeIn delay={0.1}>
-                <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">
-                  Let&apos;s build{" "}
-                  <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-                    together.
-                  </span>
+                <h2 className="mt-4 text-3xl font-light tracking-[-0.02em] text-[#101316] sm:text-4xl">
+                  Let&apos;s build together.
                 </h2>
               </FadeIn>
               <FadeIn delay={0.2}>
-                <p className="mt-5 text-base leading-relaxed text-neutral-400 md:text-lg">
+                <p className="mt-4 text-sm leading-relaxed text-[#101316]/70 sm:text-base">
                   Share your goals and we&apos;ll respond within 24 hours with a scoped plan,
                   architecture overview, and timeline.
                 </p>
@@ -434,23 +427,26 @@ export function StandardSections() {
               <FadeIn delay={0.3}>
                 <div className="mt-10 space-y-5">
                   <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                      <Mail className="h-4 w-4 text-teal-400" />
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50">
+                      <Mail className="h-4 w-4 text-slate-700" />
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Email</p>
-                      <a href="mailto:hello@binary-gate.com" className="text-sm text-neutral-700 transition hover:text-black dark:text-neutral-300 dark:hover:text-white">
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Email</p>
+                      <a
+                        href="mailto:hello@binary-gate.com"
+                        className="text-sm text-slate-700 transition hover:text-slate-900"
+                      >
                         hello@binary-gate.com
                       </a>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                      <Phone className="h-4 w-4 text-teal-400" />
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50">
+                      <Phone className="h-4 w-4 text-slate-700" />
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Phone</p>
-                      <p className="text-sm text-neutral-700 dark:text-neutral-300">Available upon request</p>
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Phone</p>
+                      <p className="text-sm text-slate-700">Available upon request</p>
                     </div>
                   </div>
                 </div>
@@ -468,12 +464,12 @@ export function StandardSections() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-10">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
+      <footer className="border-t border-slate-200 bg-[#f7f7f6] px-6 py-8 sm:px-8 md:py-10 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[1240px] flex-col items-center justify-between gap-4 text-xs text-slate-500 md:flex-row md:text-sm">
           <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="transition hover:text-black dark:hover:text-white">Privacy</a>
-            <a href="#" className="transition hover:text-black dark:hover:text-white">Terms</a>
+            <a href="#" className="transition hover:text-slate-900">Privacy</a>
+            <a href="#" className="transition hover:text-slate-900">Terms</a>
           </div>
         </div>
       </footer>

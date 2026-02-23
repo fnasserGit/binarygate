@@ -25,14 +25,14 @@ const whitepapers = [
 
 export default function WhitepapersPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/[0.06] bg-black/80 backdrop-blur-lg">
+    <div className="min-h-screen bg-[#f5f5f2] text-neutral-900">
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#f5f5f2]/90 backdrop-blur-lg">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2.5 group">
             <span className="relative h-11 w-11 overflow-hidden rounded-lg"><Image src="/logo.png" alt="BinaryGate" fill className="object-contain" /></span>
             <span className="text-base font-semibold tracking-wide">BinaryGate</span>
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-white"><ArrowLeft className="h-4 w-4" /> Back</Link>
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-neutral-900"><ArrowLeft className="h-4 w-4" /> Back</Link>
         </div>
       </header>
 
@@ -70,7 +70,7 @@ export default function WhitepapersPage() {
       <footer className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-10">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
           <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
-          <div className="flex gap-6"><Link href="/" className="transition hover:text-white">Home</Link><Link href="/contact" className="transition hover:text-white">Contact</Link></div>
+          <div className="flex gap-6"><Link href="/" className="transition hover:text-neutral-900">Home</Link><Link href="/contact" className="transition hover:text-neutral-900">Contact</Link></div>
         </div>
       </footer>
     </div>

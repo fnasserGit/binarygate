@@ -1,18 +1,7 @@
 "use client";
 
-import {
-  useMotionValue,
-  useMotionTemplate,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-  motion,
-} from "framer-motion";
-import React from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect";
-import { WorldMap } from "@/components/ui/world-map";
 import {
   Cloud,
   Shield,
@@ -26,9 +15,7 @@ import {
   Layers,
   HardDrive,
   Code2,
-  ChevronDown,
 } from "lucide-react";
-import { services } from "@/data/services";
 import {
   ArchitectureIcon,
   SecurityIcon,
@@ -37,33 +24,7 @@ import {
   PlatformIcon,
   ObservabilityIcon,
 } from "@/components/ui/service-icons";
-
-const connectionDots = [
-  // ── Global routes ──
-  { start: { lat: 40.7128, lng: -74.006 }, end: { lat: 51.5074, lng: -0.1278 } },
-  { start: { lat: 37.7749, lng: -122.4194 }, end: { lat: 35.6895, lng: 139.6917 } },
-  { start: { lat: -33.8688, lng: 151.2093 }, end: { lat: 1.3521, lng: 103.8198 } },
-  { start: { lat: 52.52, lng: 13.405 }, end: { lat: 28.6139, lng: 77.209 } },
-  { start: { lat: 43.6532, lng: -79.3832 }, end: { lat: 53.3498, lng: -6.2603 } },
-  { start: { lat: 19.4326, lng: -99.1332 }, end: { lat: -34.6037, lng: -58.3816 } },
-  { start: { lat: 31.2304, lng: 121.4737 }, end: { lat: 37.5665, lng: 126.978 } },
-  // ── MEA ──
-  { start: { lat: 25.2048, lng: 55.2708 }, end: { lat: 24.7136, lng: 46.6753 } },
-  { start: { lat: 25.2048, lng: 55.2708 }, end: { lat: 30.0444, lng: 31.2357 } },
-  { start: { lat: 25.2048, lng: 55.2708 }, end: { lat: 41.0082, lng: 28.9784 } },
-  { start: { lat: 25.2048, lng: 55.2708 }, end: { lat: 25.2854, lng: 51.531 } },
-  { start: { lat: 24.7136, lng: 46.6753 }, end: { lat: 21.4225, lng: 39.8262 } },
-  { start: { lat: 30.0444, lng: 31.2357 }, end: { lat: -1.2921, lng: 36.8219 } },
-  { start: { lat: 41.0082, lng: 28.9784 }, end: { lat: 55.7558, lng: 37.6173 } },
-  // ── Africa ──
-  { start: { lat: -1.2921, lng: 36.8219 }, end: { lat: -33.9249, lng: 18.4241 } },
-  { start: { lat: -1.2921, lng: 36.8219 }, end: { lat: 6.5244, lng: 3.3792 } },
-  { start: { lat: 30.0444, lng: 31.2357 }, end: { lat: 33.8869, lng: 9.5375 } },
-  // ── MEA ↔ Global ──
-  { start: { lat: 48.8566, lng: 2.3522 }, end: { lat: 25.2048, lng: 55.2708 } },
-  { start: { lat: 51.5074, lng: -0.1278 }, end: { lat: 30.0444, lng: 31.2357 } },
-  { start: { lat: 1.3521, lng: 103.8198 }, end: { lat: 25.2048, lng: 55.2708 } },
-];
+import { RotatingUseCaseLine } from "@/components/ui/rotating-use-case-line";
 
 /* ─── Business pillars — horizontal strip above gemini title ─── */
 const pillars = [
@@ -76,33 +37,6 @@ const pillars = [
 ];
 
 /* ─── Scroll-triggered popup cards ─── */
-type ServiceIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>;
-
-interface PopupCard {
-  icon: ServiceIcon;
-  slug: string;
-  label: string;
-  detail: string;
-  color: string;
-}
-
-const serviceIconBySlug: Record<string, ServiceIcon> = {
-  "cloud-architecture": ArchitectureIcon,
-  "security-hardening": SecurityIcon,
-  "cicd-automation": PipelineIcon,
-  "cost-optimization": CostIcon,
-  "platform-engineering": PlatformIcon,
-  observability: ObservabilityIcon,
-};
-
-const popupCards: PopupCard[] = services.slice(0, 6).map((service) => ({
-  icon: serviceIconBySlug[service.slug] ?? service.icon,
-  slug: service.slug,
-  label: service.title,
-  detail: service.shortDesc,
-  color: service.color,
-}));
-
 const serviceStrip = [
   {
     slug: "cloud-architecture",
@@ -215,205 +149,40 @@ const serviceStrip = [
 ];
 
 export function HeroEffectsSection() {
-  const ref = React.useRef<HTMLDivElement | null>(null);
-  const reduceMotion = useReducedMotion();
-  const staticPath = useMotionValue(1);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 40,
-    mass: 0.3,
-  });
-
-  // Gemini path draws
-  const pathLengthFirst = useTransform(smoothProgress, [0.08, 0.95], [0, 1]);
-  const pathLengthSecond = useTransform(smoothProgress, [0.11, 0.95], [0, 1]);
-  const pathLengthThird = useTransform(smoothProgress, [0.14, 0.95], [0, 1]);
-  const pathLengthFourth = useTransform(smoothProgress, [0.17, 0.95], [0, 1]);
-  const pathLengthFifth = useTransform(smoothProgress, [0.2, 0.95], [0, 1]);
-
-  // Staggered pillar reveals
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p0Opacity = useTransform(smoothProgress, [0.1, 0.2], [0, 1]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p0Y = useTransform(smoothProgress, [0.1, 0.2], [16, 0]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p1Opacity = useTransform(smoothProgress, [0.2, 0.3], [0, 1]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p1Y = useTransform(smoothProgress, [0.2, 0.3], [16, 0]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p2Opacity = useTransform(smoothProgress, [0.3, 0.4], [0, 1]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p2Y = useTransform(smoothProgress, [0.3, 0.4], [16, 0]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p3Opacity = useTransform(smoothProgress, [0.4, 0.5], [0, 1]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p3Y = useTransform(smoothProgress, [0.4, 0.5], [16, 0]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p4Opacity = useTransform(smoothProgress, [0.5, 0.6], [0, 1]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p4Y = useTransform(smoothProgress, [0.5, 0.6], [16, 0]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p5Opacity = useTransform(smoothProgress, [0.6, 0.7], [0, 1]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p5Y = useTransform(smoothProgress, [0.6, 0.7], [16, 0]);
-
-  const glow0 = useTransform(smoothProgress, [0.1, 0.15, 0.2], [0, 24, 0]);
-  const glow1 = useTransform(smoothProgress, [0.2, 0.25, 0.3], [0, 24, 0]);
-  const glow2 = useTransform(smoothProgress, [0.3, 0.35, 0.4], [0, 24, 0]);
-  const glow3 = useTransform(smoothProgress, [0.4, 0.45, 0.5], [0, 24, 0]);
-  const glow4 = useTransform(smoothProgress, [0.5, 0.55, 0.6], [0, 24, 0]);
-  const glow5 = useTransform(smoothProgress, [0.6, 0.65, 0.7], [0, 24, 0]);
-
-  const glowShadows = [
-    useMotionTemplate`0 0 ${glow0}px ${popupCards[0].color}88, 0 0 ${glow0}px ${popupCards[0].color}33`,
-    useMotionTemplate`0 0 ${glow1}px ${popupCards[1].color}88, 0 0 ${glow1}px ${popupCards[1].color}33`,
-    useMotionTemplate`0 0 ${glow2}px ${popupCards[2].color}88, 0 0 ${glow2}px ${popupCards[2].color}33`,
-    useMotionTemplate`0 0 ${glow3}px ${popupCards[3].color}88, 0 0 ${glow3}px ${popupCards[3].color}33`,
-    useMotionTemplate`0 0 ${glow4}px ${popupCards[4].color}88, 0 0 ${glow4}px ${popupCards[4].color}33`,
-    useMotionTemplate`0 0 ${glow5}px ${popupCards[5].color}88, 0 0 ${glow5}px ${popupCards[5].color}33`,
-  ];
-
-  const pillarMotion = [
-    { opacity: p0Opacity, y: p0Y },
-    { opacity: p1Opacity, y: p1Y },
-    { opacity: p2Opacity, y: p2Y },
-    { opacity: p3Opacity, y: p3Y },
-    { opacity: p4Opacity, y: p4Y },
-    { opacity: p5Opacity, y: p5Y },
-  ];
-
   return (
-    <section className="relative bg-white text-black dark:bg-black dark:text-white transition-colors">
+    <section className="relative bg-[#f5f5f2] text-neutral-900">
       <div className="relative">
-        {/* Ambient background */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(45,212,191,0.1),transparent_50%),radial-gradient(ellipse_at_30%_20%,rgba(52,211,153,0.07),transparent_40%)]" />
-        <div className="absolute inset-0 opacity-[0.15] [background-image:radial-gradient(circle_at_center,rgba(148,163,184,0.15)_1px,transparent_1px)] [background-size:32px_32px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.3),rgba(255,255,255,0.92))] dark:bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.3),rgba(0,0,0,0.92))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.8),rgba(245,245,242,1))]" />
 
-        <div ref={ref} className="relative h-0 lg:h-[240vh]">
-          <div className="sticky top-0 h-screen w-full overflow-hidden relative hidden lg:block">
-          {/* Gemini Effect — stays pinned while scrolling */}
-          <motion.div className="absolute inset-0 z-[2]">
-            <GoogleGeminiEffect
-              sticky={false}
-              className="pointer-events-none absolute inset-0"
-              linesOffsetClassName="top-[12vh] sm:top-[6vh] md:top-0"
-              title=""
-              description=""
-              pathLengths={[
-                reduceMotion ? staticPath : pathLengthFirst,
-                reduceMotion ? staticPath : pathLengthSecond,
-                reduceMotion ? staticPath : pathLengthThird,
-                reduceMotion ? staticPath : pathLengthFourth,
-                reduceMotion ? staticPath : pathLengthFifth,
-              ]}
-            />
-          </motion.div>
-
-
-          <div className="pointer-events-none absolute left-1/2 top-[22%] sm:top-[26%] md:top-[36%] z-[2] w-full -translate-x-1/2 text-center">
-            <div className="mx-auto block max-w-[92vw] overflow-hidden px-2 text-center sm:hidden">
-              <span className="text-[9px] font-bold uppercase tracking-[0.04em] leading-snug text-neutral-600 dark:text-neutral-300">
-                <span className="typewriter-line typewriter-width block">
-                  <span className="font-extrabold text-neutral-900 dark:text-white">BinaryGate&nbsp;</span>
-                  delivers full-stack infrastructure services
-                </span>
-                <span className="typewriter-line typewriter-width-late block">
-                  across cloud, hybrid, and on-prem.
-                  <span className="typewriter-caret" />
-                </span>
-              </span>
-            </div>
-            <div className="typewriter-animate mx-auto hidden sm:inline-flex">
-              <span className="typewriter-line text-[12px] font-bold uppercase tracking-[0.14em] text-neutral-600 dark:text-neutral-300 sm:text-[14px] sm:tracking-[0.2em] md:text-[16px] md:tracking-[0.25em]">
-                <span className="font-extrabold text-neutral-900 dark:text-white">BinaryGate&nbsp;</span>
-                delivers full-stack infrastructure services across cloud, hybrid, and on-prem.
-                <span className="typewriter-caret" />
-              </span>
-            </div>
-          </div>
-          <div className="absolute left-1/2 bottom-[6%] z-[3] w-[92%] -translate-x-1/2">
-            <div className="grid auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              {popupCards.map((card, i) => (
-                <motion.div
-                  key={card.slug}
-                  style={{ opacity: pillarMotion[i].opacity, y: pillarMotion[i].y }}
-                >
-                  <motion.div
-                    style={{ boxShadow: glowShadows[i] }}
-                    className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-r from-white/25 via-white/5 to-white/20 p-[1px] shadow-[0_18px_50px_rgba(15,23,42,0.16)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(15,23,42,0.25)] dark:from-white/15 dark:via-white/5 dark:to-white/15"
+        <div className="relative min-h-[100svh]">
+          <div className="mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-6 pb-20 pt-24 sm:pt-28">
+            <div className="grid items-center gap-12 lg:grid-cols-1">
+              <div className="max-w-2xl text-center sm:text-left">
+                <h1 className="text-[2.05rem] font-semibold leading-tight tracking-tight text-neutral-900 sm:text-4xl md:text-5xl lg:text-6xl">
+                  Infrastructure Without Borders.
+                </h1>
+                <p className="mt-4 text-[0.98rem] leading-relaxed text-neutral-700 sm:text-lg md:text-xl">
+                  Cloud, hybrid, and on-prem engineering for performance, security, and scale.
+                </p>
+                <RotatingUseCaseLine className="text-center sm:text-left" />
+                <p className="mt-8 text-sm font-medium text-neutral-600 sm:text-base">
+                  BinaryGate experts are ready for you.
+                </p>
+                <div className="mt-4 flex justify-center sm:justify-start">
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
                   >
-                    <Link
-                      href={`/services/${card.slug}`}
-                      className="absolute inset-0"
-                      aria-label={card.label}
-                    />
-                    <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-2xl bg-white/90 px-3 py-2 backdrop-blur-xl dark:bg-black/55 sm:px-4 sm:py-3.5">
-                      <div
-                        className="pointer-events-none absolute inset-0 opacity-80"
-                        style={{
-                          backgroundImage: `radial-gradient(circle_at_20%_10%,${card.color}28,transparent_55%)`,
-                        }}
-                      />
-                      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_center,rgba(45,212,191,0.25)_1px,transparent_1px)] [background-size:12px_12px]" />
-                      <div className="pointer-events-none absolute inset-0 opacity-15 [background-image:radial-gradient(circle_at_center,rgba(59,130,246,0.2)_1px,transparent_1px)] [background-size:18px_18px]" />
-                      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent dark:via-white/20" />
-                      <div className="relative grid h-full grid-rows-[auto_1fr] gap-1 sm:gap-2">
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="flex h-6 w-6 items-center justify-center rounded-md border border-white/30 bg-white/60 shadow-[0_8px_24px_rgba(0,0,0,0.08)] dark:border-white/[0.08] dark:bg-white/[0.06] sm:h-9 sm:w-9"
-                            style={{ boxShadow: `0 10px 26px ${card.color}22` }}
-                          >
-                            <card.icon className="h-3 w-3 sm:h-4.5 sm:w-4.5" style={{ color: card.color }} />
-                          </div>
-                          <p className="text-[10px] font-semibold tracking-[0.02em] text-neutral-900 dark:text-white sm:text-[12px]">
-                            {card.label}
-                          </p>
-                        </div>
-                        <p className="text-[9px] text-neutral-600/90 dark:text-neutral-400 sm:text-[11px]">
-                          {card.detail}
-                        </p>
-                      </div>
-                      <div
-                        className="pointer-events-none absolute bottom-2 right-3 h-10 w-10 rounded-full opacity-70 blur-2xl"
-                        style={{ backgroundColor: `${card.color}33` }}
-                      />
-                    </div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <motion.div
-            style={{ opacity: useTransform(smoothProgress, [0, 0.08], [1, 0]) }}
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: [0, 10, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            className="pointer-events-none absolute left-1/2 top-[64%] z-[2] -translate-x-1/2"
-          >
-            <div className="flex h-14 w-14 flex-col items-center justify-center rounded-xl border border-teal-400/50 bg-white/70 shadow-[0_0_40px_rgba(45,212,191,0.4)] backdrop-blur-md dark:bg-black/50">
-              <ChevronDown className="h-5 w-5 text-teal-400 drop-shadow-[0_0_10px_rgba(45,212,191,0.9)]" />
-              <ChevronDown className="-mt-2 h-5 w-5 text-teal-400/80 drop-shadow-[0_0_8px_rgba(45,212,191,0.7)]" />
-            </div>
-          </motion.div>
-          </div>
-        </div>
-
-        <div className="relative z-[1] w-full bg-white dark:bg-black">
-          <div className="relative hidden h-[90vh] sm:block sm:h-[100vh]">
-            <div className="sm:sticky sm:top-0 h-full sm:h-screen w-full px-4 md:px-6">
-              <div className="h-full w-full overflow-hidden rounded-3xl border border-teal-400/40 shadow-[0_0_40px_rgba(45,212,191,0.18)] dark:border-teal-400/30">
-                <div className="h-full w-full origin-center scale-[1.15] sm:scale-[1.1] md:scale-100">
-                  <WorldMap dots={connectionDots} lineColor="#2dd4bf" />
+                    Request Information
+                    <span aria-hidden="true">↗</span>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="relative z-[1] w-full bg-[#f5f5f2]">
           <div className="mx-auto w-[95%] max-w-none py-16">
             <div className="mb-10 text-center">
               <p className="text-xs font-medium uppercase tracking-[0.4em] text-emerald-400/80">
@@ -497,7 +266,7 @@ export function HeroEffectsSection() {
         </div>
 
         {/* Bottom gradient */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-white/50 to-white dark:via-black/50 dark:to-black z-[4]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-[#b3b3b3]/70 to-[#b3b3b3] z-[4]" />
       </div>
     </section>
   );

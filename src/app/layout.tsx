@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Source_Sans_3, Source_Code_Pro } from "next/font/google";
+import { Inter, Source_Code_Pro } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-const brandSans = Source_Sans_3({
+const brandSans = Inter({
   variable: "--font-brand-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "600"],
 });
 
 const brandMono = Source_Code_Pro({
@@ -26,9 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${brandSans.variable} ${brandMono.variable} antialiased bg-white text-black dark:bg-black dark:text-white transition-colors`}
+        className={`${brandSans.variable} ${brandMono.variable} antialiased bg-[#f5f5f2] text-neutral-900 overflow-x-hidden`}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" forcedTheme="light">
           {children}
         </ThemeProvider>
       </body>

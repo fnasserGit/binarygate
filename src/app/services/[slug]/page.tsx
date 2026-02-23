@@ -1,400 +1,338 @@
-"use client";
-
 import Link from "next/link";
-import { useParams, notFound } from "next/navigation";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import Image from "next/image";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
-import { serviceBySlug, services } from "@/data/services";
+import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { services } from "@/lib/services";
 import { CONSULTATION_URL } from "@/lib/links";
+import { LineChart } from "@/components/ui/LineChart";
+import { BarChart } from "@/components/ui/BarChart";
 
-/* ─── Animated wrapper ─── */
-function FadeIn({
-  children,
-  className = "",
-  delay = 0,
-  direction = "up",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  direction?: "up" | "left" | "right";
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const initial = {
-    opacity: 0,
-    y: direction === "up" ? 40 : 0,
-    x: direction === "left" ? -40 : direction === "right" ? 40 : 0,
+type ServiceParams = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export async function generateMetadata({ params }: ServiceParams) {
+  const { slug } = await params;
+  const service = services.find((item) => item.slug === slug);
+  if (!service) {
+    return {
+      title: "Service | BinaryGate",
+      description: "BinaryGate service details.",
+    };
+  }
+  return {
+    title: `${service.title} | BinaryGate`,
+    description: service.shortDesc,
   };
-  return (
-    <motion.div
-      ref={ref}
-      initial={initial}
-      animate={inView ? { opacity: 1, y: 0, x: 0 } : initial}
-      transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
 }
 
-export default function ServicePage() {
-  const { slug } = useParams<{ slug: string }>();
-  const service = serviceBySlug[slug];
+export function generateStaticParams() {
+  return services.map((service) => ({
+    slug: service.slug,
+  }));
+}
 
+export const dynamicParams = true;
+
+export default async function ServicePage({ params }: ServiceParams) {
+  const { slug } = await params;
+  const service = services.find((item) => item.slug === slug);
   if (!service) {
     notFound();
   }
 
-  const Icon = service.icon;
-
-  // Find prev/next services for navigation
-  const currentIdx = services.findIndex((s) => s.slug === slug);
-  const prev = currentIdx > 0 ? services[currentIdx - 1] : null;
-  const next = currentIdx < services.length - 1 ? services[currentIdx + 1] : null;
-
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* ─── Header ─── */}
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/[0.06] bg-black/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="relative h-11 w-11 overflow-hidden rounded-lg">
-              <Image
-                src="/logo.png"
-                alt="BinaryGate"
-                fill
-                className="object-contain"
-              />
-            </span>
-            <span className="text-base font-semibold tracking-wide">BinaryGate</span>
-          </Link>
-          <Link
-            href="/#services"
-            className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            All Services
-          </Link>
-        </div>
-      </header>
-
-      {/* ─── Hero ─── */}
-      <section className="relative overflow-hidden pt-24 pb-16 px-4 md:pt-32 md:pb-24 md:px-6">
-        {/* Background effects */}
+    <main className="min-h-screen bg-[#f5f5f2] text-[#101316]">
+      <section className="relative overflow-hidden bg-[#0f1113] text-[#E9EEF3]">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse at 30% 20%, ${service.color}18, transparent 60%), radial-gradient(ellipse at 70% 80%, ${service.color}0a, transparent 50%)`,
+            background: `radial-gradient(circle at 20% 20%, ${service.accent}30, transparent 55%), radial-gradient(circle at 80% 60%, ${service.accent}15, transparent 50%)`,
           }}
         />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_center,rgba(148,163,184,0.15)_1px,transparent_1px)] [background-size:32px_32px]" />
-
-        <div className="relative mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <Link
-              href="/#services"
-              className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] transition hover:text-white"
-              style={{ color: service.color }}
-            >
-              <ArrowLeft className="h-3 w-3" />
-              Services
-            </Link>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="mt-6 flex items-start gap-3 md:gap-5 md:items-center">
+        <div className="relative mx-auto flex min-h-[60svh] max-w-[1200px] flex-col justify-center px-6 pb-16 pt-24 sm:px-8 lg:px-10">
+          <Link
+            href="/#services"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#E9EEF3]/70 transition hover:text-white"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to Services
+          </Link>
+          <h1 className="mt-6 text-3xl font-light tracking-[-0.02em] sm:text-4xl lg:text-5xl">
+            {service.title}
+          </h1>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#E9EEF3]/75 sm:text-lg">
+            {service.shortDesc}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-4 text-xs text-[#E9EEF3]/70">
+            {service.metrics.map((metric) => (
               <div
-                className="flex h-12 w-12 md:h-16 md:w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-white/[0.08]"
-                style={{ backgroundColor: `${service.color}15` }}
+                key={metric.label}
+                className="rounded-full border border-white/10 px-4 py-1.5"
               >
-                <Icon className="h-6 w-6 md:h-8 md:w-8" style={{ color: service.color }} />
+                <span className="text-white">{metric.value}</span> {metric.label}
               </div>
-              <div className="min-w-0">
-                <h1 className="text-2xl sm:text-4xl font-bold tracking-tight md:text-6xl break-words">
-                  {service.title}
-                </h1>
-              </div>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <p
-              className="mt-4 max-w-2xl text-base sm:text-xl font-medium md:text-2xl"
-              style={{ color: service.color }}
-            >
-              {service.headline}
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.3}>
-            <p className="mt-6 max-w-3xl text-base leading-relaxed text-neutral-400 md:text-lg">
-              {service.description}
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.4}>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                href="/#contact"
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition hover:bg-neutral-200"
-              >
-                Get Started
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/#approach"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3 text-sm text-white transition hover:border-white/40 hover:bg-white/5"
-              >
-                Our Approach
-              </Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ─── Features Grid ─── */}
-      <section className="relative px-4 pb-16 md:px-6 md:pb-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <p
-              className="text-xs font-medium uppercase tracking-[0.4em]"
-              style={{ color: `${service.color}cc` }}
-            >
-              Capabilities
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="mt-4 text-3xl font-semibold md:text-4xl">
-              What we deliver
-            </h2>
-          </FadeIn>
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {service.features.map((feature, i) => (
-              <FadeIn key={feature.title} delay={0.1 + i * 0.08}>
-                <div className="group relative h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04]">
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg"
-                      style={{ backgroundColor: `${service.color}18` }}
-                    >
-                      <CheckCircle2
-                        className="h-4 w-4"
-                        style={{ color: service.color }}
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold">{feature.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-neutral-400">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
             ))}
           </div>
+          <div
+            className="mt-6 h-1 w-16 rounded-full"
+            style={{ backgroundColor: service.accent }}
+          />
         </div>
       </section>
 
-      {/* ─── Divider ─── */}
-      <div className="mx-auto h-px w-full max-w-6xl bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-      {/* ─── Technologies ─── */}
-      <section className="relative px-4 py-16 md:px-6 md:py-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <p
-              className="text-xs font-medium uppercase tracking-[0.4em]"
-              style={{ color: `${service.color}cc` }}
-            >
-              Technology Stack
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="mt-4 text-3xl font-semibold md:text-4xl">
-              Tools we work with
+      <section className="relative bg-white">
+        <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:px-10 lg:py-20">
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
+              What We Deliver
             </h2>
-          </FadeIn>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            {service.technologies.map((tech, i) => (
-              <FadeIn key={tech} delay={0.05 + i * 0.04}>
-                <span
-                  className="inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-white/[0.06]"
-                  style={{
-                    borderColor: `${service.color}30`,
-                    color: service.color,
-                  }}
-                >
-                  {tech}
-                </span>
-              </FadeIn>
+            <h3 className="mt-4 text-2xl font-semibold text-[#101316]">
+              Outcomes you can operationalize.
+            </h3>
+            {service.longDescription.map((paragraph) => (
+              <p
+                key={paragraph}
+                className="mt-4 text-sm leading-relaxed text-[#101316]/70"
+              >
+                {paragraph}
+              </p>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Divider ─── */}
-      <div className="mx-auto h-px w-full max-w-6xl bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-      {/* ─── Use Cases ─── */}
-      <section className="relative px-4 py-16 md:px-6 md:py-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <p
-              className="text-xs font-medium uppercase tracking-[0.4em]"
-              style={{ color: `${service.color}cc` }}
-            >
-              Use Cases
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="mt-4 text-3xl font-semibold md:text-4xl">
-              Where this applies
-            </h2>
-          </FadeIn>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {service.useCases.map((useCase, i) => (
-              <FadeIn key={useCase} delay={0.1 + i * 0.06} direction="right">
-                <div className="flex items-start gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-6 py-5">
+            <ul className="mt-6 grid gap-3 text-sm text-[#101316]/80">
+              {service.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-3">
                   <span
-                    className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                    style={{
-                      backgroundColor: `${service.color}18`,
-                      color: service.color,
-                    }}
-                  >
-                    {i + 1}
-                  </span>
-                  <span className="text-sm leading-relaxed text-neutral-300 md:text-base">
-                    {useCase}
-                  </span>
-                </div>
-              </FadeIn>
+                    className="mt-1 h-2.5 w-2.5 rounded-full"
+                    style={{ backgroundColor: service.accent }}
+                  />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-3xl border border-black/5 bg-[#f7f7f7] p-8 shadow-[0_20px_60px_rgba(15,18,22,0.08)]">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
+              How We Approach It
+            </h3>
+            <div className="mt-5 space-y-4 text-sm text-[#101316]/70">
+              <div>
+                <p className="font-semibold text-[#101316]">01 — Discovery</p>
+                <p className="mt-1">
+                  Align on goals, current architecture, and risk profile.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-[#101316]">02 — Blueprint</p>
+                <p className="mt-1">
+                  Define the target state and delivery sequence with guardrails.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-[#101316]">03 — Delivery</p>
+                <p className="mt-1">
+                  Execute in measured phases with automated validation.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-[#101316]">04 — Operate</p>
+                <p className="mt-1">
+                  Transfer knowledge and ensure operational readiness.
+                </p>
+              </div>
+            </div>
+            <Link
+              href={CONSULTATION_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#101316] px-6 py-3 text-sm font-semibold text-white transition hover:bg-black"
+            >
+              Book a Consultation
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f7f7f7]">
+        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
+            The Challenge
+          </h2>
+          <div className="mt-6 grid gap-8 lg:grid-cols-2">
+            {service.challenges.map((challenge) => (
+              <div key={challenge.title} className="rounded-2xl border border-slate-200 bg-white p-6">
+                <h3 className="text-lg font-semibold text-slate-900">{challenge.title}</h3>
+                {challenge.body.map((paragraph) => (
+                  <p key={paragraph} className="mt-3 text-sm text-slate-600">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── Divider ─── */}
-      <div className="mx-auto h-px w-full max-w-6xl bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-      {/* ─── CTA ─── */}
-      <section className="relative px-4 py-16 md:px-6 md:py-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <FadeIn>
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent p-6 sm:p-10 md:p-16">
-              <div
-                className="pointer-events-none absolute -right-32 -top-32 h-64 w-64 rounded-full blur-[100px]"
-                style={{ backgroundColor: `${service.color}15` }}
-              />
-              <div
-                className="pointer-events-none absolute -bottom-32 -left-32 h-64 w-64 rounded-full blur-[100px]"
-                style={{ backgroundColor: `${service.color}10` }}
-              />
-
-              <div className="relative z-10">
-                <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
-                  Ready to implement{" "}
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{
-                      backgroundImage: `linear-gradient(to right, ${service.color}, white)`,
-                    }}
-                  >
-                    {service.title.toLowerCase()}
-                  </span>
-                  ?
-                </h2>
-                <p className="mt-5 max-w-xl text-base leading-relaxed text-neutral-400 md:text-lg">
-                  Let&apos;s discuss your requirements. We&apos;ll respond within 24 hours with
-                  a scoped plan and timeline.
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
+            Our Approach
+          </h2>
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            {service.approachSteps.map((step, index) => (
+              <div key={step.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
+                  {String(index + 1).padStart(2, "0")}
                 </p>
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <Link
-                    href={CONSULTATION_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-medium text-black transition hover:bg-neutral-200"
-                  >
-                    Book a Consultation
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                  <Link
-                    href="mailto:hello@binary-gate.com"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3 text-sm text-white transition hover:border-white/40 hover:bg-white/5"
-                  >
-                    hello@binary-gate.com
-                  </Link>
-                </div>
+                <h3 className="mt-3 text-base font-semibold text-slate-900">{step.title}</h3>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                  {step.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: service.accent }} />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ─── Prev / Next Navigation ─── */}
-      <section className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-12">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          {prev ? (
-            <Link
-              href={`/services/${prev.slug}`}
-              className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-neutral-600">
-                  Previous
-                </p>
-                <p className="mt-0.5 font-medium">{prev.title}</p>
-              </div>
-            </Link>
-          ) : (
-            <div />
-          )}
-          {next ? (
-            <Link
-              href={`/services/${next.slug}`}
-              className="group flex items-center gap-3 text-sm text-neutral-400 transition hover:text-white text-right"
-            >
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-neutral-600">
-                  Next
-                </p>
-                <p className="mt-0.5 font-medium">{next.title}</p>
-              </div>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          ) : (
-            <div />
-          )}
-        </div>
-      </section>
-
-      {/* ─── Footer ─── */}
-      <footer className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-10">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/" className="transition hover:text-white">
-              Home
-            </Link>
-            <Link href="/#services" className="transition hover:text-white">
-              Services
-            </Link>
-            <Link href="/#contact" className="transition hover:text-white">
-              Contact
-            </Link>
+            ))}
           </div>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      <section className="bg-[#f7f7f7]">
+        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
+            Visual Overview
+          </h2>
+          <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6">
+            {service.visualsType === "cost" && (
+              <div className="grid gap-6 sm:grid-cols-[1.2fr_0.8fr]">
+                <BarChart
+                  accent={service.accent}
+                  data={[
+                    { label: "Before", value: 92 },
+                    { label: "After", value: 58 },
+                  ]}
+                />
+                <div className="text-sm text-slate-600">
+                  <p className="text-base font-semibold text-slate-900">Cost trajectory</p>
+                  <p className="mt-2">
+                    Right-sizing and governance reduce waste while keeping performance steady.
+                  </p>
+                  <p className="mt-3 text-slate-900">
+                    Savings: <span className="font-semibold">28%</span>
+                  </p>
+                </div>
+              </div>
+            )}
+            {service.visualsType === "observability" && (
+              <div className="grid gap-6 sm:grid-cols-[1.2fr_0.8fr]">
+                <LineChart
+                  accent={service.accent}
+                  points={[
+                    { x: 1, y: 40 },
+                    { x: 2, y: 52 },
+                    { x: 3, y: 58 },
+                    { x: 4, y: 70 },
+                    { x: 5, y: 82 },
+                  ]}
+                />
+                <div className="text-sm text-slate-600">
+                  <p className="text-base font-semibold text-slate-900">Reliability trend</p>
+                  <p className="mt-2">
+                    Improved observability correlates with higher uptime and lower incident volume.
+                  </p>
+                </div>
+              </div>
+            )}
+            {service.visualsType === "cloud" && (
+              <div className="grid gap-6 sm:grid-cols-[1.2fr_0.8fr]">
+                <svg viewBox="0 0 320 180" className="h-full w-full">
+                  <rect x="16" y="20" width="288" height="40" rx="10" fill="#eef2ff" />
+                  <rect x="32" y="70" width="256" height="40" rx="10" fill="#e0f2fe" />
+                  <rect x="48" y="120" width="224" height="40" rx="10" fill="#ecfeff" />
+                  <circle cx="60" cy="40" r="6" fill={service.accent} />
+                  <circle cx="60" cy="90" r="6" fill={service.accent} />
+                  <circle cx="60" cy="140" r="6" fill={service.accent} />
+                </svg>
+                <div className="text-sm text-slate-600">
+                  <p className="text-base font-semibold text-slate-900">Layered architecture</p>
+                  <p className="mt-2">
+                    Foundational landing zones support shared services, then application platforms.
+                  </p>
+                </div>
+              </div>
+            )}
+            {service.visualsType === "security" && (
+              <div className="grid gap-6 sm:grid-cols-[1.2fr_0.8fr]">
+                <svg viewBox="0 0 320 180" className="h-full w-full">
+                  <path d="M160 20 L260 60 V110 C260 140 230 160 160 170 C90 160 60 140 60 110 V60 Z" fill="#f8fafc" stroke="#e2e8f0" />
+                  <path d="M160 40 L230 70 V106 C230 128 208 142 160 148 C112 142 90 128 90 106 V70 Z" fill={service.accent} fillOpacity="0.2" />
+                  <circle cx="160" cy="98" r="10" fill={service.accent} />
+                </svg>
+                <div className="text-sm text-slate-600">
+                  <p className="text-base font-semibold text-slate-900">Maturity progression</p>
+                  <p className="mt-2">
+                    Controls mature from baseline security to continuous compliance and automation.
+                  </p>
+                </div>
+              </div>
+            )}
+            {service.visualsType === "none" && (
+              <p className="text-sm text-slate-600">
+                Tailored visuals are available during delivery workshops.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
+            Case Study
+          </h2>
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6">
+              <h3 className="text-sm font-semibold text-slate-900">Situation</h3>
+              <p className="mt-2 text-sm text-slate-600">{service.useCase.situation}</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6">
+              <h3 className="text-sm font-semibold text-slate-900">Action</h3>
+              <p className="mt-2 text-sm text-slate-600">{service.useCase.action}</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6">
+              <h3 className="text-sm font-semibold text-slate-900">Result</h3>
+              <p className="mt-2 text-sm text-slate-600">{service.useCase.result}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f7f7f7]">
+        <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-6 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:px-10 lg:py-20">
+          <div>
+            <h2 className="text-2xl font-semibold text-slate-900">
+              Let’s design your {service.title} roadmap.
+            </h2>
+            <p className="mt-2 text-sm text-slate-600">
+              Align stakeholders, establish priorities, and execute with confidence.
+            </p>
+          </div>
+          <Link
+            href={CONSULTATION_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+            style={{ backgroundColor: service.accent }}
+          >
+            Book a Consultation
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
-export const runtime = "edge";

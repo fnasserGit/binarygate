@@ -25,6 +25,10 @@ import {
   HardDrive,
   Network,
   Cpu,
+  Sparkles,
+  PiggyBank,
+  Activity,
+  RefreshCw,
   type LucideIcon,
 } from "lucide-react";
 
@@ -42,49 +46,40 @@ export interface NavItem {
   children?: NavSubItem[];
 }
 
+export interface NavMenu {
+  label: string;
+  items: NavSubItem[];
+}
+
 export const navigation: NavItem[] = [
   {
     label: "Services",
     children: [
       {
-        label: "Cloud Architecture",
-        href: "/services/cloud-architecture",
-        description: "Multi-region, multi-cloud foundations built for scale",
+        label: "Cloud Strategy & Architecture",
+        href: "/services/cloud-strategy-architecture",
+        description: "Migration, modernization, and scalable architecture planning",
         icon: Cloud,
         color: "#2dd4bf",
       },
       {
-        label: "Security & Compliance",
-        href: "/services/security-hardening",
-        description: "Zero-trust security with compliance automation",
+        label: "Network & Security Engineering",
+        href: "/services/network-security-engineering",
+        description: "Secure connectivity and defense across hybrid environments",
         icon: Shield,
         color: "#34d399",
       },
       {
-        label: "CI/CD Automation",
-        href: "/services/cicd-automation",
-        description: "Ship daily with zero-downtime pipelines",
+        label: "DevOps & Platform Enablement",
+        href: "/services/devops-platform-enablement",
+        description: "CI/CD, IaC, Kubernetes, and automation",
         icon: GitBranch,
         color: "#67e8f9",
       },
       {
-        label: "Cost Optimization",
-        href: "/services/cost-optimization",
-        description: "Right-size infrastructure, cut cloud spend by 40%+",
-        icon: BarChart3,
-        color: "#3b82f6",
-      },
-      {
-        label: "Platform Engineering",
-        href: "/services/platform-engineering",
-        description: "Internal developer platforms that scale with your team",
-        icon: Server,
-        color: "#1d8bc4",
-      },
-      {
-        label: "Observability",
-        href: "/services/observability",
-        description: "Full-stack monitoring, tracing & intelligent alerting",
+        label: "Observability & Managed Operations",
+        href: "/services/observability-managed-operations",
+        description: "Monitoring, SRE practices, and managed services",
         icon: Zap,
         color: "#60a5fa",
       },
@@ -92,6 +87,7 @@ export const navigation: NavItem[] = [
   },
   {
     label: "Solutions",
+    href: "/solutions",
     children: [
       {
         label: "Cloud Migration",
@@ -167,6 +163,7 @@ export const navigation: NavItem[] = [
   },
   {
     label: "Industries",
+    href: "/industries",
     children: [
       {
         label: "Healthcare",
@@ -207,6 +204,7 @@ export const navigation: NavItem[] = [
   },
   {
     label: "About",
+    href: "/about",
     children: [
       {
         label: "Our Story",
@@ -240,6 +238,7 @@ export const navigation: NavItem[] = [
   },
   {
     label: "Insights",
+    href: "/insights",
     children: [
       {
         label: "Blog",
@@ -267,5 +266,173 @@ export const navigation: NavItem[] = [
   {
     label: "Contact Us",
     href: "/contact",
+  },
+];
+
+export const navMenus: NavMenu[] = [
+  {
+    label: "Services",
+    items: [
+      {
+        label: "Cloud Strategy & Architecture",
+        href: "/services/cloud-strategy-architecture",
+        description: "Migration, modernization, and scalable architecture planning.",
+        icon: Cloud,
+        color: "#33C6FF",
+      },
+      {
+        label: "Network & Security Engineering",
+        href: "/services/network-security-engineering",
+        description: "Secure connectivity and defense across hybrid environments.",
+        icon: ShieldCheck,
+        color: "#A78BFA",
+      },
+      {
+        label: "DevOps & Platform Enablement",
+        href: "/services/devops-platform-enablement",
+        description: "CI/CD, IaC, Kubernetes, and automation.",
+        icon: GitBranch,
+        color: "#60A5FA",
+      },
+      {
+        label: "Observability & Managed Operations",
+        href: "/services/observability-managed-operations",
+        description: "Monitoring, SRE practices, and managed services.",
+        icon: Activity,
+        color: "#FBBF24",
+      },
+    ],
+  },
+  {
+    label: "Solutions",
+    items: [
+      {
+        label: "Cloud Migration",
+        href: "/solutions/cloud-migration",
+        description: "Seamless migration with zero downtime.",
+        icon: ArrowRightLeft,
+        color: "#2dd4bf",
+      },
+      {
+        label: "DevSecOps",
+        href: "/solutions/devsecops",
+        description: "Security embedded in delivery lifecycle.",
+        icon: ShieldCheck,
+        color: "#34d399",
+      },
+      {
+        label: "Infrastructure Modernization",
+        href: "/solutions/infrastructure-modernization",
+        description: "Transform legacy systems into cloud-native.",
+        icon: Building2,
+        color: "#67e8f9",
+      },
+      {
+        label: "Managed Cloud Services",
+        href: "/solutions/managed-cloud",
+        description: "24/7 operations and optimization.",
+        icon: Headphones,
+        color: "#3b82f6",
+      },
+    ],
+  },
+  {
+    label: "Industries",
+    items: [
+      {
+        label: "Healthcare",
+        href: "/industries/healthcare",
+        description: "HIPAA-ready platforms for healthtech.",
+        icon: Heart,
+        color: "#34d399",
+      },
+      {
+        label: "Telecommunications",
+        href: "/industries/telecommunications",
+        description: "Scalable infrastructure for ISPs.",
+        icon: Radio,
+        color: "#67e8f9",
+      },
+      {
+        label: "Government",
+        href: "/industries/government",
+        description: "Secure, sovereign cloud for public sector.",
+        icon: Building,
+        color: "#3b82f6",
+      },
+      {
+        label: "E-Commerce & Retail",
+        href: "/industries/ecommerce",
+        description: "High-availability platforms for peak traffic.",
+        icon: ShoppingCart,
+        color: "#1d8bc4",
+      },
+      {
+        label: "Technology & SaaS",
+        href: "/industries/technology",
+        description: "Multi-tenant infrastructure for SaaS.",
+        icon: Code2,
+        color: "#60a5fa",
+      },
+    ],
+  },
+  {
+    label: "About",
+    items: [
+      {
+        label: "Our Story",
+        href: "/about/story",
+        description: "How BinaryGate was founded.",
+        icon: History,
+        color: "#2dd4bf",
+      },
+      {
+        label: "Team",
+        href: "/about/team",
+        description: "Meet the engineers behind BinaryGate.",
+        icon: Users,
+        color: "#34d399",
+      },
+      {
+        label: "Careers",
+        href: "/about/careers",
+        description: "Join our team and build the future.",
+        icon: Briefcase,
+        color: "#67e8f9",
+      },
+      {
+        label: "Partners",
+        href: "/about/partners",
+        description: "Technology and consulting partners.",
+        icon: Handshake,
+        color: "#3b82f6",
+      },
+    ],
+  },
+  {
+    label: "Insights",
+    items: [
+      {
+        label: "Blog",
+        href: "/insights/blog",
+        description: "Deep-dives and best practices.",
+        icon: BookOpen,
+        color: "#2dd4bf",
+      },
+      {
+        label: "Case Studies",
+        href: "/insights/case-studies",
+        description: "Real-world results and outcomes.",
+        icon: FileBarChart,
+        color: "#34d399",
+      },
+      {
+        label: "Whitepapers",
+        href: "/insights/whitepapers",
+        description: "Research on architecture and security.",
+        icon: FileText,
+        color: "#3b82f6",
+      },
+    ],
   },
 ];

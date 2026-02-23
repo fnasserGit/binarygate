@@ -107,12 +107,12 @@ const processSteps = [
 
 export default function ProcessesPage() {
   return (
-    <main className="bg-white text-black dark:bg-black dark:text-white">
+    <main className="bg-[#f5f5f2] text-neutral-900">
       <section className="mx-auto w-full max-w-5xl px-6 py-20 md:py-28">
         <div className="mb-12 space-y-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-900 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-neutral-300 dark:hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-neutral-600 transition hover:border-neutral-300 hover:text-neutral-900"
           >
             <span className="text-base leading-none">←</span>
             Back to Home

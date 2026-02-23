@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-256 -256 512 512">
+  <defs>
+    <style>
+      .stroke { fill: none; stroke: #d7dde3; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke-width: 4; opacity: 0.75; }
+      .node { fill: #d7dde3; }
+    </style>
+  </defs>
+  <circle class="stroke" r="210" />
+  <circle class="stroke thin" r="180" />
+  <rect class="stroke" x="-52" y="-52" width="104" height="104" rx="12" />
+  <path class="stroke thin" d="M0 -180 L0 -120" />
+  <path class="stroke thin" d="M0 180 L0 120" />
+  <path class="stroke thin" d="M-180 0 L-120 0" />
+  <path class="stroke thin" d="M180 0 L120 0" />
+  <path class="stroke thin" d="M-128 -128 L-80 -80" />
+  <path class="stroke thin" d="M128 -128 L80 -80" />
+  <path class="stroke thin" d="M-128 128 L-80 80" />
+  <path class="stroke thin" d="M128 128 L80 80" />
+  <circle class="node" r="8" cx="0" cy="-180" />
+  <circle class="node" r="8" cx="0" cy="180" />
+  <circle class="node" r="8" cx="-180" cy="0" />
+  <circle class="node" r="8" cx="180" cy="0" />
+  <circle class="node" r="6" cx="-128" cy="-128" />
+  <circle class="node" r="6" cx="128" cy="-128" />
+  <circle class="node" r="6" cx="-128" cy="128" />
+  <circle class="node" r="6" cx="128" cy="128" />
+</svg>
