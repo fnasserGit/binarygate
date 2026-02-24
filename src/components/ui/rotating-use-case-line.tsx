@@ -34,7 +34,7 @@ export function RotatingUseCaseLine({
   const logged = useRef(false);
 
   useEffect(() => {
-    setReduceMotion(reduceMotionPref);
+    setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
   useEffect(() => {

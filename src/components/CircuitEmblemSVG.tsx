@@ -111,10 +111,10 @@ function buildEmblemData(options: CircuitEmblemOptions): EmblemData {
   const pinThick = chipSize * PIN_THICKNESS_RATIO;
   const pinMargin = chipSize * 0.14;
   const sides: { dx: number; dy: number; ox: number; oy: number; vertical: boolean }[] = [
-    { dx: 0, dy: -1, ox: 0, oy: -chipHalf },
-    { dx: 0, dy: 1, ox: 0, oy: chipHalf },
-    { dx: -1, dy: 0, ox: -chipHalf, oy: 0 },
-    { dx: 1, dy: 0, ox: chipHalf, oy: 0 },
+    { dx: 0, dy: -1, ox: 0, oy: -chipHalf, vertical: true },
+    { dx: 0, dy: 1, ox: 0, oy: chipHalf, vertical: true },
+    { dx: -1, dy: 0, ox: -chipHalf, oy: 0, vertical: false },
+    { dx: 1, dy: 0, ox: chipHalf, oy: 0, vertical: false },
   ];
 
   const pinTips: { x: number; y: number; nx: number; ny: number }[] = [];

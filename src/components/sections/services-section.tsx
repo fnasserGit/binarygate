@@ -52,7 +52,7 @@ export function ServicesSection() {
   };
 
   useEffect(() => {
-    setReduceMotion(reduceMotionPref);
+    setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
   return (

@@ -12,7 +12,7 @@ export default function HeroDarkVeil() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setReduceMotion(reduceMotionPref);
+    setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
   useEffect(() => {

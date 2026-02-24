@@ -21,31 +21,31 @@ export function Hero() {
   const shouldAnimate = inView && !reduceMotion;
 
   useEffect(() => {
-    setReduceMotion(reduceMotionPref);
+    setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
   const eyebrowVariants = {
     hidden: { opacity: 0, y: 8 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-  };
+    visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
+  } as const;
 
   const headlineVariants = {
     hidden: { opacity: 0, clipPath: "inset(100% 0 0 0)" },
     visible: {
       opacity: 1,
       clipPath: "inset(0% 0 0 0)",
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.8 },
     },
-  };
+  } as const;
 
   const subheadVariants = {
     hidden: { opacity: 0, filter: "blur(4px)" },
     visible: {
       opacity: 1,
       filter: "blur(0px)",
-      transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.75 },
     },
-  };
+  } as const;
 
   return (
     <section

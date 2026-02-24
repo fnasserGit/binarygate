@@ -107,7 +107,6 @@ export default function DarkVeil({
     return () => {
       ro.disconnect();
       cancelAnimationFrame(frameId);
-      renderer.dispose?.();
     };
   }, [hueShift, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
 

@@ -344,7 +344,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
   const lastRingActiveRef = useRef(false);
 
   useEffect(() => {
-    setReduceMotion(reduceMotionPref);
+    setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
   useEffect(() => {
@@ -642,11 +642,12 @@ export function HeroOrb({ className = "" }: { className?: string }) {
       }
 
       const sphereSparkState = sphereSparkRef.current;
+      const presetNow = String(currentPreset.current);
+      const nextPreset = String(nextPresetRef.current);
       const allowSphereSparks =
         particleOpacity > 0.2 &&
-        (currentPreset.current === "scatter" ||
-          (inTransition &&
-            (currentPreset.current === "scatter" || nextPresetRef.current === "scatter")));
+        (presetNow === "scatter" ||
+          (inTransition && (presetNow === "scatter" || nextPreset === "scatter")));
 
       if (sphereSparkState && allowSphereSparks && !reduceMotion) {
         const { sparks, samples } = sphereSparkState;

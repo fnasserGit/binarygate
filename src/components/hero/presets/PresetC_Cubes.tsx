@@ -30,7 +30,7 @@ export default function PresetC_Cubes({
   const dotsPerSide = isMobile ? 11 : 13;
 
   useEffect(() => {
-    setReduceMotion(reduceMotionPref);
+    setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
   return (
