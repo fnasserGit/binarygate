@@ -34,6 +34,7 @@ export function RotatingUseCaseLine({
   const logged = useRef(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 
@@ -54,7 +55,6 @@ export function RotatingUseCaseLine({
     ) {
       logged.current = true;
       // Runtime check: confirm the rotation cycles through every line.
-      // eslint-disable-next-line no-console
       console.info("[RotatingUseCaseLine] Completed a full rotation.");
     }
   }, [index]);

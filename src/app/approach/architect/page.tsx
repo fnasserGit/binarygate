@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SERVICES_HREF } from "@/config/navigation";
 
 export const metadata = {
   title: "Architect | BinaryGate",
@@ -29,7 +30,7 @@ export default function ArchitectPage() {
               Book a Consultation
             </Link>
             <Link
-              href="/services"
+              href={SERVICES_HREF}
               className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
             >
               View Services

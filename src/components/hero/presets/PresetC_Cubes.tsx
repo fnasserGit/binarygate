@@ -23,13 +23,13 @@ export default function PresetC_Cubes({
   glowRef,
   size,
   rotation,
-  triggerKey,
 }: PresetCProps) {
   const reduceMotionPref = useReducedMotion();
   const [reduceMotion, setReduceMotion] = useState(false);
   const dotsPerSide = isMobile ? 11 : 13;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
 

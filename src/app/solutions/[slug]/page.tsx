@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import Image from "next/image";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { solutionBySlug, solutions } from "@/data/solutions";
 import { serviceBySlug } from "@/data/services";
@@ -54,20 +53,6 @@ export default function SolutionPage() {
 
   return (
     <div className="min-h-screen bg-[#f5f5f2] text-neutral-900">
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#f5f5f2]/90 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="relative h-11 w-11 overflow-hidden rounded-lg">
-              <Image src="/logo.png" alt="BinaryGate" fill className="object-contain" />
-            </span>
-            <span className="text-base font-semibold tracking-wide">BinaryGate</span>
-          </Link>
-          <Link href="/#services" className="inline-flex items-center gap-2 text-sm text-neutral-400 transition hover:text-neutral-900">
-            <ArrowLeft className="h-4 w-4" /> Back
-          </Link>
-        </div>
-      </header>
-
       {/* Hero */}
       <section className="relative overflow-hidden pt-24 pb-16 px-4 md:pt-32 md:pb-24 md:px-6">
         <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse at 30% 20%, ${solution.color}18, transparent 60%)` }} />
@@ -220,15 +205,6 @@ export default function SolutionPage() {
         </div>
       </section>
 
-      <footer className="border-t border-white/[0.06] px-4 py-8 md:px-6 md:py-10">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs md:text-sm text-neutral-500 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} BinaryGate. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/" className="transition hover:text-neutral-900">Home</Link>
-            <Link href="/contact" className="transition hover:text-neutral-900">Contact</Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,10 +1,12 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { services } from "@/lib/services";
 import { CONSULTATION_URL } from "@/lib/links";
 import { LineChart } from "@/components/ui/LineChart";
 import { BarChart } from "@/components/ui/BarChart";
+import { InternalPageLayout } from "@/components/layout/internal-page-layout";
+import { LAYOUT_CONTAINER } from "@/lib/layout";
 
 type ServiceParams = {
   params: Promise<{
@@ -43,47 +45,17 @@ export default async function ServicePage({ params }: ServiceParams) {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f5f2] text-[#101316]">
-      <section className="relative overflow-hidden bg-[#0f1113] text-[#E9EEF3]">
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: `radial-gradient(circle at 20% 20%, ${service.accent}30, transparent 55%), radial-gradient(circle at 80% 60%, ${service.accent}15, transparent 50%)`,
-          }}
-        />
-        <div className="relative mx-auto flex min-h-[60svh] max-w-[1200px] flex-col justify-center px-6 pb-16 pt-24 sm:px-8 lg:px-10">
-          <Link
-            href="/#services"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#E9EEF3]/70 transition hover:text-white"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back to Services
-          </Link>
-          <h1 className="mt-6 text-3xl font-light tracking-[-0.02em] sm:text-4xl lg:text-5xl">
-            {service.title}
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#E9EEF3]/75 sm:text-lg">
-            {service.shortDesc}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-4 text-xs text-[#E9EEF3]/70">
-            {service.metrics.map((metric) => (
-              <div
-                key={metric.label}
-                className="rounded-full border border-white/10 px-4 py-1.5"
-              >
-                <span className="text-white">{metric.value}</span> {metric.label}
-              </div>
-            ))}
-          </div>
-          <div
-            className="mt-6 h-1 w-16 rounded-full"
-            style={{ backgroundColor: service.accent }}
-          />
-        </div>
-      </section>
-
+    <InternalPageLayout
+      title={service.title}
+      subtitle={service.shortDesc}
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Expertise", href: "/services/cloud" },
+        { label: service.title },
+      ]}
+    >
       <section className="relative bg-white">
-        <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-16 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:px-10 lg:py-20">
+        <div className={`grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 ${LAYOUT_CONTAINER} py-16 sm:py-20 lg:py-24`}>
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
               What We Deliver
@@ -156,7 +128,7 @@ export default async function ServicePage({ params }: ServiceParams) {
       </section>
 
       <section className="bg-[#f7f7f7]">
-        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className={`${LAYOUT_CONTAINER} py-16 sm:py-20 lg:py-24`}>
           <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
             The Challenge
           </h2>
@@ -176,7 +148,7 @@ export default async function ServicePage({ params }: ServiceParams) {
       </section>
 
       <section className="bg-white">
-        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className={`${LAYOUT_CONTAINER} py-16 sm:py-20 lg:py-24`}>
           <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
             Our Approach
           </h2>
@@ -202,7 +174,7 @@ export default async function ServicePage({ params }: ServiceParams) {
       </section>
 
       <section className="bg-[#f7f7f7]">
-        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className={`${LAYOUT_CONTAINER} py-16 sm:py-20 lg:py-24`}>
           <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
             Visual Overview
           </h2>
@@ -290,7 +262,7 @@ export default async function ServicePage({ params }: ServiceParams) {
       </section>
 
       <section className="bg-white">
-        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className={`${LAYOUT_CONTAINER} py-16 sm:py-20 lg:py-24`}>
           <h2 className="text-sm font-semibold uppercase tracking-[0.32em] text-[#101316]/60">
             Case Study
           </h2>
@@ -312,7 +284,7 @@ export default async function ServicePage({ params }: ServiceParams) {
       </section>
 
       <section className="bg-[#f7f7f7]">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-6 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:px-10 lg:py-20">
+        <div className={`${LAYOUT_CONTAINER} flex flex-col items-start justify-between gap-6 py-16 sm:py-20 lg:flex-row lg:items-center lg:py-24`}>
           <div>
             <h2 className="text-2xl font-semibold text-slate-900">
               Let’s design your {service.title} roadmap.
@@ -333,6 +305,6 @@ export default async function ServicePage({ params }: ServiceParams) {
           </Link>
         </div>
       </section>
-    </main>
+    </InternalPageLayout>
   );
 }

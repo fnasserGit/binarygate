@@ -233,7 +233,7 @@ export function SiteHeader() {
                 className="object-contain scale-[1.4]"
               />
               </span>
-              <span className="text-sm font-semibold tracking-[0.28em] uppercase hidden sm:inline">
+              <span className="text-[1.15rem] font-bold tracking-[0.26em] uppercase whitespace-nowrap">
                 BINARYGATE
               </span>
             </Link>

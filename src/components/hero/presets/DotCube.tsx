@@ -60,7 +60,6 @@ export default function DotCube({
       >
         {dots.map((dot, i) => (
           <circle
-            // eslint-disable-next-line react/no-array-index-key
             key={i}
             cx={dot.cx}
             cy={dot.cy}

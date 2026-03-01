@@ -67,12 +67,6 @@ type EmblemData = {
   maxRadius: number;
 };
 
-function rotatePoint(x: number, y: number, angle: number) {
-  const cos = Math.cos(angle);
-  const sin = Math.sin(angle);
-  return { x: x * cos - y * sin, y: x * sin + y * cos };
-}
-
 function buildEmblemData(options: CircuitEmblemOptions): EmblemData {
   const {
     size,
@@ -90,8 +84,6 @@ function buildEmblemData(options: CircuitEmblemOptions): EmblemData {
   const chipSize = R * CHIP_SIZE_RATIO;
   const chipHalf = chipSize / 2;
   const pinCount = spokes >= 26 ? PINS_PER_SIDE_DESKTOP : PINS_PER_SIDE_MOBILE;
-  const pinLength = chipSize * 0.32;
-
   const paths: EmblemPath[] = [];
   const nodes: EmblemNode[] = [];
   const pinRects: { x: number; y: number; w: number; h: number }[] = [];

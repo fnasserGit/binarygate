@@ -50,20 +50,34 @@ export async function svgToTexture(
   height: number
 ): Promise<SvgTextureResult> {
   const canvas = await svgToCanvas(svgString, width, height);
-  const three = (globalThis as { THREE?: any }).THREE;
-  if (three?.CanvasTexture) {
-    const texture = new three.CanvasTexture(canvas);
-    if ("colorSpace" in texture && three.SRGBColorSpace) {
-      texture.colorSpace = three.SRGBColorSpace;
-    } else if ("encoding" in texture && three.sRGBEncoding) {
-      texture.encoding = three.sRGBEncoding;
+  const three = (globalThis as { THREE?: unknown }).THREE;
+  if (three && typeof three === "object" && "CanvasTexture" in three) {
+    const threeLib = three as {
+      CanvasTexture?: new (value: HTMLCanvasElement) => {
+        colorSpace?: unknown;
+        encoding?: unknown;
+        minFilter?: unknown;
+        magFilter?: unknown;
+        needsUpdate: boolean;
+      };
+      SRGBColorSpace?: unknown;
+      sRGBEncoding?: unknown;
+      LinearFilter?: unknown;
+    };
+    if (threeLib.CanvasTexture) {
+      const texture = new threeLib.CanvasTexture(canvas);
+      if ("colorSpace" in texture && threeLib.SRGBColorSpace) {
+        texture.colorSpace = threeLib.SRGBColorSpace;
+      } else if ("encoding" in texture && threeLib.sRGBEncoding) {
+        texture.encoding = threeLib.sRGBEncoding;
+      }
+      if (threeLib.LinearFilter) {
+        texture.minFilter = threeLib.LinearFilter;
+        texture.magFilter = threeLib.LinearFilter;
+      }
+      texture.needsUpdate = true;
+      return { canvas, texture };
     }
-    if (three.LinearFilter) {
-      texture.minFilter = three.LinearFilter;
-      texture.magFilter = three.LinearFilter;
-    }
-    texture.needsUpdate = true;
-    return { canvas, texture };
   }
   return { canvas };
 }

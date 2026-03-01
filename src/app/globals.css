@@ -48,6 +48,8 @@
 
 :root {
   --radius: 0.625rem;
+  --spark: #33C6FF;
+  --spark-rgb: 51, 198, 255;
   --background: #f5f5f2;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -129,6 +131,83 @@
     max-width: 100%;
     overflow-x: hidden;
   }
+
+}
+
+.bgServiceCard {
+  position: relative;
+  background: #fff;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 280ms ease, transform 280ms ease;
+  will-change: box-shadow;
+}
+
+.bgServiceCard:hover,
+.bgServiceCard:focus-visible {
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.1),
+    -20px -20px 45px rgba(var(--spark-rgb), 0.18),
+    -10px -10px 24px rgba(var(--spark-rgb), 0.22),
+    -4px -4px 12px rgba(var(--spark-rgb), 0.18) !important;
+}
+
+.bgServiceCardTitle {
+  text-shadow: none !important;
+  filter: none !important;
+  transition: color 280ms ease;
+}
+
+.bgServiceCard:hover .bgServiceCardTitle,
+.bgServiceCard:focus-visible .bgServiceCardTitle {
+  color: var(--spark);
+}
+
+.bgServiceCardReadMore {
+  color: #000;
+  transition: color 280ms ease;
+}
+
+.bgServiceCardArrow {
+  color: var(--spark);
+  transition: transform 280ms ease, color 280ms ease;
+}
+
+.bgServiceCard:hover .bgServiceCardArrow,
+.bgServiceCard:focus-visible .bgServiceCardArrow {
+  transform: translateX(3px);
+}
+
+.bgServiceCardOverlay {
+  pointer-events: none;
+}
+
+.dropdownItemLink {
+  transition: color 200ms ease, filter 200ms ease;
+}
+
+.dropdownItemTitle {
+  color: #101316;
+  transition: color 200ms ease, filter 200ms ease;
+}
+
+.dropdownItemDesc {
+  color: rgba(16, 19, 22, 0.6);
+  transition: color 200ms ease;
+}
+
+.dropdownItemLink:hover .dropdownItemTitle,
+.dropdownItemLink:focus-visible .dropdownItemTitle,
+.dropdownItemLink:active .dropdownItemTitle {
+  color: var(--spark);
+  filter: drop-shadow(0 0 8px rgba(var(--spark-rgb), 0.25));
+}
+
+.dropdownItemLink:hover .dropdownItemDesc,
+.dropdownItemLink:focus-visible .dropdownItemDesc,
+.dropdownItemLink:active .dropdownItemDesc {
+  color: rgba(16, 19, 22, 0.7);
 }
 
 /* Custom scrollbar */

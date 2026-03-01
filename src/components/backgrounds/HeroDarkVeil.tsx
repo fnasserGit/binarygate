@@ -4,24 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import DarkVeil from "@/components/backgrounds/DarkVeil";
 
-const MOBILE_BREAKPOINT_PX = 768;
-
 export default function HeroDarkVeil() {
   const reduceMotionPref = useReducedMotion();
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
-
-  useEffect(() => {
-    const media = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT_PX}px)`);
-    const update = () => setIsMobile(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
 
   const veilProps = useMemo(() => {
     if (reduceMotion) {
@@ -45,7 +35,7 @@ export default function HeroDarkVeil() {
       warpAmount: 0.65,
       resolutionScale: 1,
     };
-  }, [isMobile, reduceMotion]);
+  }, [reduceMotion]);
 
   return (
     <div className="absolute inset-0">

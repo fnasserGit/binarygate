@@ -2,17 +2,11 @@ import {
   Cloud,
   Shield,
   GitBranch,
-  BarChart3,
-  Server,
   Zap,
   ArrowRightLeft,
   ShieldCheck,
   Building2,
   Headphones,
-  Heart,
-  Radio,
-  Building,
-  ShoppingCart,
   Code2,
   BookOpen,
   FileText,
@@ -25,12 +19,9 @@ import {
   HardDrive,
   Network,
   Cpu,
-  Sparkles,
-  PiggyBank,
-  Activity,
-  RefreshCw,
   type LucideIcon,
 } from "lucide-react";
+import { industries } from "@/content/industries";
 
 export interface NavSubItem {
   label: string;
@@ -50,6 +41,14 @@ export interface NavMenu {
   label: string;
   items: NavSubItem[];
 }
+
+const industryNavItems: NavSubItem[] = industries.map((industry) => ({
+  label: industry.title,
+  href: `/industries/${industry.slug}`,
+  description: industry.headline,
+  icon: industry.icon,
+  color: industry.color,
+}));
 
 export const navigation: NavItem[] = [
   {
@@ -86,7 +85,7 @@ export const navigation: NavItem[] = [
     ],
   },
   {
-    label: "Solutions",
+    label: "What we do",
     href: "/solutions",
     children: [
       {
@@ -164,43 +163,7 @@ export const navigation: NavItem[] = [
   {
     label: "Industries",
     href: "/industries",
-    children: [
-      {
-        label: "Healthcare",
-        href: "/industries/healthcare",
-        description: "HIPAA-ready platforms for healthtech and life sciences",
-        icon: Heart,
-        color: "#34d399",
-      },
-      {
-        label: "Telecommunications",
-        href: "/industries/telecommunications",
-        description: "Scalable infrastructure for network operators and ISPs",
-        icon: Radio,
-        color: "#67e8f9",
-      },
-      {
-        label: "Government",
-        href: "/industries/government",
-        description: "Secure, sovereign cloud for public sector organizations",
-        icon: Building,
-        color: "#3b82f6",
-      },
-      {
-        label: "E-Commerce & Retail",
-        href: "/industries/ecommerce",
-        description: "High-availability platforms that handle peak traffic",
-        icon: ShoppingCart,
-        color: "#1d8bc4",
-      },
-      {
-        label: "Technology & SaaS",
-        href: "/industries/technology",
-        description: "Scalable, multi-tenant infrastructure for software companies",
-        icon: Code2,
-        color: "#60a5fa",
-      },
-    ],
+    children: industryNavItems,
   },
   {
     label: "About",
@@ -269,42 +232,71 @@ export const navigation: NavItem[] = [
   },
 ];
 
+
 export const navMenus: NavMenu[] = [
   {
-    label: "Services",
+    label: "Expertise",
     items: [
       {
-        label: "Cloud Strategy & Architecture",
-        href: "/services/cloud-strategy-architecture",
-        description: "Migration, modernization, and scalable architecture planning.",
+        label: "Consultancy",
+        href: "/#services",
+        description: "",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
-        label: "Network & Security Engineering",
+        label: "Cloud",
+        href: "/services/cloud",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
+      },
+      {
+        label: "Hybrid & On-Prem",
+        href: "/services/hybrid-on-prem",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
+      },
+      {
+        label: "Cybersecurity",
         href: "/services/network-security-engineering",
-        description: "Secure connectivity and defense across hybrid environments.",
-        icon: ShieldCheck,
-        color: "#A78BFA",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
       },
       {
-        label: "DevOps & Platform Enablement",
+        label: "Managed Services",
+        href: "/services/managed-cloud-operations",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
+      },
+      {
+        label: "DevOps",
         href: "/services/devops-platform-enablement",
-        description: "CI/CD, IaC, Kubernetes, and automation.",
-        icon: GitBranch,
-        color: "#60A5FA",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
       },
       {
-        label: "Observability & Managed Operations",
-        href: "/services/observability-managed-operations",
-        description: "Monitoring, SRE practices, and managed services.",
-        icon: Activity,
-        color: "#FBBF24",
+        label: "Data Solutions",
+        href: "/services/data-analytics",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
+      },
+      {
+        label: "Software Development Services",
+        href: "/services/software-development",
+        description: "",
+        icon: Cloud,
+        color: "#33C6FF",
       },
     ],
   },
   {
-    label: "Solutions",
+    label: "What we do",
     items: [
       {
         label: "Cloud Migration",
@@ -338,43 +330,7 @@ export const navMenus: NavMenu[] = [
   },
   {
     label: "Industries",
-    items: [
-      {
-        label: "Healthcare",
-        href: "/industries/healthcare",
-        description: "HIPAA-ready platforms for healthtech.",
-        icon: Heart,
-        color: "#34d399",
-      },
-      {
-        label: "Telecommunications",
-        href: "/industries/telecommunications",
-        description: "Scalable infrastructure for ISPs.",
-        icon: Radio,
-        color: "#67e8f9",
-      },
-      {
-        label: "Government",
-        href: "/industries/government",
-        description: "Secure, sovereign cloud for public sector.",
-        icon: Building,
-        color: "#3b82f6",
-      },
-      {
-        label: "E-Commerce & Retail",
-        href: "/industries/ecommerce",
-        description: "High-availability platforms for peak traffic.",
-        icon: ShoppingCart,
-        color: "#1d8bc4",
-      },
-      {
-        label: "Technology & SaaS",
-        href: "/industries/technology",
-        description: "Multi-tenant infrastructure for SaaS.",
-        icon: Code2,
-        color: "#60a5fa",
-      },
-    ],
+    items: industryNavItems,
   },
   {
     label: "About",

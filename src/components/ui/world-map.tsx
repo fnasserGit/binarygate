@@ -221,6 +221,7 @@ export function WorldMap({ dots = [] }: MapProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -252,7 +253,7 @@ export function WorldMap({ dots = [] }: MapProps) {
   }, []);
 
   // Compute ONCE: per-region connection groups (stable references)
-  const { regionGroups, otherGroup, allPaths } = useMemo(() => {
+  const { regionGroups, otherGroup } = useMemo(() => {
     const forward = dots.map((dot, i) => {
       const sp = projectPoint(dot.start.lat, dot.start.lng);
       const ep = projectPoint(dot.end.lat, dot.end.lng);
@@ -291,7 +292,7 @@ export function WorldMap({ dots = [] }: MapProps) {
       }
       if (!matched) other.push(c);
     }
-    return { regionGroups: groups, otherGroup: other, allPaths: all };
+    return { regionGroups: groups, otherGroup: other };
   }, [dots, projectPoint, createCurvedPath, estimateLen, isInRegion]);
 
   // Hub city projected positions — computed once

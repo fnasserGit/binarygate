@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Navbar } from "@/components/sections/navbar";
+import SiteFooter from "@/components/site-footer";
 import "./globals.css";
 
 const brandSans = Inter({
@@ -30,7 +32,11 @@ export default function RootLayout({
         className={`${brandSans.variable} ${brandMono.variable} antialiased bg-[#f5f5f2] text-neutral-900 overflow-x-hidden`}
       >
         <ThemeProvider attribute="class" forcedTheme="light">
-          {children}
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -44,12 +44,10 @@ type PresetData = {
 };
 
 const PRESET_SEQUENCE: PresetName[] = ["globe", "scatter", "ring"];
-const INTERVAL_MS = 6000;
-const TRANSITION_MS = 1400;
-const SHOW_MS = INTERVAL_MS - TRANSITION_MS;
+const TRANSITION_MS = 700;
+const SHOW_MS = 2500;
 
 export {
-  COLOR_ACCENT,
   FRONT_SETTLE_START,
   FRONT_SETTLE_END,
   C_AUTO_YAW_MULT,
@@ -57,7 +55,6 @@ export {
   TRANSITION_MS,
   SHOW_MS,
 };
-const COLOR_ACCENT = "#33C6FF";
 const FRONT_SETTLE_START = 0.55;
 const FRONT_SETTLE_END = 1.0;
 const C_AUTO_YAW_MULT = 0.35;
@@ -65,7 +62,6 @@ const C_PITCH_RETURN_DAMP = 0.08;
 const ROTATION_SPEED = 0.12;
 const X_WOBBLE_AMP = 0.04;
 const PARTICLE_OPACITY_ACTIVE = 0.85;
-const PARTICLE_OPACITY_DIM = 0.0;
 const DEBUG_SHAPES = false;
 const DEV_ONLY = false;
 const DRAG_SENS_X = 0.003;
@@ -170,10 +166,6 @@ function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
-function easeOutCubic(t: number) {
-  return 1 - Math.pow(1 - t, 3);
-}
-
 function smoothstep(edge0: number, edge1: number, x: number) {
   const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
   return t * t * (3 - 2 * t);
@@ -217,11 +209,9 @@ function recenterPositions(positions: Float32Array) {
       const r = Math.hypot(positions[i], positions[i + 1], positions[i + 2]);
       maxR = Math.max(maxR, r);
     }
-    // eslint-disable-next-line no-console
     console.info("[HeroOrb] boundingSphere radius:", maxR.toFixed(3));
   }
   if (DEV_ONLY) {
-    // eslint-disable-next-line no-console
     console.info("[HeroOrb] center offset:", cx.toFixed(3), cy.toFixed(3), cz.toFixed(3));
   }
   return positions;
@@ -268,7 +258,6 @@ function buildScatter(config: OrbConfig) {
       minR = Math.min(minR, r);
       maxR = Math.max(maxR, r);
     }
-    // eslint-disable-next-line no-console
     console.info("[HeroOrb] Scatter radius range:", minR.toFixed(3), maxR.toFixed(3));
   }
 
@@ -333,6 +322,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
   const [config, setConfig] = useState<OrbConfig>(() => getConfig("desktop"));
   const [orbSize, setOrbSize] = useState(0);
   const [rotationState, setRotationState] = useState({ x: 0, y: 0, z: 0 });
+  const [sparkHex, setSparkHex] = useState("#33C6FF");
   const [presetCTrigger, setPresetCTrigger] = useState(0);
   const presets = useMemo(() => buildPresets(config), [config]);
 
@@ -346,6 +336,14 @@ export function HeroOrb({ className = "" }: { className?: string }) {
   useEffect(() => {
     setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const value = getComputedStyle(document.documentElement)
+      .getPropertyValue("--spark")
+      .trim();
+    if (value) setSparkHex(value);
+  }, []);
 
   useEffect(() => {
     const updateTier = () => setTier(getViewportTier());
@@ -381,7 +379,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.2 : 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.5 : 1.5);
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       canvas.style.width = `${rect.width}px`;
@@ -394,7 +392,6 @@ export function HeroOrb({ className = "" }: { className?: string }) {
         setOrbSize(Math.min(rect.width, rect.height));
       });
       if (DEV_ONLY) {
-        // eslint-disable-next-line no-console
         console.info("[HeroOrb] size:", rect.width, rect.height, "dpr:", dpr);
       }
     };
@@ -600,7 +597,6 @@ export function HeroOrb({ className = "" }: { className?: string }) {
       if (DEV_ONLY && time - lastLogRef.current > 1000) {
         const presetAWorldRadius = radius;
         const rotDelta = rotY - lastRotYLogRef.current;
-        // eslint-disable-next-line no-console
         console.info(
           "[HeroOrb] presetAWorldRadius:",
           presetAWorldRadius.toFixed(3),
@@ -630,20 +626,25 @@ export function HeroOrb({ className = "" }: { className?: string }) {
         }
       }
 
+      const presetNow = String(currentPreset.current);
+      const nextPreset = String(nextPresetRef.current);
+      const isScatterPhase =
+        presetNow === "scatter" || (inTransition && nextPreset === "scatter");
+      const renderPointSize =
+        tier === "mobile" && isScatterPhase ? config.pointSize * 0.85 : config.pointSize;
+
       if (particleOpacity > 0.001) {
         for (let i = 0; i < config.particleCount; i += 1) {
           const depthMix = (projected[i * 3 + 2] + 1) / 2;
           const alpha = particleOpacity + depthMix * 0.2;
           ctx.fillStyle = `rgba(215,221,227,${alpha})`;
           ctx.beginPath();
-          ctx.arc(projected[i * 3], projected[i * 3 + 1], config.pointSize, 0, Math.PI * 2);
+          ctx.arc(projected[i * 3], projected[i * 3 + 1], renderPointSize, 0, Math.PI * 2);
           ctx.fill();
         }
       }
 
       const sphereSparkState = sphereSparkRef.current;
-      const presetNow = String(currentPreset.current);
-      const nextPreset = String(nextPresetRef.current);
       const allowSphereSparks =
         particleOpacity > 0.2 &&
         (presetNow === "scatter" ||
@@ -652,7 +653,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
       if (sphereSparkState && allowSphereSparks && !reduceMotion) {
         const { sparks, samples } = sphereSparkState;
         const samplePoints = tier === "mobile" ? ARC_SAMPLE_POINTS_MOBILE : ARC_SAMPLE_POINTS_DESKTOP;
-        const accent = hexToRgb(COLOR_ACCENT);
+        const accent = hexToRgb(sparkHex);
         const minDist = MIN_ARC_DISTANCE;
         const baseSpeed = tier === "mobile" ? SPARK_SPEED_MOBILE : SPARK_SPEED_DESKTOP;
         const fadeDuration = 0.08;
@@ -668,7 +669,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
 
         const pickPair = () => {
           const total = config.particleCount;
-          let i1 = Math.floor(Math.random() * total);
+          const i1 = Math.floor(Math.random() * total);
           let i2 = Math.floor(Math.random() * total);
           let attempts = 0;
           while (i1 === i2 && attempts < 6) {
@@ -726,7 +727,6 @@ export function HeroOrb({ className = "" }: { className?: string }) {
           }
 
           const headT = spark.headT;
-          const tailT = 0;
           const i1 = spark.i1;
           const i2 = spark.i2;
           const p1 = {
@@ -835,6 +835,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       observer.disconnect();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config, presets, reduceMotion, tier]);
 
   return (
@@ -904,7 +905,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
           ref={transitionSweepRef}
           className="absolute -inset-x-1/2 top-0 h-full opacity-0"
           style={{
-            background: `linear-gradient(115deg, transparent 0%, ${COLOR_ACCENT}40 45%, transparent 70%)`,
+            background: "linear-gradient(115deg, transparent 0%, var(--spark)40 45%, transparent 70%)",
             mixBlendMode: "screen",
           }}
         />
@@ -912,7 +913,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
           ref={transitionHaloRef}
           className="absolute inset-0 opacity-0"
           style={{
-            background: `radial-gradient(circle at 50% 50%, ${COLOR_ACCENT}2E 0%, rgba(0,0,0,0) 60%)`,
+            background: "radial-gradient(circle at 50% 50%, var(--spark)2E 0%, rgba(0,0,0,0) 60%)",
             mixBlendMode: "screen",
           }}
         />
@@ -920,7 +921,7 @@ export function HeroOrb({ className = "" }: { className?: string }) {
       <div className="absolute inset-0 z-10">
         <PresetC_Cubes
           className="h-full w-full"
-          accentColor={COLOR_ACCENT}
+          accentColor={sparkHex}
           isMobile={tier === "mobile"}
           containerRef={cubesLayerRef}
           glowRef={cubesGlowRef}

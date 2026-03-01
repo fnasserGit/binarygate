@@ -2,20 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  Cloud,
-  Shield,
-  GitBranch,
-  BarChart3,
-  Server,
-  Zap,
-  Network,
-  Container,
-  Cpu,
-  Layers,
-  HardDrive,
-  Code2,
-} from "lucide-react";
+import { Zap, Network, Cpu, Layers, HardDrive, Code2 } from "lucide-react";
 import {
   ArchitectureIcon,
   SecurityIcon,
@@ -25,16 +12,6 @@ import {
   ObservabilityIcon,
 } from "@/components/ui/service-icons";
 import { RotatingUseCaseLine } from "@/components/ui/rotating-use-case-line";
-
-/* ─── Business pillars — horizontal strip above gemini title ─── */
-const pillars = [
-  { icon: Cloud, title: "Cloud Architecture", color: "#2dd4bf", slug: "cloud-architecture" },
-  { icon: Shield, title: "Security Hardening", color: "#34d399", slug: "security-hardening" },
-  { icon: GitBranch, title: "CI/CD Automation", color: "#67e8f9", slug: "cicd-automation" },
-  { icon: BarChart3, title: "Cost Optimization", color: "#3b82f6", slug: "cost-optimization" },
-  { icon: Server, title: "Platform Engineering", color: "#1d8bc4", slug: "platform-engineering" },
-  { icon: Zap, title: "Observability", color: "#60a5fa", slug: "observability" },
-];
 
 /* ─── Scroll-triggered popup cards ─── */
 const serviceStrip = [

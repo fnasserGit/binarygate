@@ -5,7 +5,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { HeroOrb } from "@/components/sections/hero-orb";
 import HeroDarkVeil from "@/components/backgrounds/HeroDarkVeil";
-import { RotatingUseCaseLine } from "@/components/ui/rotating-use-case-line";
+import { LogoStrip } from "@/components/logo-strip";
 import { CONSULTATION_URL } from "@/lib/links";
 
 const HERO_MIN_SVH_MOBILE = "calc(100svh - var(--header-height))";
@@ -21,13 +21,9 @@ export function Hero() {
   const shouldAnimate = inView && !reduceMotion;
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduceMotion(!!reduceMotionPref);
   }, [reduceMotionPref]);
-
-  const eyebrowVariants = {
-    hidden: { opacity: 0, y: 8 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
-  } as const;
 
   const headlineVariants = {
     hidden: { opacity: 0, clipPath: "inset(100% 0 0 0)" },
@@ -49,7 +45,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#0B0F14] text-[#F8FAFC] min-h-[100svh] min-h-[var(--hero-min-mobile)] sm:min-h-[var(--hero-min-desktop)] max-h-[100svh]"
+      className="relative overflow-hidden bg-[#0B0F14] text-[#F8FAFC] min-h-[100svh] min-h-[var(--hero-min-mobile)] sm:min-h-[var(--hero-min-desktop)]"
       style={{
         ["--hero-min-mobile" as string]: HERO_MIN_SVH_MOBILE,
         ["--hero-min-desktop" as string]: HERO_MIN_SVH_DESKTOP,
@@ -59,6 +55,10 @@ export function Hero() {
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
         <HeroDarkVeil />
       </div>
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2 sm:h-3 bg-gradient-to-b from-transparent to-white"
+        aria-hidden="true"
+      />
       <style>{`
         @keyframes hero-shimmer {
           0%, 100% { opacity: 0.25; transform: translateX(0); }
@@ -67,7 +67,7 @@ export function Hero() {
       `}</style>
       <div
         ref={heroRef}
-        className="relative z-10 mx-auto flex min-h-[var(--hero-min-mobile)] max-w-[1240px] flex-col justify-center px-6 pb-16 pt-20 sm:min-h-[var(--hero-min-desktop)] sm:px-8 sm:pb-20 sm:pt-24 lg:px-10 lg:pb-24 lg:pt-28"
+        className="relative z-20 mx-auto flex min-h-[var(--hero-min-mobile)] max-w-[1240px] flex-col justify-center px-6 pb-28 pt-20 sm:min-h-[var(--hero-min-desktop)] sm:px-8 sm:pb-36 sm:pt-24 lg:px-10 lg:pb-40 lg:pt-28"
       >
         <div className="grid items-center gap-8 sm:gap-10 md:gap-12 grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(200px,0.55fr)] lg:grid-cols-[1.05fr_0.95fr]">
           <div className="min-w-0 max-w-2xl order-2 sm:order-1 text-left">
@@ -79,9 +79,9 @@ export function Hero() {
               transition={{ delay: 0.14 }}
               style={{ opacity: reduceMotion ? 1 : undefined }}
             >
-              Transforming Complexity{" "}
+              Stability and growth{" "}
               <span className="relative inline-block text-[0.8em] font-normal">
-                into scalable architecture.
+                across cloud, hybrid, and on-prem.
                 <span
                   className="pointer-events-none absolute -bottom-2 left-0 h-[6px] w-full rounded-full opacity-40"
                   style={{
@@ -100,26 +100,15 @@ export function Hero() {
               transition={{ delay: 0.34 }}
               style={{ opacity: reduceMotion ? 1 : undefined }}
             >
-              We take fragmented systems and engineer them into secure, automated, high-performance platforms built for growth.
+              Reliable, scalable platforms engineered for real-world complexity.
             </motion.p>
-              <RotatingUseCaseLine
-                className="mt-5"
-                textClassName="text-[#33C6FF]"
-              />
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href={CONSULTATION_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-full bg-[#E9EEF3] px-6 py-3 text-sm font-semibold text-[#0f1113] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1113]"
+                className="rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1113]"
+                style={{ backgroundColor: "var(--spark)" }}
               >
                 Book a Consultation
-              </Link>
-              <Link
-                href="/#services"
-                className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-[#E9EEF3] transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1113]"
-              >
-                View Services
               </Link>
             </div>
           </div>
@@ -132,6 +121,11 @@ export function Hero() {
               className="w-full max-w-[440px] mx-auto h-[var(--orb-h-mobile)] sm:h-[300px] sm:max-w-[300px] md:h-[360px] md:max-w-[380px] lg:h-[460px] lg:max-w-[520px]"
             />
           </div>
+        </div>
+      </div>
+      <div className="pointer-events-none flex justify-center pb-6 md:pb-8 md:absolute md:inset-x-0 md:bottom-0 md:z-10 mt-6 md:mt-0">
+        <div className="w-[160vw] max-w-none opacity-90 md:w-[130vw] lg:w-[115vw]">
+          <LogoStrip />
         </div>
       </div>
     </section>
