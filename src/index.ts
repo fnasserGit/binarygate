@@ -6,24 +6,9 @@ type Env = {
 
 export class BinarygateContainer extends DurableObject {}
 
-async function handleRequest(request: Request, env?: Env): Promise<Response> {
-  const binding =
-    env?.CONTAINER_DO ?? (globalThis as { CONTAINER_DO?: DurableObjectNamespace }).CONTAINER_DO;
-
-  if (!binding) {
-    return new Response("Container binding not configured.", { status: 500 });
-  }
-
-  const id = binding.idFromName("primary");
-  return binding.get(id).fetch(request);
-}
-
-export async function fetch(request: Request, env: Env): Promise<Response> {
-  return handleRequest(request, env);
-}
-
-export default { fetch };
-
-addEventListener("fetch", (event: FetchEvent) => {
-  event.respondWith(handleRequest(event.request));
-});
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const id = env.CONTAINER_DO.idFromName("primary");
+    return env.CONTAINER_DO.get(id).fetch(request);
+  },
+};
