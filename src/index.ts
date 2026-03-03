@@ -1,14 +1,10 @@
-import { DurableObject } from "cloudflare:workers";
+import { Container } from "@cloudflare/containers";
 
 type Env = {
   CONTAINER_DO: DurableObjectNamespace;
 };
 
-export class BinarygateContainer extends DurableObject {
-  async fetch(request: Request): Promise<Response> {
-    return new Response("Container is running", { status: 200 });
-  }
-}
+export class BinarygateContainer extends Container<Env> {}
 
 export async function fetch(request: Request, env: Env): Promise<Response> {
   const id = env.CONTAINER_DO.idFromName("primary");
