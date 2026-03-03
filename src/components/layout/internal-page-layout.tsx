@@ -12,6 +12,10 @@ type InternalPageLayoutProps = {
   subtitle?: string;
   breadcrumbs?: Breadcrumb[];
   children: React.ReactNode;
+  afterHero?: React.ReactNode;
+  hideHero?: boolean;
+  heroFirst?: boolean;
+  hideBreadcrumbs?: boolean;
   showLetsTalk?: boolean;
   letsTalkServiceName?: string;
 };
@@ -21,12 +25,16 @@ export function InternalPageLayout({
   subtitle,
   breadcrumbs = [],
   children,
+  afterHero,
+  hideHero = false,
+  heroFirst = true,
+  hideBreadcrumbs = false,
   showLetsTalk = false,
   letsTalkServiceName,
 }: InternalPageLayoutProps) {
   return (
     <main className="bg-white">
-      {breadcrumbs.length > 0 ? (
+      {!hideBreadcrumbs && breadcrumbs.length > 0 ? (
         <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-8 lg:px-10">
           <nav className="pt-6 text-xs text-neutral-500">
             <ol className="flex flex-wrap items-center gap-2">
@@ -47,7 +55,11 @@ export function InternalPageLayout({
         </div>
       ) : null}
 
-      <InternalHero title={title} subtitle={subtitle} />
+      {hideHero ? null : heroFirst ? <InternalHero title={title} subtitle={subtitle} /> : null}
+
+      {afterHero}
+
+      {hideHero ? null : !heroFirst ? <InternalHero title={title} subtitle={subtitle} /> : null}
 
       <div className="mx-auto w-full max-w-[1440px] px-6 pb-16 sm:px-8 sm:pb-20 lg:px-10 lg:pb-24">
         {children}

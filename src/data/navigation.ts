@@ -39,6 +39,7 @@ export interface NavItem {
 
 export interface NavMenu {
   label: string;
+  href: string;
   items: NavSubItem[];
 }
 
@@ -236,60 +237,61 @@ export const navigation: NavItem[] = [
 export const navMenus: NavMenu[] = [
   {
     label: "Expertise",
+    href: "/expertise",
     items: [
       {
         label: "Consultancy",
         href: "/#services",
-        description: "",
+        description: "Assessment, roadmap planning, and architecture guidance.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "Cloud",
         href: "/services/cloud",
-        description: "",
+        description: "Cloud consulting, migration, and operations.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "Hybrid & On-Prem",
         href: "/services/hybrid-on-prem",
-        description: "",
+        description: "Modernize on-prem foundations and hybrid platforms.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "Cybersecurity",
         href: "/services/network-security-engineering",
-        description: "",
+        description: "Security hardening, governance, and compliance.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "Managed Services",
         href: "/services/managed-cloud-operations",
-        description: "",
+        description: "Ongoing operations, monitoring, and reliability.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "DevOps",
         href: "/services/devops-platform-enablement",
-        description: "",
+        description: "CI/CD, GitOps, and infrastructure automation.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "Data Solutions",
         href: "/services/data-analytics",
-        description: "",
+        description: "Data platforms, analytics, and reporting pipelines.",
         icon: Cloud,
         color: "#33C6FF",
       },
       {
         label: "Software Development Services",
         href: "/services/software-development",
-        description: "",
+        description: "Product engineering and delivery squads.",
         icon: Cloud,
         color: "#33C6FF",
       },
@@ -297,6 +299,7 @@ export const navMenus: NavMenu[] = [
   },
   {
     label: "What we do",
+    href: "/what-we-do",
     items: [
       {
         label: "Cloud Migration",
@@ -330,10 +333,12 @@ export const navMenus: NavMenu[] = [
   },
   {
     label: "Industries",
+    href: "/industries",
     items: industryNavItems,
   },
   {
     label: "About",
+    href: "/about",
     items: [
       {
         label: "Our Story",
@@ -367,6 +372,7 @@ export const navMenus: NavMenu[] = [
   },
   {
     label: "Insights",
+    href: "/insights",
     items: [
       {
         label: "Blog",

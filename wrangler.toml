@@ -1,4 +1,9 @@
-name = "dev-binary-gate"
+name = "binarygate"
 compatibility_date = "2025-02-15"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".vercel/output"
+main = "src/index.ts"
+
+[[containers]]
+name = "CONTAINER"
+class_name = "BinarygateContainer"
+image = "./Dockerfile"

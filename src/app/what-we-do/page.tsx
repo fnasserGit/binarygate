@@ -3,14 +3,15 @@ import { navMenus } from "@/data/navigation";
 import { NavOverviewPage } from "@/components/pages/nav-overview-page";
 import DottedSurfaceFeatureSection from "@/components/ui/dotted-surface-feature-section";
 
-const menu = navMenus.find((item) => item.label === "About");
+const menu = navMenus.find((item) => item.label === "What we do");
 
 export const metadata: Metadata = {
-  title: "About | BinaryGate",
-  description: "Learn about BinaryGate, the team, and our operating principles.",
+  title: "What we do | BinaryGate",
+  description:
+    "Discover BinaryGate delivery pillars across cloud transformation, DevOps, and managed services.",
 };
 
-export default function AboutPage() {
+export default function WhatWeDoPage() {
   if (!menu) {
     return null;
   }
@@ -22,9 +23,9 @@ export default function AboutPage() {
         <DottedSurfaceFeatureSection
           breadcrumbs={[
             { label: "Home", href: "/" },
-            { label: "About" },
+            { label: "What we do" },
           ]}
-          title="About"
+          title="What we do"
           description={
             <>
               We turn{" "}

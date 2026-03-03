@@ -5,9 +5,6 @@ import Image from "next/image";
 import { navMenus } from "@/data/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { SERVICES_HREF } from "@/config/navigation";
-import { navigateToHash } from "@/lib/scroll-to-hash";
 
 export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -15,7 +12,6 @@ export function Navbar() {
   const [expandedLabel, setExpandedLabel] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const router = useRouter();
   const containerClass = "mx-auto w-full max-w-[1440px] px-6 py-2 sm:px-8 sm:py-2 lg:px-10";
   const getMenuItems = (menu: (typeof navMenus)[number]) =>
     menu.label === "What we do"
@@ -112,44 +108,20 @@ export function Navbar() {
               className="relative"
               onMouseEnter={() => handleEnter(item.label)}
             >
-              {item.label === "Expertise" ? (
-                <div className="flex items-center gap-1">
-                  <Link
-                    href={SERVICES_HREF}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setOpenDropdown(null);
-                      navigateToHash(SERVICES_HREF, router);
-                    }}
-                    className="relative transition hover:text-black"
-                    onFocus={() => handleEnter(item.label)}
-                    aria-haspopup="menu"
-                    aria-expanded={openDropdown === item.label}
-                  >
-                    Expertise
-                  </Link>
-                  <button
-                    type="button"
-                    className="relative flex items-center transition hover:text-black"
-                    onClick={() =>
-                      setOpenDropdown(openDropdown === item.label ? null : item.label)
-                    }
-                    aria-haspopup="menu"
-                    aria-expanded={openDropdown === item.label}
-                    onFocus={() => handleEnter(item.label)}
-                  >
-                    <ChevronDown
-                      className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {openDropdown === item.label ? (
-                    <span className="absolute -bottom-2 left-0 right-0 h-px bg-[var(--spark)]" />
-                  ) : null}
-                </div>
-              ) : (
+              <div className="flex items-center gap-1">
+                <Link
+                  href={item.href}
+                  onClick={() => setOpenDropdown(null)}
+                  className="relative transition hover:text-black"
+                  onFocus={() => handleEnter(item.label)}
+                  aria-haspopup="menu"
+                  aria-expanded={openDropdown === item.label}
+                >
+                  {item.label}
+                </Link>
                 <button
                   type="button"
-                  className="relative flex items-center gap-1 transition hover:text-black"
+                  className="relative flex items-center transition hover:text-black"
                   onClick={() =>
                     setOpenDropdown(openDropdown === item.label ? null : item.label)
                   }
@@ -157,15 +129,14 @@ export function Navbar() {
                   aria-expanded={openDropdown === item.label}
                   onFocus={() => handleEnter(item.label)}
                 >
-                  {item.label}
                   <ChevronDown
                     className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`}
                   />
-                  {openDropdown === item.label ? (
-                    <span className="absolute -bottom-2 left-0 right-0 h-px bg-[var(--spark)]" />
-                  ) : null}
                 </button>
-              )}
+                {openDropdown === item.label ? (
+                  <span className="absolute -bottom-2 left-0 right-0 h-px bg-[var(--spark)]" />
+                ) : null}
+              </div>
             </div>
           ))}
         </nav>
@@ -242,17 +213,26 @@ export function Navbar() {
               const expanded = expandedLabel === item.label;
               return (
                 <div key={item.label} className="rounded-lg px-2 py-2">
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between text-sm font-medium text-black"
-                    onClick={() => setExpandedLabel(expanded ? null : item.label)}
-                    aria-expanded={expanded}
-                  >
-                    <span>{item.label}</span>
-                    <ChevronDown
-                      className={`h-4 w-4 text-black/60 transition-transform ${expanded ? "rotate-180" : ""}`}
-                    />
-                  </button>
+                  <div className="flex items-center justify-between text-sm font-medium text-black">
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="rounded-lg px-2 py-1.5 transition hover:text-[var(--spark)]"
+                    >
+                      {item.label}
+                    </Link>
+                    <button
+                      type="button"
+                      className="flex h-8 w-8 items-center justify-center rounded-md"
+                      onClick={() => setExpandedLabel(expanded ? null : item.label)}
+                      aria-expanded={expanded}
+                      aria-label={`${item.label} submenu`}
+                    >
+                      <ChevronDown
+                        className={`h-4 w-4 text-black/60 transition-transform ${expanded ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                  </div>
                   {expanded && (
                     <div className="mt-2 space-y-1 pl-2">
                       {getMenuItems(item).map((child) => (
