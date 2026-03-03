@@ -2,7 +2,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      phone?: string;
+      message?: string;
+    };
 
     const { firstName, lastName, email, phone, message } = body;
 
