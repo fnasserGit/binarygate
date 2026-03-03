@@ -12,7 +12,7 @@ tag = "v1"
 new_sqlite_classes = ["BinarygateContainer"]
 
 [[containers]]
-name = "CONTAINER"
+name = "container"
 class_name = "BinarygateContainer"
 image = "./Dockerfile"
 
