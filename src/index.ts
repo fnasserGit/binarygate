@@ -4,7 +4,9 @@ type Env = {
   CONTAINER_DO: DurableObjectNamespace;
 };
 
-export class BinarygateContainer extends Container<Env> {}
+export class BinarygateContainer extends Container<Env> {
+  defaultPort = 3000;
+}
 
 export async function fetch(request: Request, env: Env): Promise<Response> {
   const id = env.CONTAINER_DO.idFromName("primary");
