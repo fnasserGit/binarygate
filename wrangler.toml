@@ -7,3 +7,6 @@ main = "src/index.ts"
 name = "CONTAINER"
 class_name = "BinarygateContainer"
 image = "./Dockerfile"
+
+[durable_objects]
+bindings = [{ name = "CONTAINER_DO", class_name = "BinarygateContainer" }]

@@ -1,18 +1,12 @@
-type ContainerBinding = {
-  fetch: (request: Request) => Promise<Response> | Response;
+type Env = {
+  CONTAINER_DO: DurableObjectNamespace;
 };
 
-type Env = {
-  CONTAINER?: ContainerBinding;
-  container?: ContainerBinding;
-};
+export class BinarygateContainer extends DurableObject {}
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const binding = env.CONTAINER ?? env.container;
-    if (binding) {
-      return binding.fetch(request);
-    }
-    return new Response("Container binding not configured.", { status: 500 });
+    const id = env.CONTAINER_DO.idFromName("primary");
+    return env.CONTAINER_DO.get(id).fetch(request);
   },
 };
