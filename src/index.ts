@@ -1,3 +1,5 @@
+import { DurableObject } from "cloudflare:workers";
+
 type Env = {
   CONTAINER_DO: DurableObjectNamespace;
 };

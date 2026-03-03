@@ -2,6 +2,14 @@ name = "binarygate"
 compatibility_date = "2025-02-15"
 compatibility_flags = ["nodejs_compat"]
 main = "src/index.ts"
+minify = true
+
+[env]
+vars = { }
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["BinarygateContainer"]
 
 [[containers]]
 name = "CONTAINER"
