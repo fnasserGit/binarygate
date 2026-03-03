@@ -6,9 +6,9 @@ type Env = {
 
 export class BinarygateContainer extends DurableObject {}
 
-export async function fetch(request: Request, env: Env): Promise<Response> {
-  const id = env.CONTAINER_DO.idFromName("primary");
-  return env.CONTAINER_DO.get(id).fetch(request);
-}
-
-export default { fetch };
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const id = env.CONTAINER_DO.idFromName("primary");
+    return env.CONTAINER_DO.get(id).fetch(request);
+  },
+};
