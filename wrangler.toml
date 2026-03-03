@@ -18,3 +18,8 @@ image = "./Dockerfile"
 
 [durable_objects]
 bindings = [{ name = "CONTAINER_DO", class_name = "BinarygateContainer" }]
+
+[observability]
+  [observability.logs]
+  enabled = false
+  invocation_logs = true
