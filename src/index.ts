@@ -1,8 +1,7 @@
 import { Container } from "@cloudflare/containers";
-import type { DurableObjectNamespace } from "cloudflare:workers";
 
 type Env = {
-  CONTAINER_DO: DurableObjectNamespace;
+  CONTAINER_DO: any;
 };
 
 export class BinarygateContainer extends Container<Env> {
