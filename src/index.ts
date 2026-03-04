@@ -1,4 +1,5 @@
 import { Container } from "@cloudflare/containers";
+import type { DurableObjectNamespace } from "cloudflare:workers";
 
 type Env = {
   CONTAINER_DO: DurableObjectNamespace;
