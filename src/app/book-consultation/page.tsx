@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function BookConsultationPage() {
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-transparent text-white">
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 w-screen">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
         <HeroDarkVeil />
       </div>
       <div className="relative z-10">

@@ -4,7 +4,7 @@ import LightPillar from "@/components/LightPillar";
 
 export default function LightPillarBackground() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 w-screen overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0">
         <div style={{ width: "100%", height: "100%", position: "relative" }}>
         <LightPillar

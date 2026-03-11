@@ -3,24 +3,30 @@
 import Image from "next/image";
 
 const LOGOS = [
-  { src: "/logos/Amazon.svg.png", alt: "AWS" },
-  { src: "/logos/Microsoft_Azure.svg", alt: "Microsoft Azure" },
-  { src: "/logos/GCP company logo.png", alt: "Google Cloud" },
-  { src: "/logos/Oracle-Symbol.png", alt: "Oracle Cloud Infrastructure" },
-  { src: "/logos/Kubernetes.svg.png", alt: "Kubernetes" },
-  { src: "/logos/CF-Logo.png", alt: "Cloudflare" },
-  { src: "/logos/fortin.png", alt: "Fortinet" },
-  { src: "/logos/cisco.png", alt: "Cisco" },
+  { src: "/logos/aws-svgrepo-com.svg", alt: "AWS" },
+  { src: "/logos/microsoft-azure-svgrepo-com.svg", alt: "Microsoft Azure" },
+  { src: "/logos/google-cloud-svgrepo-com.svg", alt: "Google Cloud" },
+  { src: "/logos/oracle-svgrepo-com.svg", alt: "Oracle Cloud Infrastructure" },
+  { src: "/logos/kubernetes-svgrepo-com.svg", alt: "Kubernetes" },
+  { src: "/logos/cloudflare-svgrepo-com.svg", alt: "Cloudflare" },
+  { src: "/logos/cisco-svgrepo-com.svg", alt: "Cisco" },
+  { src: "/logos/terraform-svgrepo-com.svg", alt: "Terraform" },
+  { src: "/logos/docker-svgrepo-com.svg", alt: "Docker" },
+  { src: "/logos/github-142-svgrepo-com.svg", alt: "GitHub" },
+  { src: "/logos/gitlab-svgrepo-com.svg", alt: "GitLab" },
+  { src: "/logos/grafana-svgrepo-com.svg", alt: "Grafana" },
+  { src: "/logos/helm-svgrepo-com.svg", alt: "Helm" },
+  { src: "/logos/vmware-svgrepo-com.svg", alt: "VMware" },
 ];
 
 export function LogoStrip({ className = "" }: { className?: string }) {
   return (
     <div className={`w-full ${className}`}>
-      <div className="mx-auto w-full max-w-[1240px] px-6 pb-6 pt-2 sm:px-8 lg:px-10">
+      <div className="w-full pb-6 pt-2">
         <p className="text-center text-xs font-medium uppercase tracking-[0.3em] text-white/45">
           Cloud & Platform Expertise
         </p>
-        <div className="mt-6 overflow-hidden">
+        <div className="mt-6 overflow-hidden bg-white">
           <div className="logo-marquee flex w-max items-center gap-8 opacity-90 sm:gap-10 motion-reduce:animate-none">
             {[...LOGOS, ...LOGOS].map((logo, index) => (
               <div

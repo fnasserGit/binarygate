@@ -33,7 +33,7 @@ export const GoogleGeminiEffect = ({
   return (
     <motion.div
       style={opacity ? { opacity } : undefined}
-      className={cn(sticky ? "sticky top-80 left-0 w-screen" : "relative left-0 w-screen", className)}
+      className={cn(sticky ? "sticky top-80 left-0 w-full" : "relative left-0 w-full", className)}
     >
       {topContent && (
         <div className={cn("mb-8", topContentClassName)}>{topContent}</div>
@@ -65,7 +65,7 @@ export const GoogleGeminiEffect = ({
         viewBox="0 0 1440 890"
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={cn("absolute w-full left-0 sm:w-[110%] sm:-left-[5%] md:w-screen md:left-0", linesOffsetClassName)}
+        className={cn("absolute w-full left-0 sm:w-[110%] sm:-left-[5%] md:w-full md:left-0", linesOffsetClassName)}
       >
         <motion.path
           d="M0 663C145.5 663 191 666.265 269 647C326.5 630 339.5 621 397.5 566C439 531.5 455 529.5 490 523C509.664 519.348 521 503.736 538 504.236C553.591 504.236 562.429 514.739 584.66 522.749C592.042 525.408 600.2 526.237 607.356 523.019C624.755 515.195 641.446 496.324 657 496.735C673.408 496.735 693.545 519.572 712.903 526.769C718.727 528.934 725.184 528.395 730.902 525.965C751.726 517.115 764.085 497.106 782 496.735C794.831 496.47 804.103 508.859 822.469 518.515C835.13 525.171 850.214 526.815 862.827 520.069C875.952 513.049 889.748 502.706 903.5 503.736C922.677 505.171 935.293 510.562 945.817 515.673C954.234 519.76 963.095 522.792 972.199 524.954C996.012 530.611 1007.42 534.118 1034 549C1077.5 573.359 1082.5 594.5 1140 629C1206 670 1328.5 662.5 1440 662.5"

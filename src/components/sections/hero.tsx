@@ -124,7 +124,7 @@ export function Hero() {
         </div>
       </div>
       <div className="pointer-events-none flex justify-center pb-6 md:pb-8 md:absolute md:inset-x-0 md:bottom-0 md:z-10 mt-6 md:mt-0">
-        <div className="w-[160vw] max-w-none opacity-90 md:w-[130vw] lg:w-[115vw]">
+        <div className="w-full max-w-none opacity-90">
           <LogoStrip />
         </div>
       </div>
