@@ -19,6 +19,17 @@ function DesktopDropdown({
   onOpen: () => void;
   onClose: () => void;
 }) {
+  if (item.items.length === 0) {
+    return (
+      <Link
+        href={item.href}
+        className="text-sm text-neutral-600 transition-colors hover:text-black dark:text-neutral-400 dark:hover:text-white"
+      >
+        {item.label}
+      </Link>
+    );
+  }
+
   const timeout = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -121,26 +132,33 @@ function MobileAccordionItem({
   onClose: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const hasItems = item.items.length > 0;
 
   return (
     <div>
       <div className="flex items-center justify-between rounded-lg px-2 py-2 text-sm font-medium text-neutral-800 transition hover:bg-[#f5f5f2] hover:text-black dark:text-neutral-200 dark:hover:bg-white/5 dark:hover:text-white">
-        <span className="flex-1 rounded-lg px-2 py-1.5 text-left">
-          {item.label}
-        </span>
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex h-8 w-8 items-center justify-center rounded-md"
-          aria-label={`${item.label} submenu`}
-          aria-expanded={expanded}
+        <Link
+          href={item.href}
+          onClick={onClose}
+          className="flex-1 rounded-lg px-2 py-1.5 text-left"
         >
-          <ChevronDown
-            className={`h-4 w-4 text-neutral-500 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-          />
-        </button>
+          {item.label}
+        </Link>
+        {hasItems ? (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="flex h-8 w-8 items-center justify-center rounded-md"
+            aria-label={`${item.label} submenu`}
+            aria-expanded={expanded}
+          >
+            <ChevronDown
+              className={`h-4 w-4 text-neutral-500 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+            />
+          </button>
+        ) : null}
       </div>
       <AnimatePresence>
-        {expanded && (
+        {hasItems && expanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}

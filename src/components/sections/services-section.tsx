@@ -15,13 +15,13 @@ export function ServicesSection() {
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href="/services/cloud"
+            href="/expertise"
             className="inline-flex items-center rounded-full border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-300"
           >
             Explore Cloud
           </Link>
           <Link
-            href="/services/hybrid-on-prem"
+            href="/expertise"
             className="inline-flex items-center rounded-full border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-300"
           >
             Explore Hybrid &amp; On-Prem

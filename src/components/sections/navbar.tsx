@@ -14,51 +14,12 @@ export function Navbar() {
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const containerClass = "mx-auto w-full max-w-[1440px] px-6 py-2 sm:px-8 sm:py-2 lg:px-10";
   const getMenuItems = (menu: (typeof navMenus)[number]) =>
-    menu.label === "What we do"
-      ? whatWeDoItems.map((item) => ({
-          title: item.title,
-          description: item.description,
-          href: item.href,
-          noWrap: false,
-        }))
-      : menu.items.map((item) => ({
-          title: item.label,
-          description: menu.label === "Industries" ? "" : item.description,
-          href: item.href,
-          noWrap: item.label === "Software Development Services",
-        }));
-  const whatWeDoItems = [
-    {
-      title: "Cloud Transformation",
-      description:
-        "Design, migrate, and optimize secure cloud-native infrastructure on AWS, Azure, and hybrid environments.",
-      href: "/services/cloud",
-    },
-    {
-      title: "Hybrid & On-Prem Modernization",
-      description:
-        "Modernize legacy systems, redesign architectures, and build scalable hybrid platforms with zero disruption.",
-      href: "/services/hybrid-on-prem",
-    },
-    {
-      title: "DevOps & Automation",
-      description:
-        "CI/CD pipelines, GitOps, infrastructure as code, observability, and performance-driven engineering.",
-      href: "/services/devops-platform-enablement",
-    },
-    {
-      title: "Cybersecurity & Compliance",
-      description:
-        "Zero-trust architecture, WAF hardening, DDoS protection, IAM governance, and secure DevSecOps workflows.",
-      href: "/services/network-security-engineering",
-    },
-    {
-      title: "Managed Services",
-      description:
-        "Ongoing cloud operations, monitoring, cost optimization, reliability engineering, and continuous improvement.",
-      href: "/services/managed-cloud-operations",
-    },
-  ] as const;
+    menu.items.map((item) => ({
+      title: item.label,
+      description: menu.label === "Industries" ? "" : item.description,
+      href: item.href,
+      noWrap: item.label === "Software Development Services",
+    }));
 
   const handleEnter = (label: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -102,43 +63,48 @@ export function Navbar() {
             if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
           }}
         >
-          {navMenus.map((item) => (
+          {navMenus.map((item) => {
+            const hasItems = item.items.length > 0;
+            return (
             <div
               key={item.label}
               className="relative"
-              onMouseEnter={() => handleEnter(item.label)}
+              onMouseEnter={() => (hasItems ? handleEnter(item.label) : null)}
             >
               <div className="flex items-center gap-1">
                 <Link
                   href={item.href}
                   onClick={() => setOpenDropdown(null)}
                   className="relative transition hover:text-black"
-                  onFocus={() => handleEnter(item.label)}
+                  onFocus={() => (hasItems ? handleEnter(item.label) : null)}
                   aria-haspopup="menu"
-                  aria-expanded={openDropdown === item.label}
+                  aria-expanded={hasItems ? openDropdown === item.label : undefined}
                 >
                   {item.label}
                 </Link>
-                <button
-                  type="button"
-                  className="relative flex items-center transition hover:text-black"
-                  onClick={() =>
-                    setOpenDropdown(openDropdown === item.label ? null : item.label)
-                  }
-                  aria-haspopup="menu"
-                  aria-expanded={openDropdown === item.label}
-                  onFocus={() => handleEnter(item.label)}
-                >
-                  <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`}
-                  />
-                </button>
-                {openDropdown === item.label ? (
+                {hasItems ? (
+                  <button
+                    type="button"
+                    className="relative flex items-center transition hover:text-black"
+                    onClick={() =>
+                      setOpenDropdown(openDropdown === item.label ? null : item.label)
+                    }
+                    aria-haspopup="menu"
+                    aria-expanded={openDropdown === item.label}
+                    onFocus={() => handleEnter(item.label)}
+                  >
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                ) : null}
+                {hasItems && openDropdown === item.label ? (
                   <span className="absolute -bottom-2 left-0 right-0 h-px bg-[var(--spark)]" />
                 ) : null}
               </div>
             </div>
-          ))}
+          );
+        })}
         </nav>
 
         <div className="ml-auto hidden lg:flex items-center gap-4" />
@@ -164,7 +130,7 @@ export function Navbar() {
       >
         <div className="mx-auto w-full max-w-[1240px] px-6 py-12">
           {navMenus
-            .filter((menu) => menu.label === openDropdown)
+            .filter((menu) => menu.label === openDropdown && menu.items.length > 0)
             .map((menu) => {
               const items = getMenuItems(menu);
 
@@ -210,6 +176,7 @@ export function Navbar() {
         <div className="absolute left-0 right-0 top-full border-t border-black/10 bg-white lg:hidden">
           <nav className="mx-auto flex w-full max-w-[1240px] flex-col gap-1 px-6 py-4 sm:px-8">
             {navMenus.map((item) => {
+              const hasItems = item.items.length > 0;
               const expanded = expandedLabel === item.label;
               return (
                 <div key={item.label} className="rounded-lg px-2 py-2">
@@ -221,19 +188,21 @@ export function Navbar() {
                     >
                       {item.label}
                     </Link>
-                    <button
-                      type="button"
-                      className="flex h-8 w-8 items-center justify-center rounded-md"
-                      onClick={() => setExpandedLabel(expanded ? null : item.label)}
-                      aria-expanded={expanded}
-                      aria-label={`${item.label} submenu`}
-                    >
-                      <ChevronDown
-                        className={`h-4 w-4 text-black/60 transition-transform ${expanded ? "rotate-180" : ""}`}
-                      />
-                    </button>
+                    {hasItems ? (
+                      <button
+                        type="button"
+                        className="flex h-8 w-8 items-center justify-center rounded-md"
+                        onClick={() => setExpandedLabel(expanded ? null : item.label)}
+                        aria-expanded={expanded}
+                        aria-label={`${item.label} submenu`}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 text-black/60 transition-transform ${expanded ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    ) : null}
                   </div>
-                  {expanded && (
+                  {hasItems && expanded && (
                     <div className="mt-2 space-y-1 pl-2">
                       {getMenuItems(item).map((child) => (
                         <Link

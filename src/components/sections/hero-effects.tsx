@@ -2,13 +2,11 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Zap, Network, Cpu, Layers, HardDrive, Code2 } from "lucide-react";
+import { Zap, Layers } from "lucide-react";
 import {
   ArchitectureIcon,
   SecurityIcon,
   PipelineIcon,
-  CostIcon,
-  PlatformIcon,
   ObservabilityIcon,
 } from "@/components/ui/service-icons";
 import { RotatingUseCaseLine } from "@/components/ui/rotating-use-case-line";
@@ -16,7 +14,7 @@ import { RotatingUseCaseLine } from "@/components/ui/rotating-use-case-line";
 /* ─── Scroll-triggered popup cards ─── */
 const serviceStrip = [
   {
-    slug: "cloud-architecture",
+    slug: "cloud",
     title: "Cloud Platforms",
     detail: "Landing zones, multi-region design, resiliency, and governance.",
     tags: ["AWS", "Azure", "GCP"],
@@ -25,8 +23,8 @@ const serviceStrip = [
     points: ["Multi-account guardrails", "Resilience by design"],
   },
   {
-    slug: "hybrid-operations",
-    title: "Hybrid Operations",
+    slug: "hybrid-on-prem",
+    title: "Hybrid & On-Prem",
     detail: "Unified control planes across cloud + data center with consistent policy.",
     tags: ["Direct Connect", "Azure Arc", "VPN"],
     icon: Layers,
@@ -34,44 +32,17 @@ const serviceStrip = [
     points: ["Unified governance", "Shared observability"],
   },
   {
-    slug: "on-prem-modernization",
-    title: "On-Prem Modernization",
-    detail: "Automated infra, hardened security, and workload uplift at the edge.",
-    tags: ["VMware", "Bare Metal", "Kubernetes"],
-    icon: HardDrive,
-    color: "#1d8bc4",
-    points: ["Legacy uplift paths", "Automated patching"],
-  },
-  {
-    slug: "networking",
-    title: "Networking",
-    detail: "Low-latency connectivity, segmentation, and global routing.",
-    tags: ["SD-WAN", "BGP", "Transit"],
-    icon: Network,
-    color: "#22d3ee",
-    points: ["Secure segmentation", "Global routing"],
-  },
-  {
-    slug: "systems-engineering",
-    title: "Systems Engineering",
-    detail: "Compute, storage, and OS hardening with lifecycle automation.",
-    tags: ["Linux", "Windows", "Storage"],
-    icon: Cpu,
-    color: "#38bdf8",
-    points: ["Baseline hardening", "Lifecycle automation"],
-  },
-  {
-    slug: "security-hardening",
-    title: "Security & Compliance",
-    detail: "Policy-as-code, audit readiness, and runtime protection.",
-    tags: ["SOC 2", "ISO 27001", "Zero Trust"],
+    slug: "network-security-engineering",
+    title: "Network & Security",
+    detail: "Secure connectivity, segmentation, and hardened access.",
+    tags: ["Zero Trust", "IAM", "WAF"],
     icon: SecurityIcon,
     color: "#34d399",
     points: ["Continuous compliance", "Threat detection"],
   },
   {
-    slug: "cicd-automation",
-    title: "CI/CD & Delivery",
+    slug: "devops-platform-enablement",
+    title: "DevOps & Delivery",
     detail: "Automated build, test, and zero-downtime releases.",
     tags: ["GitOps", "Canary", "Blue/Green"],
     icon: PipelineIcon,
@@ -79,49 +50,22 @@ const serviceStrip = [
     points: ["Safe rollouts", "Fast feedback"],
   },
   {
-    slug: "cost-optimization",
-    title: "Cost Optimization",
-    detail: "FinOps, right-sizing, and efficiency improvements across stacks.",
-    tags: ["FinOps", "Rightsizing", "Budgets"],
-    icon: CostIcon,
-    color: "#3b82f6",
-    points: ["Waste reduction", "Forecasted spend"],
-  },
-  {
-    slug: "platform-engineering",
-    title: "Platform Engineering",
-    detail: "Self-service platforms and golden paths for faster delivery.",
-    tags: ["IDP", "Backstage", "Templates"],
-    icon: PlatformIcon,
-    color: "#1d8bc4",
-    points: ["Developer portals", "Golden paths"],
-  },
-  {
-    slug: "observability",
-    title: "Observability",
-    detail: "Metrics, traces, logs, and SLO-driven alerting.",
-    tags: ["OpenTelemetry", "Grafana", "Datadog"],
+    slug: "managed-cloud-operations",
+    title: "Managed Operations",
+    detail: "Monitoring, incident response, and reliability engineering.",
+    tags: ["SRE", "Runbooks", "On-call"],
     icon: ObservabilityIcon,
-    color: "#60a5fa",
-    points: ["SLO tracking", "Signal correlation"],
+    color: "#10b981",
+    points: ["Actionable alerts", "SLOs"],
   },
   {
-    slug: "software-development",
-    title: "Software Development",
-    detail: "Product engineering, cloud-native apps, and delivery squads.",
-    tags: ["APIs", "Cloud-Native", "Agile"],
-    icon: Code2,
-    color: "#8b5cf6",
-    points: ["Product delivery", "Platform-ready builds"],
-  },
-  {
-    slug: "ai-adoption",
-    title: "AI Adoption",
-    detail: "Practical AI enablement across data, infra, and workflows.",
-    tags: ["LLM Ops", "Data", "Automation"],
+    slug: "data-analytics",
+    title: "Data & Analytics",
+    detail: "Pipelines, warehousing, and actionable insights.",
+    tags: ["ETL", "BI", "Snowflake"],
     icon: Zap,
-    color: "#f97316",
-    points: ["Use-case discovery", "Production readiness"],
+    color: "#facc15",
+    points: ["Decision-ready data", "Reliable pipelines"],
   },
 ];
 
@@ -187,7 +131,7 @@ export function HeroEffectsSection() {
                   viewport={{ once: true, amount: 0.35 }}
                   className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200/70 bg-white/80 p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-transform duration-300 dark:border-white/[0.08] dark:bg-black/50"
                 >
-                  <Link href={`/services/${item.slug}`} className="absolute inset-0" aria-label={item.title} />
+                  <Link href="/expertise" className="absolute inset-0" aria-label={item.title} />
                   <div
                     className="pointer-events-none absolute inset-0 opacity-80"
                     style={{

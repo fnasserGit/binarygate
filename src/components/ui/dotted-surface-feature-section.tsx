@@ -19,8 +19,8 @@ export default function DottedSurfaceFeatureSection({
   description: React.ReactNode;
 }) {
   return (
-    <section className="relative mx-auto w-full overflow-hidden rounded-none bg-white pb-16 pt-0 md:pb-24">
-      <DottedSurface className="size-full" />
+    <section className="relative mx-auto w-full min-h-[320px] overflow-hidden rounded-none bg-white pb-16 pt-0 md:pb-24">
+      <DottedSurface className="size-full opacity-80" />
       {breadcrumbs && breadcrumbs.length > 0 ? (
         <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 sm:px-8 lg:px-10">
           <nav className="pt-6 text-xs text-neutral-500">

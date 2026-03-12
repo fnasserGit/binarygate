@@ -31,18 +31,21 @@ export function NavOverviewPage({
       heroFirst={heroFirst}
       hideBreadcrumbs={hideBreadcrumbs}
     >
-      <div className="mt-5 grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {menu.items.map((item) => (
-          <ServiceCard
-            key={item.href}
-            title={item.label}
-            description={`${item.description} Learn how we deliver measurable outcomes.`}
-            href={item.href}
-          />
-        ))}
-      </div>
-
-      <HowWeDoItSection />
+      {menu.items.length > 0 ? (
+        <>
+          <div className="mt-5 grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {menu.items.map((item) => (
+              <ServiceCard
+                key={item.href}
+                title={item.label}
+                description={`${item.description} Learn how we deliver measurable outcomes.`}
+                href={item.href}
+              />
+            ))}
+          </div>
+          <HowWeDoItSection />
+        </>
+      ) : null}
     </InternalPageLayout>
   );
 }

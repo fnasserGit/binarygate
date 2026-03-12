@@ -8,27 +8,27 @@ export const cloudServices: ServiceItem[] = [
   {
     title: "Cloud Consulting",
     description: "Architecture, roadmap, and governance to de-risk cloud initiatives.",
-    href: "/services/cloud-strategy-architecture",
+    href: "/expertise",
   },
   {
     title: "Cloud Migration & Modernisation",
     description: "Move and modernize workloads with minimal disruption.",
-    href: "/services/cloud-adoption",
+    href: "/what-we-do",
   },
   {
     title: "Cloud Operations",
     description: "Operational excellence, reliability, and optimization at scale.",
-    href: "/services/managed-cloud-operations",
+    href: "/expertise",
   },
   {
     title: "DevOps",
     description: "CI/CD, IaC, and release automation that accelerates delivery.",
-    href: "/services/devops-platform-enablement",
+    href: "/expertise",
   },
   {
     title: "Managed Services",
     description: "Ongoing support that keeps platforms secure and performant.",
-    href: "/services/professional-services",
+    href: "/expertise",
   },
 ];
 
@@ -36,26 +36,26 @@ export const hybridOnPremServices: ServiceItem[] = [
   {
     title: "Hybrid Cloud Architecture",
     description: "Unified control planes and secure connectivity across environments.",
-    href: "/services/cloud-strategy-architecture",
+    href: "/expertise",
   },
   {
     title: "On-Prem Modernisation",
     description: "Refresh legacy stacks to modern, scalable platforms.",
-    href: "/services/application-modernization",
+    href: "/what-we-do",
   },
   {
     title: "Kubernetes Platforms (On-Prem / Hybrid)",
     description: "Production-grade clusters with observability and lifecycle automation.",
-    href: "/services/cloud-native-development",
+    href: "/expertise",
   },
   {
     title: "Network & Connectivity (VPN / SD-WAN)",
     description: "Secure, resilient networking for distributed infrastructures.",
-    href: "/services/network-security-engineering",
+    href: "/expertise",
   },
   {
     title: "Backup, DR & Business Continuity",
     description: "Resilient recovery plans that keep critical systems online.",
-    href: "/services/observability-managed-operations",
+    href: "/expertise",
   },
 ];
