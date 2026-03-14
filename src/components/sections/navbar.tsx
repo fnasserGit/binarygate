@@ -16,7 +16,7 @@ export function Navbar() {
   const getMenuItems = (menu: (typeof navMenus)[number]) =>
     menu.items.map((item) => ({
       title: item.label,
-      description: menu.label === "Industries" ? "" : item.description,
+      description: item.description,
       href: item.href,
       noWrap: item.label === "Software Development Services",
     }));
@@ -148,18 +148,28 @@ export function Navbar() {
                   {columns.map((col, colIndex) => (
                     <div key={`${menu.label}-${colIndex}`} className="space-y-10">
                       {col.map((item) => (
-                        <div key={item.href} className="group space-y-3 max-w-[260px]">
+                        <div
+                          key={item.href}
+                          className={`group flex max-w-[260px] flex-col ${
+                            item.description ? "min-h-[108px]" : "min-h-[44px]"
+                          }`}
+                        >
                           <Link
                             href={item.href}
                             onClick={() => setOpenDropdown(null)}
-                            className={`dropdownItemLink block text-base font-semibold text-black transition-all duration-300 hover:translate-x-1 ${item.noWrap ? "whitespace-nowrap" : ""}`}
+                            className="dropdownItemLink block text-base font-semibold text-black transition-all duration-300 hover:translate-x-1"
                           >
-                            <span className="dropdownItemTitle">
-                              {item.title} <span className="text-[var(--spark)]">→</span>
+                            <span
+                              className={`dropdownItemTitle flex min-h-[2.25rem] items-start gap-1 ${
+                                item.noWrap ? "whitespace-nowrap" : ""
+                              }`}
+                            >
+                              <span>{item.title}</span>
+                              <span className="text-[var(--spark)]">→</span>
                             </span>
                           </Link>
                           {item.description ? (
-                            <p className="dropdownItemDesc text-sm leading-relaxed text-black/60">
+                            <p className="dropdownItemDesc mt-1.5 text-sm leading-relaxed text-black/60">
                               {item.description}
                             </p>
                           ) : null}

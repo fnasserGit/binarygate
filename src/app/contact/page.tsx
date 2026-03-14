@@ -3,6 +3,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Send, Loader2, CheckCircle, Mail, Phone, MapPin } from "lucide-react";
+import { InternalPageLayout } from "@/components/layout/internal-page-layout";
+import DottedSurfaceFeatureSection from "@/components/ui/dotted-surface-feature-section";
 
 function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -95,66 +97,140 @@ function ContactForm() {
   );
 }
 
+function ContactInfoCard({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bgServiceCard flex h-full flex-col border border-slate-200 p-7">
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-neutral-200/70 bg-white/80">
+        {icon}
+      </div>
+      <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
+        {label}
+      </p>
+      <div className="mt-3 text-sm leading-relaxed text-neutral-600">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-[#f5f5f2] text-neutral-900">
-      <section className="relative overflow-hidden pt-24 pb-16 px-4 md:pt-32 md:pb-24 md:px-6">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(45,212,191,0.1),transparent_60%)]" />
-        <div className="relative mx-auto w-full max-w-6xl">
-          <FadeIn><p className="text-xs font-medium uppercase tracking-[0.4em] text-teal-400/80">Contact</p></FadeIn>
-          <FadeIn delay={0.1}>
-            <h1 className="mt-4 text-3xl sm:text-5xl font-bold tracking-tight md:text-6xl">
-              Let&apos;s build{" "}
-              <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">together.</span>
-            </h1>
+    <InternalPageLayout
+      title="Contact"
+      subtitle="Share your goals and we'll respond within 24 hours with a scoped plan, architecture overview, and timeline."
+      hideHero
+      hideBreadcrumbs
+      afterHero={
+        <DottedSurfaceFeatureSection
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Contact" },
+          ]}
+          title="Contact"
+          description="Share your goals and we'll respond within 24 hours with a scoped plan, architecture overview, and timeline."
+        />
+      }
+    >
+      <section className="mt-6">
+        <div className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">
+            Contact Details
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
+            Let&apos;s build together.
+          </h2>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <FadeIn>
+            <ContactInfoCard
+              label="Email"
+              icon={<Mail className="h-4 w-4 text-teal-400" />}
+            >
+              <a
+                href="mailto:hello@binary-gate.com"
+                className="text-sm text-neutral-700 transition hover:text-neutral-900"
+              >
+                hello@binary-gate.com
+              </a>
+            </ContactInfoCard>
           </FadeIn>
-          <FadeIn delay={0.2}><p className="mt-6 max-w-3xl text-base leading-relaxed text-neutral-600 md:text-lg">Share your goals and we&apos;ll respond within 24 hours with a scoped plan, architecture overview, and timeline.</p></FadeIn>
+          <FadeIn delay={0.1}>
+            <ContactInfoCard
+              label="Phone"
+              icon={<Phone className="h-4 w-4 text-teal-400" />}
+            >
+              <p className="text-sm text-neutral-600">Available upon request</p>
+            </ContactInfoCard>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <ContactInfoCard
+              label="Location"
+              icon={<MapPin className="h-4 w-4 text-teal-400" />}
+            >
+              <p className="text-sm text-neutral-600">Dubai, UAE — serving globally</p>
+            </ContactInfoCard>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="relative px-4 pb-16 md:px-6 md:pb-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="grid gap-12 lg:grid-cols-5 lg:items-start">
-            <div className="lg:col-span-2">
-              <FadeIn>
-                <div className="space-y-5">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-neutral-200/70 bg-white/80">
-                      <Mail className="h-4 w-4 text-teal-400" />
-                    </div>
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Email</p>
-                      <a href="mailto:hello@binary-gate.com" className="text-sm text-neutral-700 transition hover:text-neutral-900">hello@binary-gate.com</a>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-neutral-200/70 bg-white/80">
-                      <Phone className="h-4 w-4 text-teal-400" />
-                    </div>
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Phone</p>
-                      <p className="text-sm text-neutral-600">Available upon request</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-neutral-200/70 bg-white/80">
-                      <MapPin className="h-4 w-4 text-teal-400" />
-                    </div>
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Location</p>
-                      <p className="text-sm text-neutral-600">Dubai, UAE — serving globally</p>
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
+      <section className="mt-16">
+        <div className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">
+            Contact Process
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
+            What happens after you reach out
+          </h2>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <FadeIn>
+            <div className="bgServiceCard flex h-full flex-col border border-slate-200 p-7">
+              <h3 className="bgServiceCardTitle mt-3 text-lg font-semibold text-neutral-900">
+                01 — Share Your Goals
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                Tell us about your project, infrastructure goals, or challenges through the form
+                below.
+              </p>
             </div>
-            <div className="lg:col-span-3">
-              <FadeIn delay={0.15}><ContactForm /></FadeIn>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <div className="bgServiceCard flex h-full flex-col border border-slate-200 p-7">
+              <h3 className="bgServiceCardTitle mt-3 text-lg font-semibold text-neutral-900">
+                02 — Receive a Response
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                We&apos;ll respond within 24 hours with a scoped plan, architecture overview, and
+                timeline.
+              </p>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-    </div>
+      <section className="mt-16">
+        <div className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">
+            Send a Message
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
+            Start the conversation
+          </h2>
+        </div>
+        <div className="mt-10">
+          <FadeIn delay={0.15}>
+            <ContactForm />
+          </FadeIn>
+        </div>
+      </section>
+    </InternalPageLayout>
   );
 }

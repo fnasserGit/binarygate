@@ -38,7 +38,7 @@ export function LogoStrip({ className = "" }: { className?: string }) {
                   alt={logo.alt}
                   width={140}
                   height={56}
-                  className={`h-8 w-auto object-contain brightness-125 contrast-110 drop-shadow-[0_0_12px_rgba(51,198,255,0.6)] sm:h-10 ${
+                  className={`h-8 w-auto object-contain sm:h-10 ${
                     logo.alt === "Cloudflare" ? "translate-y-[2px] scale-105" : ""
                   }`}
                   sizes="(max-width: 640px) 96px, 120px"
