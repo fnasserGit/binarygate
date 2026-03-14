@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     //
     //   await resend.emails.send({
     //     from: "BinaryGate Contact <noreply@binary-gate.com>",
-    //     to: ["hello@binary-gate.com"],
+    //     to: ["contact@binary-gate.com"],
     //     subject: `New inquiry from ${firstName} ${lastName}`,
     //     text: [
     //       `Name: ${firstName} ${lastName}`,

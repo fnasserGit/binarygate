@@ -88,7 +88,7 @@ function ContactForm() {
           <label htmlFor="message" className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">Message <span className="text-teal-400">*</span></label>
           <textarea id="message" name="message" required rows={5} value={formData.message} onChange={handleChange} placeholder="Tell us about your project, infrastructure goals, or challenges..." className={`${inputClass} resize-none`} />
         </div>
-        {formState === "error" && <p className="text-sm text-red-400">Something went wrong. Please try again or email us directly at hello@binary-gate.com.</p>}
+        {formState === "error" && <p className="text-sm text-red-400">Something went wrong. Please try again or email us directly at contact@binary-gate.com.</p>}
         <button type="submit" disabled={formState === "sending"} className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-3.5 text-sm font-medium text-black transition hover:bg-neutral-200 disabled:opacity-60 disabled:cursor-not-allowed">
           {formState === "sending" ? (<><Loader2 className="h-4 w-4 animate-spin" /> Sending...</>) : (<>Send Message <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></>)}
         </button>
@@ -155,10 +155,10 @@ export default function ContactPage() {
               icon={<Mail className="h-4 w-4 text-teal-400" />}
             >
               <a
-                href="mailto:hello@binary-gate.com"
+                href="mailto:contact@binary-gate.com"
                 className="text-sm text-neutral-700 transition hover:text-neutral-900"
               >
-                hello@binary-gate.com
+                contact@binary-gate.com
               </a>
             </ContactInfoCard>
           </FadeIn>

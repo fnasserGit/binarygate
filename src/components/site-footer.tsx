@@ -34,7 +34,7 @@ const FOOTER_LINKS = {
     { label: "Industries", href: "/industries" },
   ],
   contact: {
-    email: "hello@binary-gate.com",
+    email: "contact@binary-gate.com",
     ctaLabel: "Use contact form →",
     ctaHref: "/contact",
     socials: [] as FooterSocial[],
