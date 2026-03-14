@@ -276,21 +276,21 @@ export const navMenus: NavMenu[] = [
     items: [
       {
         label: "Blog",
-        href: "#",
+        href: "/insights/blog",
         description: "Deep-dives and best practices.",
         icon: BookOpen,
         color: "#2dd4bf",
       },
       {
         label: "Case Studies",
-        href: "#",
+        href: "/insights/case-studies",
         description: "Real-world results and outcomes.",
         icon: FileBarChart,
         color: "#34d399",
       },
       {
         label: "Whitepapers",
-        href: "#",
+        href: "/insights/whitepapers",
         description: "Research on architecture and security.",
         icon: FileText,
         color: "#3b82f6",
