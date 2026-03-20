@@ -74,6 +74,10 @@ const approachStages = [
   },
 ] as const;
 
+function getApproachStageHref(slug: string) {
+  return `/what-we-do/strategy-to-execution#${slug}`;
+}
+
 /* ─── Q&A ─── */
 const qaItems = [
   {
@@ -248,7 +252,7 @@ export function StandardSections() {
                     <ServiceCard
                       title={stage.title}
                       description={stage.description}
-                      href="/what-we-do"
+                      href={getApproachStageHref(stage.slug)}
                       eyebrow={stage.phase}
                       className="px-8 py-6 h-full"
                       descriptionClassName="whitespace-normal break-words"
@@ -272,7 +276,7 @@ export function StandardSections() {
                   <ServiceCard
                     title={approachStages[0].title}
                     description={approachStages[0].description}
-                    href="/what-we-do"
+                    href={getApproachStageHref(approachStages[0].slug)}
                     eyebrow={approachStages[0].phase}
                     className="px-8 py-6 h-full"
                     descriptionClassName="whitespace-normal break-words"
@@ -284,7 +288,7 @@ export function StandardSections() {
                   <ServiceCard
                     title={approachStages[1].title}
                     description={approachStages[1].description}
-                    href="/what-we-do"
+                    href={getApproachStageHref(approachStages[1].slug)}
                     eyebrow={approachStages[1].phase}
                     className="px-8 py-6 h-full"
                     descriptionClassName="whitespace-normal break-words"
@@ -297,7 +301,7 @@ export function StandardSections() {
                   <ServiceCard
                     title={approachStages[2].title}
                     description={approachStages[2].description}
-                    href="/what-we-do"
+                    href={getApproachStageHref(approachStages[2].slug)}
                     eyebrow={approachStages[2].phase}
                     className="px-8 py-6 h-full"
                     descriptionClassName="whitespace-normal break-words"
@@ -309,7 +313,7 @@ export function StandardSections() {
                   <ServiceCard
                     title={approachStages[3].title}
                     description={approachStages[3].description}
-                    href="/what-we-do"
+                    href={getApproachStageHref(approachStages[3].slug)}
                     eyebrow={approachStages[3].phase}
                     className="px-8 py-6 h-full"
                     descriptionClassName="whitespace-normal break-words"
@@ -324,7 +328,7 @@ export function StandardSections() {
                 <ServiceCard
                   title={approachStages[0].title}
                   description={approachStages[0].description}
-                  href="/what-we-do"
+                  href={getApproachStageHref(approachStages[0].slug)}
                   eyebrow={approachStages[0].phase}
                   className="px-8 py-6 h-full"
                   descriptionClassName="whitespace-normal break-words"
@@ -336,7 +340,7 @@ export function StandardSections() {
                 <ServiceCard
                   title={approachStages[1].title}
                   description={approachStages[1].description}
-                  href="/what-we-do"
+                  href={getApproachStageHref(approachStages[1].slug)}
                   eyebrow={approachStages[1].phase}
                   className="px-8 py-6 h-full"
                   descriptionClassName="whitespace-normal break-words"
@@ -348,7 +352,7 @@ export function StandardSections() {
                 <ServiceCard
                   title={approachStages[2].title}
                   description={approachStages[2].description}
-                  href="/what-we-do"
+                  href={getApproachStageHref(approachStages[2].slug)}
                   eyebrow={approachStages[2].phase}
                   className="px-8 py-6 h-full"
                   descriptionClassName="whitespace-normal break-words"
@@ -360,7 +364,7 @@ export function StandardSections() {
                 <ServiceCard
                   title={approachStages[3].title}
                   description={approachStages[3].description}
-                  href="/what-we-do"
+                  href={getApproachStageHref(approachStages[3].slug)}
                   eyebrow={approachStages[3].phase}
                   className="px-8 py-6 h-full"
                   descriptionClassName="whitespace-normal break-words"
